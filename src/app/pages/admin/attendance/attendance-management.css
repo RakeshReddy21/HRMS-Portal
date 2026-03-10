@@ -1,0 +1,39 @@
+.animate-fadeIn {
+    animation: fadeIn 0.45s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(8px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.summary-enter {
+    animation: slideInRight 0.3s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@keyframes slideInRight {
+    from {
+        opacity: 0;
+        transform: translateX(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator {
+    filter: invert(0.6);
+    cursor: pointer;
+}
+
+input[type="date"] {
+    color-scheme: dark;
+}
+
