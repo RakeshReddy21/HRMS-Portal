@@ -1,0 +1,156 @@
+<!-- ═══════════════════════════════════════════════════════════════
+     Employee Directory Page
+     ═══════════════════════════════════════════════════════════════ -->
+<div class="min-h-screen bg-[#0a0a0a] text-white p-6 lg:p-8 animate-fadeIn">
+
+    <!-- ── Header ─────────────────────────────────────────── -->
+    <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
+        <div>
+            <h1 class="text-2xl font-bold text-white tracking-tight">Employee Directory</h1>
+            <p class="text-white/50 text-sm mt-1">Find colleagues across the organization</p>
+        </div>
+        <div class="text-white/40 text-sm">
+            {{ filtered().length }} employee{{ filtered().length !== 1 ? 's' : '' }} found
+        </div>
+    </div>
+
+    <!-- ── Search & Filters ───────────────────────────────── -->
+    <div class="flex flex-col md:flex-row gap-3 mb-8">
+        <div class="relative flex-1">
+            <svg class="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-white/30" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+            </svg>
+            <input [(ngModel)]="keyword"
+                   (ngModelChange)="onSearch()"
+                   type="text"
+                   placeholder="Search by name, email, or employee code..."
+                   class="w-full bg-white/[0.05] border border-white/[0.08] rounded-xl pl-11 pr-4 py-2.5 text-sm text-white placeholder-white/30 focus:outline-none focus:border-white/20">
+        </div>
+        <select (change)="onDepartmentChange($event)"
+                class="bg-white/[0.05] border border-white/[0.08] rounded-xl px-4 py-2.5 text-sm text-white/70 focus:outline-none focus:border-white/20 min-w-[180px]">
+            <option value="">All Departments</option>
+            @for (dept of departments; track dept) {
+                <option [value]="dept">{{ dept }}</option>
+            }
+        </select>
+    </div>
+
+    <!-- ── Loading Skeleton ───────────────────────────────── -->
+    @if (loading()) {
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+            @for (s of skeletonRows; track $index) {
+                <div class="bg-white/[0.02] border border-white/[0.06] rounded-2xl p-5">
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="skeleton-block w-10 h-10 rounded-full"></div>
+                        <div class="flex-1">
+                            <div class="skeleton-block h-4 w-28 mb-2"></div>
+                            <div class="skeleton-block h-3 w-20"></div>
+                        </div>
+                    </div>
+                    <div class="skeleton-block h-3 w-full mb-2"></div>
+                    <div class="skeleton-block h-3 w-3/4"></div>
+                </div>
+            }
+        </div>
+    }
+
+    <!-- ── Directory Grid ─────────────────────────────────── -->
+    @if (!loading()) {
+        @if (pagedEmployees().length === 0) {
+            <div class="text-center py-16 bg-white/[0.02] border border-white/[0.06] rounded-2xl">
+                <div class="text-4xl mb-3">👥</div>
+                <h3 class="text-white/70 text-lg font-medium mb-1">No employees found</h3>
+                <p class="text-white/40 text-sm">Try adjusting your search or filter criteria</p>
+            </div>
+        } @else {
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+                @for (emp of pagedEmployees(); track emp.employeeCode) {
+                    <div class="bg-white/[0.02] border border-white/[0.06] rounded-2xl p-5 card-hover">
+                        <!-- Avatar + Name -->
+                        <div class="flex items-center gap-3 mb-4">
+                            <div [class]="'w-10 h-10 rounded-full flex items-center justify-center text-sm font-semibold ' + getAvatarColor(emp.firstName + emp.lastName)">
+                                {{ getInitials(emp.firstName, emp.lastName) }}
+                            </div>
+                            <div class="flex-1 min-w-0">
+                                <h3 class="text-white font-medium text-sm truncate">
+                                    {{ emp.firstName }} {{ emp.lastName }}
+                                </h3>
+                                <p class="text-white/40 text-xs truncate">{{ emp.employeeCode }}</p>
+                            </div>
+                            @if (!emp.isActive) {
+                                <span class="w-2 h-2 rounded-full bg-red-500" title="Inactive"></span>
+                            }
+                        </div>
+
+                        <!-- Info -->
+                        <div class="space-y-2 mb-4">
+                            <!-- Designation -->
+                            @if (emp.designationTitle) {
+                                <div class="flex items-center gap-2 text-xs text-white/50">
+                                    <svg class="w-3.5 h-3.5 text-white/30" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+                                    </svg>
+                                    <span class="truncate">{{ emp.designationTitle }}</span>
+                                </div>
+                            }
+                            <!-- Department -->
+                            @if (emp.departmentName) {
+                                <div class="flex items-center gap-2 text-xs text-white/50">
+                                    <svg class="w-3.5 h-3.5 text-white/30" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/>
+                                    </svg>
+                                    <span class="truncate">{{ emp.departmentName }}</span>
+                                </div>
+                            }
+                            <!-- Email -->
+                            <div class="flex items-center gap-2 text-xs text-white/50">
+                                <svg class="w-3.5 h-3.5 text-white/30" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+                                </svg>
+                                <span class="truncate">{{ emp.email }}</span>
+                            </div>
+                            <!-- Phone -->
+                            @if (emp.phone) {
+                                <div class="flex items-center gap-2 text-xs text-white/50">
+                                    <svg class="w-3.5 h-3.5 text-white/30" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/>
+                                    </svg>
+                                    <span>{{ emp.phone }}</span>
+                                </div>
+                            }
+                        </div>
+
+                        <!-- Role Badge -->
+                        <div class="flex items-center justify-between">
+                            <span [class]="'px-2.5 py-1 rounded-full text-[10px] font-medium ' + getRoleBadge(emp.role)">
+                                {{ emp.role }}
+                            </span>
+                        </div>
+                    </div>
+                }
+            </div>
+
+            <!-- Pagination -->
+            @if (totalPages() > 1) {
+                <div class="mt-6 flex items-center justify-between">
+                    <span class="text-white/40 text-sm">
+                        Page {{ page() + 1 }} of {{ totalPages() }} · {{ filtered().length }} total
+                    </span>
+                    <div class="flex gap-2">
+                        <button (click)="goToPage(page() - 1)"
+                                [disabled]="page() === 0"
+                                class="px-3 py-1.5 rounded-lg bg-white/[0.05] text-sm text-white/60 hover:bg-white/[0.08] disabled:opacity-30 disabled:cursor-not-allowed transition-all">
+                            ← Prev
+                        </button>
+                        <button (click)="goToPage(page() + 1)"
+                                [disabled]="page() >= totalPages() - 1"
+                                class="px-3 py-1.5 rounded-lg bg-white/[0.05] text-sm text-white/60 hover:bg-white/[0.08] disabled:opacity-30 disabled:cursor-not-allowed transition-all">
+                            Next →
+                        </button>
+                    </div>
+                </div>
+            }
+        }
+    }
+</div>
+

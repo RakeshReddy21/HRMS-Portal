@@ -1,0 +1,232 @@
+<div class="p-6 max-w-[1200px] mx-auto">
+
+    <!-- Header -->
+    <div class="flex items-center justify-between mb-6">
+        <div>
+            <h1 class="text-xl font-semibold text-white">Expenses & Reimbursement</h1>
+            <p class="text-[13px] text-white/40 mt-1">Upload bills, let AI auto-fill, and track claims</p>
+        </div>
+        <div class="flex bg-white/[0.04] border border-white/[0.08] rounded-xl p-1">
+            <button (click)="view = 'form'"
+                [class]="view === 'form' ? 'bg-blue-600 text-white shadow-lg shadow-blue-500/20' : 'text-white/50 hover:text-white/80'"
+                class="px-4 py-2 rounded-lg text-[13px] font-medium transition-all">+ New Claim</button>
+            <button (click)="view = 'history'; loadHistory()"
+                [class]="view === 'history' ? 'bg-blue-600 text-white shadow-lg shadow-blue-500/20' : 'text-white/50 hover:text-white/80'"
+                class="px-4 py-2 rounded-lg text-[13px] font-medium transition-all flex items-center gap-2">
+                📋 History
+                @if (expenses.length) { <span class="w-5 h-5 rounded-full bg-white/20 text-[10px] flex items-center justify-center">{{ expenses.length }}</span> }
+            </button>
+        </div>
+    </div>
+
+    <!-- ═══════════ FORM VIEW ═══════════ -->
+    @if (view === 'form') {
+        <div class="grid grid-cols-1 lg:grid-cols-5 gap-6">
+
+            <!-- LEFT: Upload (3 cols) -->
+            <div class="lg:col-span-3">
+                <div class="bg-white/[0.02] border border-white/[0.06] rounded-2xl p-5">
+                    <div class="flex items-center gap-2 mb-4">
+                        <div class="w-8 h-8 rounded-lg bg-violet-500/20 flex items-center justify-center">
+                            <svg class="w-4 h-4 text-violet-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+                        </div>
+                        <div>
+                            <h3 class="text-[14px] text-white font-medium">Upload Bill / Invoice</h3>
+                            <p class="text-[11px] text-white/30">Upload and click "Auto-Fill" to extract details with AI</p>
+                        </div>
+                    </div>
+
+                    @if (!uploadedFile) {
+                        <label (drop)="onDrop($event)" (dragover)="onDragOver($event)"
+                            class="flex flex-col items-center justify-center py-16 border-2 border-dashed border-white/10 rounded-xl cursor-pointer hover:border-violet-500/40 hover:bg-violet-500/[0.03] transition-all group">
+                            <input type="file" accept="image/*,.pdf" (change)="onFileSelect($event)" class="hidden">
+                            <div class="w-16 h-16 rounded-2xl bg-white/[0.04] flex items-center justify-center mb-4 group-hover:bg-violet-500/10 transition">
+                                <svg class="w-8 h-8 text-white/20 group-hover:text-violet-400 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"/></svg>
+                            </div>
+                            <p class="text-[14px] text-white/50 mb-1">Drop your bill here or <span class="text-violet-400 font-medium">browse files</span></p>
+                            <p class="text-[11px] text-white/20">Supports PNG, JPG, PDF</p>
+                        </label>
+                    } @else {
+                        <!-- File Preview -->
+                        <div class="border border-white/10 rounded-xl overflow-hidden">
+                            @if (filePreviewUrl) {
+                                <img [src]="filePreviewUrl" class="w-full max-h-[350px] object-contain bg-black/30">
+                            } @else {
+                                <div class="flex items-center gap-4 p-6 bg-white/[0.03]">
+                                    <div class="w-14 h-14 rounded-xl bg-red-500/20 flex items-center justify-center text-red-400 font-bold text-[14px]">PDF</div>
+                                    <div>
+                                        <p class="text-[14px] text-white font-medium">{{ uploadedFile.name }}</p>
+                                        <p class="text-[12px] text-white/30 mt-0.5">{{ (uploadedFile.size / 1024).toFixed(1) }} KB</p>
+                                    </div>
+                                </div>
+                            }
+
+                            <div class="flex items-center justify-between px-4 py-3 bg-white/[0.03] border-t border-white/[0.06]">
+                                <button (click)="removeFile()" class="px-3 py-1.5 rounded-lg text-[12px] text-white/40 hover:text-red-400 hover:bg-red-500/10 transition">✕ Remove</button>
+                                <button (click)="autoFill()" [disabled]="parsing"
+                                    class="px-5 py-2.5 rounded-xl bg-gradient-to-r from-violet-600 to-purple-600 text-white text-[13px] font-semibold hover:from-violet-500 hover:to-purple-500 transition disabled:opacity-50 flex items-center gap-2 shadow-lg shadow-violet-500/25">
+                                    @if (parsing) {
+                                        <span class="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></span>
+                                        AI is reading your bill...
+                                    } @else {
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+                                        ✨ Auto-Fill with AI
+                                    }
+                                </button>
+                            </div>
+                        </div>
+
+                        @if (aiError) {
+                            <div class="mt-3 bg-red-500/10 border border-red-500/20 rounded-xl p-3 text-[12px] text-red-400">⚠ {{ aiError }}</div>
+                        }
+                        @if (aiSuccess) {
+                            <div class="mt-3 bg-emerald-500/10 border border-emerald-500/20 rounded-xl p-3 text-[12px] text-emerald-400">✅ AI extracted the details — review the form and submit!</div>
+                        }
+                    }
+                </div>
+            </div>
+
+            <!-- RIGHT: Form (2 cols) -->
+            <div class="lg:col-span-2">
+                <div class="bg-white/[0.02] border border-white/[0.06] rounded-2xl p-5 sticky top-6">
+                    <h3 class="text-[14px] text-white font-medium mb-4">Expense Details</h3>
+
+                    <div class="space-y-3.5">
+                        <!-- Expense Title -->
+                        <div>
+                            <label class="text-[11px] text-white/40 mb-1 block">Expense Title <span class="text-red-400">*</span></label>
+                            <input [(ngModel)]="title" [class.border-emerald-500/40]="aiSuccess && title"
+                                class="w-full bg-white/[0.03] border border-white/10 rounded-lg px-3 py-2.5 text-[13px] text-white outline-none focus:border-blue-500/50"
+                                placeholder="e.g., Team lunch at Cosmopolitan">
+                        </div>
+
+                        <!-- Vendor / Restaurant Name -->
+                        <div>
+                            <label class="text-[11px] text-white/40 mb-1 block">Vendor / Restaurant Name</label>
+                            <input [(ngModel)]="vendorName" [class.border-emerald-500/40]="aiSuccess && vendorName"
+                                class="w-full bg-white/[0.03] border border-white/10 rounded-lg px-3 py-2.5 text-[13px] text-white outline-none focus:border-blue-500/50"
+                                placeholder="e.g., Cosmopolitan Restaurant">
+                        </div>
+
+                        <!-- Amount + Date -->
+                        <div class="grid grid-cols-2 gap-3">
+                            <div>
+                                <label class="text-[11px] text-white/40 mb-1 block">Total Amount (₹) <span class="text-red-400">*</span></label>
+                                <input type="number" [(ngModel)]="totalAmount" [class.border-emerald-500/40]="aiSuccess && totalAmount"
+                                    class="w-full bg-white/[0.03] border border-white/10 rounded-lg px-3 py-2.5 text-[13px] text-white outline-none focus:border-blue-500/50"
+                                    placeholder="0.00">
+                            </div>
+                            <div>
+                                <label class="text-[11px] text-white/40 mb-1 block">Bill Date <span class="text-red-400">*</span></label>
+                                <input type="date" [(ngModel)]="billDate" [class.border-emerald-500/40]="aiSuccess && billDate"
+                                    class="w-full bg-white/[0.03] border border-white/10 rounded-lg px-3 py-2.5 text-[13px] text-white outline-none focus:border-blue-500/50">
+                            </div>
+                        </div>
+
+                        <!-- Category -->
+                        <div>
+                            <label class="text-[11px] text-white/40 mb-1 block">Expense Category</label>
+                            <select [(ngModel)]="category" [class.border-emerald-500/40]="aiSuccess && category !== 'OTHER'"
+                                class="w-full bg-white/[0.03] border border-white/10 rounded-lg px-3 py-2.5 text-[13px] text-white outline-none">
+                                @for (cat of categories; track cat) { <option [value]="cat">{{ formatCategory(cat) }}</option> }
+                            </select>
+                        </div>
+
+                        <!-- Bill / Invoice Number -->
+                        <div>
+                            <label class="text-[11px] text-white/40 mb-1 block">Bill / Invoice Number</label>
+                            <input [(ngModel)]="invoiceNumber" [class.border-emerald-500/40]="aiSuccess && invoiceNumber"
+                                class="w-full bg-white/[0.03] border border-white/10 rounded-lg px-3 py-2.5 text-[13px] text-white outline-none focus:border-blue-500/50"
+                                placeholder="e.g., INV-2026-1234">
+                        </div>
+
+                        <!-- Description / Notes -->
+                        <div>
+                            <label class="text-[11px] text-white/40 mb-1 block">Purpose / Notes</label>
+                            <textarea [(ngModel)]="description" rows="2"
+                                class="w-full bg-white/[0.03] border border-white/10 rounded-lg px-3 py-2.5 text-[13px] text-white outline-none focus:border-blue-500/50 resize-none"
+                                placeholder="e.g., Client meeting dinner with 4 people"></textarea>
+                        </div>
+
+                        <!-- Line Items -->
+                        <div>
+                            <div class="flex items-center justify-between mb-2">
+                                <label class="text-[11px] text-white/40">Itemized Breakdown</label>
+                                <button (click)="addItem()" class="text-[11px] text-blue-400 hover:text-blue-300">+ Add Item</button>
+                            </div>
+                            @for (item of items; track $index) {
+                                <div class="flex gap-2 mb-2 items-center">
+                                    <input [(ngModel)]="item.description" placeholder="Item name"
+                                        class="flex-1 bg-white/[0.03] border border-white/10 rounded-lg px-3 py-2 text-[12px] text-white outline-none"
+                                        [class.border-emerald-500/40]="aiSuccess && item.description">
+                                    <input type="number" [(ngModel)]="item.amount" placeholder="₹"
+                                        class="w-24 bg-white/[0.03] border border-white/10 rounded-lg px-3 py-2 text-[12px] text-white outline-none"
+                                        [class.border-emerald-500/40]="aiSuccess && item.amount">
+                                    <button (click)="removeItem($index)" class="text-red-400/50 hover:text-red-400 text-[14px] px-1">✕</button>
+                                </div>
+                            }
+                            @if (items.length === 0) {
+                                <p class="text-[11px] text-white/20 italic">No items added (optional)</p>
+                            }
+                        </div>
+                    </div>
+
+                    <!-- Buttons -->
+                    <div class="flex gap-2 mt-6 pt-4 border-t border-white/[0.06]">
+                        <button (click)="saveDraft()" [disabled]="submitting || !canSubmit"
+                            class="flex-1 py-2.5 rounded-xl border border-white/10 text-[13px] text-white/60 hover:bg-white/5 transition disabled:opacity-30">
+                            Save Draft
+                        </button>
+                        <button (click)="submitExpense()" [disabled]="submitting || !canSubmit"
+                            class="flex-[2] py-2.5 rounded-xl bg-blue-600 text-white text-[13px] font-medium hover:bg-blue-500 transition disabled:opacity-40 flex items-center justify-center gap-2">
+                            @if (submitting) { <span class="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></span> }
+                            Submit for Approval
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+
+    <!-- ═══════════ HISTORY VIEW ═══════════ -->
+    @if (view === 'history') {
+        @if (loadingHistory) {
+            <div class="flex items-center justify-center py-20"><span class="w-8 h-8 border-2 border-blue-500/30 border-t-blue-500 rounded-full animate-spin"></span></div>
+        } @else if (expenses.length === 0) {
+            <div class="text-center py-20">
+                <div class="text-5xl mb-4">🧾</div>
+                <p class="text-white/40 text-[14px] mb-2">No expenses submitted yet</p>
+                <button (click)="view = 'form'" class="text-[13px] text-blue-400 hover:text-blue-300 mt-2">+ Create your first expense</button>
+            </div>
+        } @else {
+            <div class="space-y-3">
+                @for (exp of expenses; track exp.expenseId) {
+                    <div class="bg-white/[0.02] border border-white/[0.06] rounded-2xl p-5 hover:bg-white/[0.03] transition">
+                        <div class="flex items-start justify-between">
+                            <div class="flex-1">
+                                <div class="flex items-center gap-3 mb-2">
+                                    <h3 class="text-[14px] text-white font-medium">{{ exp.title }}</h3>
+                                    <span class="px-2.5 py-0.5 rounded-full text-[11px] font-medium {{ getStatusColor(exp.status) }}">{{ formatStatus(exp.status) }}</span>
+                                </div>
+                                <div class="flex items-center gap-4 text-[12px] text-white/40">
+                                    <span>{{ formatCategory(exp.category) }}</span>
+                                    <span>•</span><span>{{ exp.expenseDate }}</span>
+                                    @if (exp.vendorName) { <span>•</span><span>{{ exp.vendorName }}</span> }
+                                </div>
+                                @if (exp.rejectionReason) {
+                                    <div class="mt-2 bg-red-500/10 border border-red-500/20 rounded-lg px-3 py-2 text-[12px] text-red-400">Rejected: {{ exp.rejectionReason }}</div>
+                                }
+                            </div>
+                            <div class="text-right ml-4">
+                                <div class="text-[18px] text-white font-semibold">₹{{ exp.totalAmount | number }}</div>
+                                @if (exp.status === 'DRAFT') {
+                                    <button (click)="submitDraft(exp.expenseId)" class="mt-2 px-3 py-1 rounded-lg bg-blue-500/20 text-blue-400 text-[11px] hover:bg-blue-500/30 transition">Submit</button>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        }
+    }
+</div>

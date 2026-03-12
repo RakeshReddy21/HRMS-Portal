@@ -1,0 +1,31 @@
+:host ::ng-deep .active-nav-item {
+    background: rgba(59, 130, 246, 0.08);
+    color: #60a5fa;
+    position: relative;
+}
+:host ::ng-deep .active-nav-item::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 6px;
+    bottom: 6px;
+    width: 3px;
+    border-radius: 0 3px 3px 0;
+    background: #3b82f6;
+}
+:host ::ng-deep .active-nav-item svg {
+    color: #60a5fa;
+}
+.sidebar-scroll::-webkit-scrollbar {
+    width: 3px;
+}
+.sidebar-scroll::-webkit-scrollbar-track {
+    background: transparent;
+}
+.sidebar-scroll::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.06);
+    border-radius: 10px;
+}
+.sidebar-scroll::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.12);
+}

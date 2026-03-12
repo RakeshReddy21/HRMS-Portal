@@ -1,0 +1,144 @@
+<!-- ── Floating Chat Button ─────────────────────────── -->
+<button class="chatbot-fab" (click)="toggle()" [class.chatbot-fab-open]="isOpen()">
+    @if (isOpen()) {
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+        </svg>
+    } @else {
+        <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.455 2.456L21.75 6l-1.036.259a3.375 3.375 0 00-2.455 2.456z"/>
+        </svg>
+    }
+</button>
+
+<!-- ── Chat Panel ─────────────────────────────────── -->
+@if (isOpen()) {
+    <div class="chatbot-panel">
+        <!-- Header -->
+        <div class="cb-header">
+            <div class="flex items-center gap-2.5">
+                <div class="cb-avatar">
+                    <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09z"/>
+                    </svg>
+                </div>
+                <div>
+                    <p class="text-white text-[13px] font-semibold leading-tight">WorkForce AI</p>
+                    <p class="text-emerald-400 text-[10px] font-medium">Online • Smart Assistant</p>
+                </div>
+            </div>
+            <div class="flex items-center gap-1">
+                @if (messages().length > 0) {
+                    <button class="cb-icon-btn" (click)="clearChat()" title="Clear chat">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+                        </svg>
+                    </button>
+                }
+                <button class="cb-icon-btn" (click)="close()" title="Close">
+                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                    </svg>
+                </button>
+            </div>
+        </div>
+
+        <!-- Messages -->
+        <div class="cb-body" #msgContainer>
+            @if (messages().length === 0) {
+                <!-- Welcome -->
+                <div class="cb-welcome">
+                    <div class="cb-welcome-icon">
+                        <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09z"/>
+                        </svg>
+                    </div>
+                    <p class="text-white text-[14px] font-semibold mt-3">Hi {{ userName }}! 👋</p>
+                    <p class="text-slate-500 text-[12px] mt-1 leading-relaxed">
+                        I'm your WorkForce assistant.
+                        @if (userRole === 'ADMIN') {
+                            <br><span class="text-violet-400 font-medium">Admin Access</span> — Full system control
+                        } @else if (userRole === 'MANAGER') {
+                            <br><span class="text-blue-400 font-medium">Manager Access</span> — Team management enabled
+                        } @else {
+                            <br>I can perform actions for you!
+                        }
+                    </p>
+                    <div class="cb-chips">
+                        @for (q of quickActions; track q.label) {
+                            <button class="cb-chip" (click)="sendMessage(q.text)">{{ q.label }}</button>
+                        }
+                    </div>
+                </div>
+            } @else {
+                <!-- Messages -->
+                <div class="cb-messages">
+                    @for (msg of messages(); track trackMsg($index, msg)) {
+                        <div class="cb-msg" [class.cb-msg-user]="msg.role === 'user'" [class.cb-msg-ai]="msg.role === 'assistant'">
+                            @if (msg.role === 'assistant') {
+                                <div class="cb-msg-dot">
+                                    <svg class="w-2.5 h-2.5" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09z"/>
+                                    </svg>
+                                </div>
+                            }
+                            <div class="cb-bubble" [class.cb-bubble-user]="msg.role === 'user'" [class.cb-bubble-ai]="msg.role === 'assistant'">
+                                @if (msg.loading) {
+                                    <div class="cb-typing"><span></span><span></span><span></span></div>
+                                } @else {
+                                    <p class="cb-text">{{ msg.content }}</p>
+                                    @if (msg.actionPerformed && msg.action) {
+                                        <span class="cb-action-tag">
+                                            <span class="cb-action-icon">{{ getActionIcon(msg.action) }}</span>
+                                            {{ getActionLabel(msg.action) }}
+                                        </span>
+                                    }
+                                }
+                                <span class="cb-time">{{ formatTime(msg.timestamp) }}</span>
+                            </div>
+                        </div>
+
+                        <!-- Quick Replies (only for last assistant message, not loading) -->
+                        @if (msg.role === 'assistant' && !msg.loading && msg.quickReplies && msg.quickReplies.length > 0 && isLastAssistantMsg(msg) && !loading()) {
+                            <div class="cb-quick-replies">
+                                @for (qr of msg.quickReplies; track qr) {
+                                    <button class="cb-qr-btn" (click)="onQuickReply(qr)">
+                                        {{ qr }}
+                                    </button>
+                                }
+                            </div>
+                        }
+                    }
+                </div>
+            }
+        </div>
+
+        <!-- Input -->
+        <div class="cb-footer">
+            <div class="cb-input-row">
+                <textarea
+                    [(ngModel)]="userInput"
+                    (keydown)="onKeyDown($event)"
+                    placeholder="Type a message..."
+                    rows="1"
+                    [disabled]="loading()"
+                    class="cb-input"
+                ></textarea>
+                <button
+                    (click)="sendMessage()"
+                    [disabled]="!userInput.trim() || loading()"
+                    class="cb-send"
+                    [class.cb-send-active]="userInput.trim() && !loading()">
+                    @if (loading()) {
+                        <div class="cb-spinner"></div>
+                    } @else {
+                        <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 12L3.269 3.126A59.768 59.768 0 0121.485 12 59.77 59.77 0 013.27 20.876L5.999 12zm0 0h7.5"/>
+                        </svg>
+                    }
+                </button>
+            </div>
+            <p class="cb-hint">Press Enter to send • Say "abort" to cancel any flow</p>
+        </div>
+    </div>
+}

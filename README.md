@@ -1,59 +1,68 @@
-# HRMSPortal
+# WorkForce — Frontend
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.1.4.
+Angular frontend for the WorkForce HRMS Portal.
 
-## Development server
+## Tech Stack
 
-To start a local development server, run:
+- Angular 21
+- Tailwind CSS 4
+- TypeScript 5.9
+- STOMP.js (WebSocket)
+- Vitest
 
-```bash
-ng serve
+## Pages
+
+- **Login** — Authentication with 2FA support
+- **Admin** — Dashboard, Employees, Departments, Designations, Leaves, Attendance, Performance Reviews, Announcements, Activity Logs, IP Access, Office Locations
+- **Manager** — Dashboard, Team, Team Attendance, Team Leaves, Team Performance
+- **Employee** — Dashboard, Attendance, Leaves, Performance, Announcements, Directory
+- **Chat** — Real-time messaging
+- **Settings** — Profile & password management
+
+## Project Structure
+
+```
+src/app/
+├── components/     # Shared components (toast, loading, empty-state)
+├── guards/         # Auth & role guards
+├── interceptors/   # HTTP auth interceptor
+├── layout/         # Sidebar, Header
+├── models/         # TypeScript interfaces
+├── pages/
+│   ├── admin/      # Admin pages
+│   ├── manager/    # Manager pages
+│   ├── employee/   # Employee pages
+│   ├── login/      # Login page
+│   ├── chat/       # Chat page
+│   └── settings/   # Settings page
+└── services/       # API service layer
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+## Prerequisites
 
-## Code scaffolding
+- Node.js 18+
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
-
-```bash
-ng generate component component-name
-```
-
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+## Setup
 
 ```bash
-ng generate --help
+npm install
+npm start
 ```
 
-## Building
+Runs on `http://localhost:4200`
 
-To build the project run:
+Backend API expected at `http://localhost:8080/api`
+
+## Running Tests
 
 ```bash
-ng build
+npm test
 ```
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
+## Build
 
 ```bash
-ng test
+npm run build
 ```
 
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+Output in `dist/` directory.

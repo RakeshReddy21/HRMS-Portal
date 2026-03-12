@@ -1,0 +1,79 @@
+/* ══════════════════════════════════════════════════════════════════
+   My Leaves · Custom Styles & Animations
+   ══════════════════════════════════════════════════════════════════ */
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fadeIn {
+    animation: fadeIn 0.45s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@keyframes modalEnter {
+    from { opacity: 0; transform: scale(0.95) translateY(10px); }
+    to   { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+.modal-enter {
+    animation: modalEnter 0.25s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@keyframes shimmer {
+    0%   { background-position: -200% 0; }
+    100% { background-position: 200% 0; }
+}
+
+.skeleton-block {
+    background: linear-gradient(90deg, rgba(255,255,255,0.04) 25%, rgba(255,255,255,0.08) 50%, rgba(255,255,255,0.04) 75%);
+    background-size: 200% 100%;
+    animation: shimmer 1.8s infinite;
+    border-radius: 8px;
+}
+
+.balance-bar {
+    transition: width 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* Date input theming */
+input[type="date"]::-webkit-calendar-picker-indicator {
+    filter: invert(0.6);
+    cursor: pointer;
+}
+
+input[type="date"] {
+    color-scheme: dark;
+}
+
+/* Select dropdown styling - Dark theme for dropdown options */
+select {
+    color-scheme: dark;
+}
+
+select option {
+    background: #0f172a !important;
+    background-color: #0f172a !important;
+    color: white !important;
+    padding: 0.625rem 1rem;
+}
+
+select option:checked,
+select option:focus,
+select option:hover {
+    background: rgba(59, 130, 246, 0.2) !important;
+    background-color: rgba(59, 130, 246, 0.2) !important;
+    color: white !important;
+}
+
+/* For better browser compatibility */
+select::-ms-expand {
+    display: none;
+}
+
+select {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+}
+

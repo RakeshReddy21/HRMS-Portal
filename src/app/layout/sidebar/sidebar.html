@@ -1,0 +1,72 @@
+@if(isOpen()){
+    <div class="fixed inset-0 bg-black/60 backdrop-blur-sm z-40 lg:hidden" (click) = "closeSidebar.emit()"></div>
+}
+
+<aside class="fixed top-0 left-0 bottom-0 z-50 flex flex-col w-[280px] bg-slate-950 border-r border-white/[0.06] transition-transform duration-300 ease-in-out"
+      [class]="isOpen() ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'">
+    <div class="flex items-center gap-3 px-6 h-16 border-b border-white/[0.06] shrink-0">
+        <div class="flex items-center justify-center w-9 h-9 rounded-xl bg-gradient-to-br from-blue-500 to-blue-700 shadow-lg shadow-blue-500/20">
+            <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197m13.5-9a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0z"/>
+            </svg>
+        </div>
+        <div>
+            <h1 class="text-white font-bold text-[17px] leading-tight tracking-tight">WorkForce</h1>
+            <p class="text-slate-500 text-[11px] font-medium">HRMS Portal</p>
+        </div>
+        <button (click) = "closeSidebar.emit()" class="ml-auto lg:hidden p-1.5 rounded-lg text-slate-500 hover:text-white hover:bg-white/5 transition-colors cursor-pointer">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+            </svg>
+        </button>
+    </div>
+    <nav class="flex-1 overflow-y-auto px-3 py-5 space-y-6 sidebar-scroll">
+        @for(section of sections; track section.title){
+            <div>
+                <p class="px-3 mb-2 text-[11px] font-semibold uppercase tracking-widest text-slate-600">{{section.title}}</p>
+                <div class="space-y-0 5">
+                    @for(item of section.items; track item.route){
+                        <a [routerLink]="item.route" routerLinkActive="active-nav-item" [routerLinkActiveOptions]="{exact: false}" (click)="onNavClick()" class="nav-item group flex items-center gap-3 px-3 py-2.5 rounded-xl text-[13px] font-medium text-slate-400 hover:text-white hover:bg-white/[0.04] transition-all duration-200">
+                            <svg class="w-[18px] h-[18px] shrink-0 transition-colors duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                @for (path of item.iconPaths; track $index) {
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" [attr.d]="path"/>
+                                }
+                            </svg>
+                            <span>{{ item.label }}</span>
+                        </a>
+                    }
+                </div>
+            </div>
+        }
+    </nav>
+    <div class="border-t border-white/[0.06] px-3 py-3 space-y-0 5 shrink-0">
+        @for(item of bottonItems; track item.route){
+            <a [routerLink]="item.route"
+               routerLinkActive="active-nav-item"
+               (click)="onNavClick()"
+               class="nav-item group flex items-center gap-3 px-3 py-2.5 rounded-xl text-[13px] font-medium text-slate-400 hover:text-white hover:bg-white/[0.04] transition-all duration-200">
+                <svg class="w-[18px] h-[18px] shrink-0 transition-colors duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    @for (path of item.iconPaths; track $index) {
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" [attr.d]="path"/>
+                    }
+                </svg>
+                <span>{{ item.label }}</span>
+                @if (isChatItem(item) && chatUnreadCount() > 0) {
+                    <span class="ml-auto min-w-[20px] h-[20px] px-1.5 bg-blue-500 rounded-full text-white text-[10px] font-bold flex items-center justify-center">
+                        {{ chatUnreadCount() > 99 ? '99+' : chatUnreadCount() }}
+                    </span>
+                }
+            </a>
+        }
+        <button (click)="onLogout()"
+                class="w-full group flex items-center gap-3 px-3 py-2.5 rounded-xl text-[13px] font-medium text-slate-400 hover:text-red-400 hover:bg-red-500/[0.08] transition-all duration-200 cursor-pointer">
+            <svg class="w-[18px] h-[18px] shrink-0 transition-colors duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                @for (path of logoutIconPaths; track $index) {
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" [attr.d]="path"/>
+                }
+            </svg>
+            <span>Logout</span>
+        </button>
+    </div>
+</aside>

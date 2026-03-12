@@ -1,0 +1,43 @@
+/* ══════════════════════════════════════════════════════════════════
+   Employee Announcements · Styles & Animations
+   ══════════════════════════════════════════════════════════════════ */
+
+.animate-fadeIn {
+    animation: fadeIn 0.45s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+.modal-enter {
+    animation: modalEnter 0.3s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@keyframes modalEnter {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+.skeleton-block {
+    background: linear-gradient(90deg, rgba(255,255,255,0.04) 25%, rgba(255,255,255,0.08) 50%, rgba(255,255,255,0.04) 75%);
+    background-size: 200% 100%;
+    animation: shimmer 1.8s infinite;
+    border-radius: 8px;
+}
+
+@keyframes shimmer {
+    0%   { background-position: -200% 0; }
+    100% { background-position: 200% 0; }
+}
+
+.announcement-card {
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.announcement-card:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+}
+

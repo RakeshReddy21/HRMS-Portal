@@ -1,0 +1,643 @@
+@if (success()) {
+    <div class="fixed top-6 right-6 z-50 flex items-center gap-3 px-5 py-3 bg-emerald-500/15 border border-emerald-500/25 rounded-xl shadow-2xl shadow-emerald-500/10 animate-fadeIn">
+        <svg class="w-5 h-5 text-emerald-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+        </svg>
+        <span class="text-emerald-300 text-[13px] font-medium">{{ success() }}</span>
+    </div>
+}
+
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
+    <div>
+        <h1 class="text-2xl font-bold text-white">Leave Management</h1>
+        <p class="text-slate-500 text-[13px] mt-1">Manage leave applications, types and holidays</p>
+    </div>
+</div>
+
+<div class="flex items-center gap-1 bg-white/[0.02] border border-white/[0.06] rounded-xl p-1 mb-6 w-fit">
+    <button (click)="switchTab('applications')"
+            class="px-4 py-2 rounded-lg text-[13px] font-medium transition-all duration-200 cursor-pointer"
+            [class]="activeTab() === 'applications'
+                ? 'bg-white/[0.08] text-white shadow-sm'
+                : 'text-slate-500 hover:text-slate-300'">
+        Applications
+    </button>
+    <button (click)="switchTab('types')"
+            class="px-4 py-2 rounded-lg text-[13px] font-medium transition-all duration-200 cursor-pointer"
+            [class]="activeTab() === 'types'
+                ? 'bg-white/[0.08] text-white shadow-sm'
+                : 'text-slate-500 hover:text-slate-300'">
+        Leave Types
+    </button>
+    <button (click)="switchTab('holidays')"
+            class="px-4 py-2 rounded-lg text-[13px] font-medium transition-all duration-200 cursor-pointer"
+            [class]="activeTab() === 'holidays'
+                ? 'bg-white/[0.08] text-white shadow-sm'
+                : 'text-slate-500 hover:text-slate-300'">
+        Holidays
+    </button>
+</div>
+
+@if (error()) {
+    <div class="mb-6 px-4 py-3 bg-red-500/10 border border-red-500/20 rounded-xl text-red-400 text-[13px]">
+        {{ error() }}
+    </div>
+}
+
+@if (activeTab() === 'applications') {
+    <div class="animate-fadeIn">
+        <div class="flex items-center gap-3 mb-4">
+            <select (change)="onAppStatusChange($event)"
+                    class="filter-select bg-white/[0.04] border border-white/[0.08] rounded-xl px-4 py-2.5 text-[13px] text-slate-300 focus:outline-none focus:border-blue-500/40 transition-all appearance-none cursor-pointer min-w-[160px]">
+                <option value="" class="bg-slate-900">All Status</option>
+                <option value="PENDING" class="bg-slate-900">Pending</option>
+                <option value="APPROVED" class="bg-slate-900">Approved</option>
+                <option value="REJECTED" class="bg-slate-900">Rejected</option>
+                <option value="CANCELLED" class="bg-slate-900">Cancelled</option>
+            </select>
+            @if (appTotalElements() > 0) {
+                <span class="text-slate-500 text-[13px]">{{ appTotalElements() }} applications</span>
+            }
+        </div>
+
+        <div class="bg-white/[0.02] border border-white/[0.06] rounded-2xl overflow-hidden">
+            <div class="grid grid-cols-12 gap-4 px-6 py-3.5 border-b border-white/[0.06] bg-white/[0.02]">
+                <div class="col-span-3 text-[11px] font-semibold uppercase tracking-widest text-slate-500">Employee</div>
+                <div class="col-span-2 text-[11px] font-semibold uppercase tracking-widest text-slate-500">Type</div>
+                <div class="col-span-2 text-[11px] font-semibold uppercase tracking-widest text-slate-500">Dates</div>
+                <div class="col-span-1 text-[11px] font-semibold uppercase tracking-widest text-slate-500 text-center">Days</div>
+                <div class="col-span-1 text-[11px] font-semibold uppercase tracking-widest text-slate-500 text-center">Status</div>
+                <div class="col-span-1 text-[11px] font-semibold uppercase tracking-widest text-slate-500 text-right">Applied</div>
+                <div class="col-span-2 text-[11px] font-semibold uppercase tracking-widest text-slate-500 text-center">Action</div>
+            </div>
+
+            @if (appLoading()) {
+                @for (i of skeletonRows; track $index) {
+                    <div class="grid grid-cols-12 gap-4 px-6 py-4 border-b border-white/[0.04] animate-pulse">
+                        <div class="col-span-3"><div class="h-4 w-3/4 bg-slate-700/40 rounded"></div></div>
+                        <div class="col-span-2"><div class="h-4 w-2/3 bg-slate-700/30 rounded"></div></div>
+                        <div class="col-span-2"><div class="h-4 w-full bg-slate-700/30 rounded"></div></div>
+                        <div class="col-span-1 flex justify-center"><div class="h-4 w-6 bg-slate-700/30 rounded"></div></div>
+                        <div class="col-span-1 flex justify-center"><div class="h-5 w-16 bg-slate-700/30 rounded-full"></div></div>
+                        <div class="col-span-1 flex justify-end"><div class="h-4 w-20 bg-slate-700/30 rounded"></div></div>
+                        <div class="col-span-2 flex justify-center"><div class="h-7 w-16 bg-slate-700/30 rounded-lg"></div></div>
+                    </div>
+                }
+            }
+
+            @if (!appLoading()) {
+                @for (app of applications(); track app.leaveId) {
+                    <div class="grid grid-cols-12 gap-4 px-6 py-4 border-b border-white/[0.04] hover:bg-white/[0.02] transition-colors duration-150">
+                        <div class="col-span-3 flex items-center gap-3">
+                            <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center text-white text-[11px] font-bold shrink-0">
+                                {{ getInitials(app.employee.firstName, app.employee.lastName) }}
+                            </div>
+                            <div class="min-w-0">
+                                <p class="text-white text-[13px] font-medium truncate">{{ app.employee.firstName }} {{ app.employee.lastName }}</p>
+                                <p class="text-slate-600 text-[11px] font-mono">{{ app.employee.employeeCode }}</p>
+                            </div>
+                        </div>
+                        <div class="col-span-2 flex items-center">
+                            <span class="text-slate-400 text-[13px] truncate">{{ app.leaveType.leaveTypeName }}</span>
+                        </div>
+                        <div class="col-span-2 flex items-center">
+                            <span class="text-slate-400 text-[12px]">{{ formatDate(app.startDate) }} – {{ formatDate(app.endDate) }}</span>
+                        </div>
+                        <div class="col-span-1 flex items-center justify-center">
+                            <span class="text-white text-[13px] font-medium tabular-nums">{{ app.totalDays }}</span>
+                        </div>
+                        <div class="col-span-1 flex items-center justify-center">
+                            <span class="px-2.5 py-1 rounded-full text-[11px] font-semibold" [class]="getStatusClass(app.status)">
+                                {{ app.status }}
+                            </span>
+                        </div>
+                        <div class="col-span-1 flex items-center justify-end">
+                            <span class="text-slate-500 text-[12px]">{{ formatDate(app.appliedDate) }}</span>
+                        </div>
+                        <div class="col-span-2 flex items-center justify-center">
+                            @if (app.status === 'PENDING') {
+                                <button (click)="openActionModal(app)"
+                                        class="px-3 py-1.5 rounded-lg bg-blue-500/10 border border-blue-500/20 text-blue-400 text-[12px] font-medium hover:bg-blue-500/20 transition-colors cursor-pointer">
+                                    Review
+                                </button>
+                            } @else {
+                                <span class="text-slate-600 text-[12px]">—</span>
+                            }
+                        </div>
+                    </div>
+                }
+
+                @if (applications().length === 0) {
+                    <div class="text-center py-12">
+                        <svg class="w-10 h-10 mx-auto text-slate-700 mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
+                        </svg>
+                        <p class="text-slate-500 text-[13px]">No leave applications found</p>
+                    </div>
+                }
+            }
+        </div>
+
+        @if (!appLoading() && appTotalPages() > 1) {
+            <div class="flex items-center justify-between mt-6">
+                <p class="text-slate-500 text-[13px]">
+                    Page {{ appPage() + 1 }} of {{ appTotalPages() }} · {{ appTotalElements() }} total
+                </p>
+                <div class="flex items-center gap-2">
+                    <button (click)="goToAppPage(appPage() - 1)" [disabled]="appPage() === 0"
+                            class="px-3.5 py-2 rounded-lg text-[13px] font-medium border transition-all"
+                            [class]="appPage() === 0
+                                ? 'text-slate-600 border-white/[0.04] cursor-not-allowed'
+                                : 'text-slate-300 border-white/[0.08] hover:bg-white/[0.04] cursor-pointer'">
+                        ← Previous
+                    </button>
+                    <button (click)="goToAppPage(appPage() + 1)" [disabled]="appPage() >= appTotalPages() - 1"
+                            class="px-3.5 py-2 rounded-lg text-[13px] font-medium border transition-all"
+                            [class]="appPage() >= appTotalPages() - 1
+                                ? 'text-slate-600 border-white/[0.04] cursor-not-allowed'
+                                : 'text-slate-300 border-white/[0.08] hover:bg-white/[0.04] cursor-pointer'">
+                        Next →
+                    </button>
+                </div>
+            </div>
+        }
+    </div>
+}
+
+@if (activeTab() === 'types') {
+    <div class="animate-fadeIn">
+        <div class="flex items-center justify-between mb-4">
+            <span class="text-slate-500 text-[13px]">{{ leaveTypes().length }} leave types configured</span>
+            <button (click)="openCreateType()"
+                    class="inline-flex items-center gap-2 px-4 py-2 bg-emerald-600 hover:bg-emerald-500 text-white text-[13px] font-semibold rounded-xl transition-all shadow-lg shadow-emerald-600/20 cursor-pointer">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+                </svg>
+                Add Leave Type
+            </button>
+        </div>
+
+        <div class="bg-white/[0.02] border border-white/[0.06] rounded-2xl overflow-hidden">
+            <div class="grid grid-cols-12 gap-4 px-6 py-3.5 border-b border-white/[0.06] bg-white/[0.02]">
+                <div class="col-span-3 text-[11px] font-semibold uppercase tracking-widest text-slate-500">Name</div>
+                <div class="col-span-2 text-[11px] font-semibold uppercase tracking-widest text-slate-500 text-center">Days</div>
+                <div class="col-span-2 text-[11px] font-semibold uppercase tracking-widest text-slate-500 text-center">Paid</div>
+                <div class="col-span-2 text-[11px] font-semibold uppercase tracking-widest text-slate-500 text-center">Carry Forward</div>
+                <div class="col-span-1 text-[11px] font-semibold uppercase tracking-widest text-slate-500 text-center">LOP</div>
+                <div class="col-span-2 text-[11px] font-semibold uppercase tracking-widest text-slate-500 text-right">Actions</div>
+            </div>
+
+            @if (typesLoading()) {
+                @for (i of skeletonRows; track $index) {
+                    <div class="grid grid-cols-12 gap-4 px-6 py-4 border-b border-white/[0.04] animate-pulse">
+                        <div class="col-span-3"><div class="h-4 w-3/4 bg-slate-700/40 rounded"></div></div>
+                        <div class="col-span-2 flex justify-center"><div class="h-4 w-8 bg-slate-700/30 rounded"></div></div>
+                        <div class="col-span-2 flex justify-center"><div class="h-5 w-10 bg-slate-700/30 rounded-full"></div></div>
+                        <div class="col-span-2 flex justify-center"><div class="h-5 w-10 bg-slate-700/30 rounded-full"></div></div>
+                        <div class="col-span-1 flex justify-center"><div class="h-5 w-10 bg-slate-700/30 rounded-full"></div></div>
+                        <div class="col-span-2 flex justify-end"><div class="h-8 w-8 bg-slate-700/30 rounded-lg"></div></div>
+                    </div>
+                }
+            }
+
+            @if (!typesLoading()) {
+                @for (lt of leaveTypes(); track lt.leaveTypeId) {
+                    <div class="grid grid-cols-12 gap-4 px-6 py-4 border-b border-white/[0.04] hover:bg-white/[0.02] transition-colors duration-150 group">
+                        <div class="col-span-3 flex items-center gap-3">
+                            <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-emerald-500 to-teal-600 flex items-center justify-center text-white text-[13px] font-bold shrink-0 shadow-lg shadow-emerald-500/15">
+                                {{ lt.leaveTypeName.charAt(0) }}
+                            </div>
+                            <div class="min-w-0">
+                                <p class="text-white text-[14px] font-medium truncate group-hover:text-emerald-400 transition-colors">{{ lt.leaveTypeName }}</p>
+                                @if (lt.description) {
+                                    <p class="text-slate-600 text-[11px] truncate">{{ lt.description }}</p>
+                                }
+                            </div>
+                        </div>
+                        <div class="col-span-2 flex items-center justify-center">
+                            <span class="text-white text-[14px] font-semibold tabular-nums">{{ lt.defaultDays }}</span>
+                        </div>
+                        <div class="col-span-2 flex items-center justify-center">
+                            <span class="px-2 py-0.5 rounded-full text-[11px] font-semibold"
+                                  [class]="lt.isPaidLeave ? 'bg-emerald-500/10 text-emerald-400' : 'bg-slate-500/10 text-slate-500'">
+                                {{ lt.isPaidLeave ? 'Yes' : 'No' }}
+                            </span>
+                        </div>
+                        <div class="col-span-2 flex items-center justify-center">
+                            @if (lt.isCarryForwardEnabled) {
+                                <span class="text-blue-400 text-[12px] font-medium">{{ lt.maxCarryForwardDays }}d max</span>
+                            } @else {
+                                <span class="text-slate-600 text-[12px]">—</span>
+                            }
+                        </div>
+                        <div class="col-span-1 flex items-center justify-center">
+                            <span class="px-2 py-0.5 rounded-full text-[11px] font-semibold"
+                                  [class]="lt.isLossOfPay ? 'bg-red-500/10 text-red-400' : 'bg-slate-500/10 text-slate-500'">
+                                {{ lt.isLossOfPay ? 'Yes' : 'No' }}
+                            </span>
+                        </div>
+                        <div class="col-span-2 flex items-center justify-end">
+                            <button (click)="openEditType(lt)"
+                                    class="p-2 rounded-lg text-slate-500 hover:text-emerald-400 hover:bg-emerald-500/10 transition-all cursor-pointer"
+                                    title="Edit">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                          d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                }
+
+                @if (leaveTypes().length === 0) {
+                    <div class="text-center py-12">
+                        <p class="text-slate-500 text-[13px]">No leave types configured yet</p>
+                    </div>
+                }
+            }
+        </div>
+    </div>
+}
+
+@if (activeTab() === 'holidays') {
+    <div class="animate-fadeIn">
+        <div class="flex items-center justify-between mb-4">
+            <div class="flex items-center gap-3">
+                <button (click)="changeHolidayYear(-1)"
+                        class="p-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-white/[0.06] transition-colors cursor-pointer">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+                    </svg>
+                </button>
+                <span class="text-white text-[15px] font-semibold tabular-nums">{{ holidayYear() }}</span>
+                <button (click)="changeHolidayYear(1)"
+                        class="p-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-white/[0.06] transition-colors cursor-pointer">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                    </svg>
+                </button>
+                <span class="text-slate-500 text-[13px] ml-2">{{ holidays().length }} holidays</span>
+            </div>
+            <button (click)="openCreateHoliday()"
+                    class="inline-flex items-center gap-2 px-4 py-2 bg-amber-600 hover:bg-amber-500 text-white text-[13px] font-semibold rounded-xl transition-all shadow-lg shadow-amber-600/20 cursor-pointer">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+                </svg>
+                Add Holiday
+            </button>
+        </div>
+
+        <div class="bg-white/[0.02] border border-white/[0.06] rounded-2xl overflow-hidden">
+            <div class="grid grid-cols-12 gap-4 px-6 py-3.5 border-b border-white/[0.06] bg-white/[0.02]">
+                <div class="col-span-4 text-[11px] font-semibold uppercase tracking-widest text-slate-500">Holiday</div>
+                <div class="col-span-3 text-[11px] font-semibold uppercase tracking-widest text-slate-500">Date</div>
+                <div class="col-span-3 text-[11px] font-semibold uppercase tracking-widest text-slate-500">Description</div>
+                <div class="col-span-2 text-[11px] font-semibold uppercase tracking-widest text-slate-500 text-right">Actions</div>
+            </div>
+
+            @if (holidaysLoading()) {
+                @for (i of skeletonRows; track $index) {
+                    <div class="grid grid-cols-12 gap-4 px-6 py-4 border-b border-white/[0.04] animate-pulse">
+                        <div class="col-span-4"><div class="h-4 w-3/4 bg-slate-700/40 rounded"></div></div>
+                        <div class="col-span-3"><div class="h-4 w-2/3 bg-slate-700/30 rounded"></div></div>
+                        <div class="col-span-3"><div class="h-4 w-full bg-slate-700/30 rounded"></div></div>
+                        <div class="col-span-2 flex justify-end gap-2">
+                            <div class="h-8 w-8 bg-slate-700/30 rounded-lg"></div>
+                            <div class="h-8 w-8 bg-slate-700/30 rounded-lg"></div>
+                        </div>
+                    </div>
+                }
+            }
+
+            @if (!holidaysLoading()) {
+                @for (h of holidays(); track h.holidayId) {
+                    <div class="grid grid-cols-12 gap-4 px-6 py-4 border-b border-white/[0.04] hover:bg-white/[0.02] transition-colors duration-150 group">
+                        <div class="col-span-4 flex items-center gap-3">
+                            <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-amber-500 to-orange-600 flex items-center justify-center text-white text-[13px] font-bold shrink-0 shadow-lg shadow-amber-500/15">
+                                {{ h.holidayName.charAt(0) }}
+                            </div>
+                            <span class="text-white text-[14px] font-medium group-hover:text-amber-400 transition-colors truncate">{{ h.holidayName }}</span>
+                        </div>
+                        <div class="col-span-3 flex items-center">
+                            <span class="text-slate-300 text-[13px]">{{ formatDate(h.holidayDate) }}</span>
+                        </div>
+                        <div class="col-span-3 flex items-center">
+                            <span class="text-slate-400 text-[13px] truncate">{{ h.description || '—' }}</span>
+                        </div>
+                        <div class="col-span-2 flex items-center justify-end gap-2">
+                            <button (click)="openEditHoliday(h)"
+                                    class="p-2 rounded-lg text-slate-500 hover:text-amber-400 hover:bg-amber-500/10 transition-all cursor-pointer"
+                                    title="Edit">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                          d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
+                                </svg>
+                            </button>
+                            <button (click)="deleteHoliday(h)"
+                                    class="p-2 rounded-lg text-slate-500 hover:text-red-400 hover:bg-red-500/10 transition-all cursor-pointer"
+                                    title="Delete">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                          d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                }
+
+                @if (holidays().length === 0) {
+                    <div class="text-center py-12">
+                        <p class="text-slate-500 text-[13px]">No holidays for {{ holidayYear() }}</p>
+                    </div>
+                }
+            }
+        </div>
+    </div>
+}
+
+@if (showTypeModal()) {
+    <div class="fixed inset-0 bg-black/60 backdrop-blur-sm z-40 flex items-center justify-center p-4" (click)="closeTypeModal()">
+        <div class="modal-enter w-full max-w-lg bg-slate-950 border border-white/[0.08] rounded-2xl shadow-2xl shadow-black/50"
+             (click)="$event.stopPropagation()">
+            <div class="flex items-center justify-between px-6 py-4 border-b border-white/[0.06]">
+                <h2 class="text-white font-semibold text-[16px]">
+                    {{ editingType() ? 'Edit Leave Type' : 'Create Leave Type' }}
+                </h2>
+                <button (click)="closeTypeModal()"
+                        class="p-2 rounded-lg text-slate-400 hover:text-white hover:bg-white/[0.06] transition-colors cursor-pointer">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                    </svg>
+                </button>
+            </div>
+
+            <form [formGroup]="typeForm" (ngSubmit)="onSubmitType()" class="px-6 py-5 space-y-4">
+                <div>
+                    <label class="block text-[12px] font-semibold text-slate-400 uppercase tracking-wider mb-2">
+                        Leave Type Name <span class="text-red-400">*</span>
+                    </label>
+                    <input formControlName="leaveTypeName" type="text" placeholder="e.g. Casual Leave"
+                           class="w-full bg-white/[0.04] border rounded-xl px-4 py-3 text-white text-[14px] placeholder-slate-600 focus:outline-none focus:ring-1 transition-all"
+                           [class]="hasError(typeForm, 'leaveTypeName')
+                               ? 'border-red-500/40 focus:border-red-500/60 focus:ring-red-500/20'
+                               : 'border-white/[0.08] focus:border-emerald-500/40 focus:ring-emerald-500/20'" />
+                    @if (hasError(typeForm, 'leaveTypeName')) {
+                        <p class="mt-1.5 text-red-400 text-[12px]">{{ getError(typeForm, 'leaveTypeName') }}</p>
+                    }
+                </div>
+
+                <div>
+                    <label class="block text-[12px] font-semibold text-slate-400 uppercase tracking-wider mb-2">Description</label>
+                    <input formControlName="description" type="text" placeholder="Optional description"
+                           class="w-full bg-white/[0.04] border border-white/[0.08] rounded-xl px-4 py-3 text-white text-[14px] placeholder-slate-600 focus:outline-none focus:border-emerald-500/40 focus:ring-1 focus:ring-emerald-500/20 transition-all" />
+                </div>
+
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-[12px] font-semibold text-slate-400 uppercase tracking-wider mb-2">
+                            Default Days <span class="text-red-400">*</span>
+                        </label>
+                        <input formControlName="defaultDays" type="number" min="0"
+                               class="w-full bg-white/[0.04] border border-white/[0.08] rounded-xl px-4 py-3 text-white text-[14px] focus:outline-none focus:border-emerald-500/40 focus:ring-1 focus:ring-emerald-500/20 transition-all" />
+                    </div>
+                    <div>
+                        <label class="block text-[12px] font-semibold text-slate-400 uppercase tracking-wider mb-2">
+                            Max Carry Forward Days
+                        </label>
+                        <input formControlName="maxCarryForwardDays" type="number" min="0"
+                               class="w-full bg-white/[0.04] border border-white/[0.08] rounded-xl px-4 py-3 text-white text-[14px] focus:outline-none focus:border-emerald-500/40 focus:ring-1 focus:ring-emerald-500/20 transition-all" />
+                    </div>
+                </div>
+
+                <div class="flex flex-wrap gap-6 py-2">
+                    <label class="flex items-center gap-2.5 cursor-pointer">
+                        <input formControlName="isPaidLeave" type="checkbox"
+                               class="w-4 h-4 rounded border-white/20 bg-white/[0.04] text-emerald-500 focus:ring-emerald-500/20 cursor-pointer" />
+                        <span class="text-slate-300 text-[13px]">Paid Leave</span>
+                    </label>
+                    <label class="flex items-center gap-2.5 cursor-pointer">
+                        <input formControlName="isCarryForwardEnabled" type="checkbox"
+                               class="w-4 h-4 rounded border-white/20 bg-white/[0.04] text-emerald-500 focus:ring-emerald-500/20 cursor-pointer" />
+                        <span class="text-slate-300 text-[13px]">Carry Forward</span>
+                    </label>
+                    <label class="flex items-center gap-2.5 cursor-pointer">
+                        <input formControlName="isLossOfPay" type="checkbox"
+                               class="w-4 h-4 rounded border-white/20 bg-white/[0.04] text-emerald-500 focus:ring-emerald-500/20 cursor-pointer" />
+                        <span class="text-slate-300 text-[13px]">Loss of Pay</span>
+                    </label>
+                </div>
+
+                <div class="flex items-center justify-end gap-3 pt-2">
+                    <button type="button" (click)="closeTypeModal()"
+                            class="px-5 py-2.5 rounded-xl text-[13px] font-medium text-slate-400 hover:text-white border border-white/[0.08] hover:bg-white/[0.04] transition-all cursor-pointer">
+                        Cancel
+                    </button>
+                    <button type="submit" [disabled]="savingType()"
+                            class="px-6 py-2.5 rounded-xl text-[13px] font-semibold text-white bg-emerald-600 hover:bg-emerald-500 transition-all shadow-lg shadow-emerald-600/20 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer">
+                        @if (savingType()) {
+                            <span class="inline-flex items-center gap-2">
+                                <svg class="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24">
+                                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path>
+                                </svg>
+                                Saving...
+                            </span>
+                        } @else {
+                            {{ editingType() ? 'Update' : 'Create' }}
+                        }
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+}
+
+@if (showActionModal()) {
+    <div class="fixed inset-0 bg-black/60 backdrop-blur-sm z-40 flex items-center justify-center p-4" (click)="closeActionModal()">
+        <div class="modal-enter w-full max-w-md bg-slate-950 border border-white/[0.08] rounded-2xl shadow-2xl shadow-black/50"
+             (click)="$event.stopPropagation()">
+            <div class="flex items-center justify-between px-6 py-4 border-b border-white/[0.06]">
+                <h2 class="text-white font-semibold text-[16px]">Review Leave Request</h2>
+                <button (click)="closeActionModal()"
+                        class="p-2 rounded-lg text-slate-400 hover:text-white hover:bg-white/[0.06] transition-colors cursor-pointer">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                    </svg>
+                </button>
+            </div>
+            @if (selectedLeave(); as leave) {
+                <div class="px-6 py-4 border-b border-white/[0.06] space-y-3">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center text-white text-[12px] font-bold shrink-0">
+                            {{ getInitials(leave.employee.firstName, leave.employee.lastName) }}
+                        </div>
+                        <div>
+                            <p class="text-white text-[14px] font-medium">{{ leave.employee.firstName }} {{ leave.employee.lastName }}</p>
+                            <p class="text-slate-500 text-[12px] font-mono">{{ leave.employee.employeeCode }}</p>
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-2 gap-3">
+                        <div class="bg-white/[0.03] rounded-xl px-3.5 py-2.5">
+                            <p class="text-slate-500 text-[11px] uppercase tracking-wider font-semibold mb-1">Type</p>
+                            <p class="text-slate-300 text-[13px]">{{ leave.leaveType.leaveTypeName }}</p>
+                        </div>
+                        <div class="bg-white/[0.03] rounded-xl px-3.5 py-2.5">
+                            <p class="text-slate-500 text-[11px] uppercase tracking-wider font-semibold mb-1">Days</p>
+                            <p class="text-white text-[13px] font-semibold">{{ leave.totalDays }}</p>
+                        </div>
+                        <div class="col-span-2 bg-white/[0.03] rounded-xl px-3.5 py-2.5">
+                            <p class="text-slate-500 text-[11px] uppercase tracking-wider font-semibold mb-1">Period</p>
+                            <p class="text-slate-300 text-[13px]">{{ formatDate(leave.startDate) }} – {{ formatDate(leave.endDate) }}</p>
+                        </div>
+                        @if (leave.reason) {
+                            <div class="col-span-2 bg-white/[0.03] rounded-xl px-3.5 py-2.5">
+                                <p class="text-slate-500 text-[11px] uppercase tracking-wider font-semibold mb-1">Reason</p>
+                                <p class="text-slate-300 text-[13px]">{{ leave.reason }}</p>
+                            </div>
+                        }
+                    </div>
+                </div>
+            }
+            <form [formGroup]="actionForm" (ngSubmit)="submitAction()" class="px-6 py-5 space-y-4">
+                @if (error()) {
+                    <div class="px-3.5 py-2.5 bg-red-500/10 border border-red-500/20 rounded-xl text-red-400 text-[12px]">
+                        {{ error() }}
+                    </div>
+                }
+
+                <div>
+                    <label class="block text-[12px] font-semibold text-slate-400 uppercase tracking-wider mb-2">Decision <span class="text-red-400">*</span></label>
+                    <div class="flex items-center gap-3">
+                        <label class="flex-1 relative cursor-pointer">
+                            <input formControlName="action" type="radio" value="APPROVED" class="peer sr-only" />
+                            <div class="w-full py-2.5 rounded-xl border text-center text-[13px] font-semibold transition-all
+                                        peer-checked:bg-emerald-500/15 peer-checked:border-emerald-500/30 peer-checked:text-emerald-400
+                                        border-white/[0.08] text-slate-500 hover:border-white/[0.15]">
+                                Approve
+                            </div>
+                        </label>
+                        <label class="flex-1 relative cursor-pointer">
+                            <input formControlName="action" type="radio" value="REJECTED" class="peer sr-only" />
+                            <div class="w-full py-2.5 rounded-xl border text-center text-[13px] font-semibold transition-all
+                                        peer-checked:bg-red-500/15 peer-checked:border-red-500/30 peer-checked:text-red-400
+                                        border-white/[0.08] text-slate-500 hover:border-white/[0.15]">
+                                Reject
+                            </div>
+                        </label>
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-[12px] font-semibold text-slate-400 uppercase tracking-wider mb-2">
+                        Comments
+                        @if (actionForm.get('action')?.value === 'REJECTED') {
+                            <span class="text-red-400">*</span>
+                        }
+                    </label>
+                    <textarea formControlName="comments" rows="3" placeholder="Add comments (required for rejection)"
+                              class="w-full bg-white/[0.04] border border-white/[0.08] rounded-xl px-4 py-3 text-white text-[13px] placeholder-slate-600 focus:outline-none focus:border-blue-500/40 focus:ring-1 focus:ring-blue-500/20 transition-all resize-none"></textarea>
+                </div>
+
+                <div class="flex items-center justify-end gap-3 pt-2">
+                    <button type="button" (click)="closeActionModal()"
+                            class="px-5 py-2.5 rounded-xl text-[13px] font-medium text-slate-400 hover:text-white border border-white/[0.08] hover:bg-white/[0.04] transition-all cursor-pointer">
+                        Cancel
+                    </button>
+                    <button type="submit" [disabled]="acting()"
+                            class="px-6 py-2.5 rounded-xl text-[13px] font-semibold text-white transition-all shadow-lg disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
+                            [class]="actionForm.get('action')?.value === 'REJECTED'
+                                ? 'bg-red-600 hover:bg-red-500 shadow-red-600/20'
+                                : 'bg-emerald-600 hover:bg-emerald-500 shadow-emerald-600/20'">
+                        @if (acting()) {
+                            <span class="inline-flex items-center gap-2">
+                                <svg class="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24">
+                                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path>
+                                </svg>
+                                Processing...
+                            </span>
+                        } @else {
+                            {{ actionForm.get('action')?.value === 'REJECTED' ? 'Reject Leave' : 'Approve Leave' }}
+                        }
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+}
+@if (showHolidayModal()) {
+    <div class="fixed inset-0 bg-black/60 backdrop-blur-sm z-40 flex items-center justify-center p-4" (click)="closeHolidayModal()">
+        <div class="modal-enter w-full max-w-lg bg-slate-950 border border-white/[0.08] rounded-2xl shadow-2xl shadow-black/50"
+             (click)="$event.stopPropagation()">
+            <div class="flex items-center justify-between px-6 py-4 border-b border-white/[0.06]">
+                <h2 class="text-white font-semibold text-[16px]">
+                    {{ editingHoliday() ? 'Edit Holiday' : 'Create Holiday' }}
+                </h2>
+                <button (click)="closeHolidayModal()"
+                        class="p-2 rounded-lg text-slate-400 hover:text-white hover:bg-white/[0.06] transition-colors cursor-pointer">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                    </svg>
+                </button>
+            </div>
+
+            <form [formGroup]="holidayForm" (ngSubmit)="onSubmitHoliday()" class="px-6 py-5 space-y-5">
+                <div>
+                    <label class="block text-[12px] font-semibold text-slate-400 uppercase tracking-wider mb-2">
+                        Holiday Name <span class="text-red-400">*</span>
+                    </label>
+                    <input formControlName="holidayName" type="text" placeholder="e.g. Republic Day"
+                           class="w-full bg-white/[0.04] border rounded-xl px-4 py-3 text-white text-[14px] placeholder-slate-600 focus:outline-none focus:ring-1 transition-all"
+                           [class]="hasError(holidayForm, 'holidayName')
+                               ? 'border-red-500/40 focus:border-red-500/60 focus:ring-red-500/20'
+                               : 'border-white/[0.08] focus:border-amber-500/40 focus:ring-amber-500/20'" />
+                    @if (hasError(holidayForm, 'holidayName')) {
+                        <p class="mt-1.5 text-red-400 text-[12px]">{{ getError(holidayForm, 'holidayName') }}</p>
+                    }
+                </div>
+
+                <div>
+                    <label class="block text-[12px] font-semibold text-slate-400 uppercase tracking-wider mb-2">
+                        Date <span class="text-red-400">*</span>
+                    </label>
+                    <input formControlName="holidayDate" type="date"
+                           class="w-full bg-white/[0.04] border rounded-xl px-4 py-3 text-white text-[14px] focus:outline-none focus:ring-1 transition-all date-input"
+                           [class]="hasError(holidayForm, 'holidayDate')
+                               ? 'border-red-500/40 focus:border-red-500/60 focus:ring-red-500/20'
+                               : 'border-white/[0.08] focus:border-amber-500/40 focus:ring-amber-500/20'" />
+                    @if (hasError(holidayForm, 'holidayDate')) {
+                        <p class="mt-1.5 text-red-400 text-[12px]">{{ getError(holidayForm, 'holidayDate') }}</p>
+                    }
+                </div>
+
+                <div>
+                    <label class="block text-[12px] font-semibold text-slate-400 uppercase tracking-wider mb-2">Description</label>
+                    <input formControlName="description" type="text" placeholder="Optional description"
+                           class="w-full bg-white/[0.04] border border-white/[0.08] rounded-xl px-4 py-3 text-white text-[14px] placeholder-slate-600 focus:outline-none focus:border-amber-500/40 focus:ring-1 focus:ring-amber-500/20 transition-all" />
+                </div>
+
+                <div class="flex items-center justify-end gap-3 pt-2">
+                    <button type="button" (click)="closeHolidayModal()"
+                            class="px-5 py-2.5 rounded-xl text-[13px] font-medium text-slate-400 hover:text-white border border-white/[0.08] hover:bg-white/[0.04] transition-all cursor-pointer">
+                        Cancel
+                    </button>
+                    <button type="submit" [disabled]="savingHoliday()"
+                            class="px-6 py-2.5 rounded-xl text-[13px] font-semibold text-white bg-amber-600 hover:bg-amber-500 transition-all shadow-lg shadow-amber-600/20 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer">
+                        @if (savingHoliday()) {
+                            <span class="inline-flex items-center gap-2">
+                                <svg class="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24">
+                                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path>
+                                </svg>
+                                Saving...
+                            </span>
+                        } @else {
+                            {{ editingHoliday() ? 'Update' : 'Create' }}
+                        }
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+}
+
