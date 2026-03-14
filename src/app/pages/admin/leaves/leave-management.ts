@@ -1,16 +1,11 @@
 import { Component, OnInit, OnDestroy, signal } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { LeaveService } from '../../../services/leave.service';
-<<<<<<< HEAD
-import { Holiday, LeaveActionRequest, LeaveApplication, LeaveType, LeaveTypeRequest, HolidayRequest } from '../../../models/dashboard.model';
-import { PageResponse } from '../../../models/employee.model';
-=======
 import { ExpenseService } from '../../../services/expense.service';
 import { Holiday, LeaveActionRequest, LeaveApplication, LeaveType, LeaveTypeRequest, HolidayRequest } from '../../../models/dashboard.model';
 import { LeaveAnalysisResponse } from '../../../models/expense.model';
 import { PageResponse } from '../../../models/employee.model';
 import { KeyValuePipe } from '@angular/common';
->>>>>>> master
 import { interval, Subscription } from 'rxjs';
 
 type TabKey = 'applications' | 'types' | 'holidays';
@@ -18,11 +13,7 @@ type TabKey = 'applications' | 'types' | 'holidays';
 @Component({
     selector: 'app-leave-management',
     standalone: true,
-<<<<<<< HEAD
-    imports: [ReactiveFormsModule],
-=======
     imports: [ReactiveFormsModule, KeyValuePipe],
->>>>>>> master
     templateUrl: './leave-management.html',
     styleUrl: './leave-management.css',
 })
@@ -55,24 +46,18 @@ export class LeaveManagement implements OnInit, OnDestroy {
     holidayForm!: FormGroup;
     holidayYear = signal(new Date().getFullYear());
 
-<<<<<<< HEAD
-=======
     // AI Analysis
     analyzing = signal(false);
     analysisResult = signal<LeaveAnalysisResponse | null>(null);
     analysisError = signal('');
     showAnalysis = signal(false);
 
->>>>>>> master
     skeletonRows = Array(5).fill(0);
     private refreshSubscription: Subscription | null = null;
 
     constructor(
         private leaveService: LeaveService,
-<<<<<<< HEAD
-=======
         private expenseService: ExpenseService,
->>>>>>> master
         private fb: FormBuilder
     ) {}
 
@@ -187,8 +172,6 @@ export class LeaveManagement implements OnInit, OnDestroy {
         this.showActionModal.set(false);
         this.selectedLeave.set(null);
         this.actionForm.reset();
-<<<<<<< HEAD
-=======
         this.analysisResult.set(null);
         this.showAnalysis.set(false);
         this.analysisError.set('');
@@ -210,7 +193,6 @@ export class LeaveManagement implements OnInit, OnDestroy {
                 this.analyzing.set(false);
             }
         });
->>>>>>> master
     }
 
     submitAction(): void {

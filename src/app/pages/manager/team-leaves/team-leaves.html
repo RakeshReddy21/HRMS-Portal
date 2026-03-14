@@ -170,117 +170,17 @@
     <!-- ── Action Modal ───────────────────────────────── -->
     @if (showActionModal() && selectedLeave(); as leave) {
         <div class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-fadeIn">
-<<<<<<< HEAD
-            <div class="bg-slate-900 border border-white/[0.08] rounded-2xl p-6 w-full max-w-md animate-scaleIn">
-                <div class="flex items-center justify-between mb-6">
-                    <h3 class="text-lg font-bold text-white">Review Leave Application</h3>
-                    <button (click)="closeActionModal()"
-                            class="p-2 rounded-lg text-slate-400 hover:text-white hover:bg-white/[0.04] transition-colors">
-=======
             <div class="bg-slate-900 border border-white/[0.08] rounded-2xl w-full max-w-2xl max-h-[90vh] flex flex-col animate-scaleIn">
                 <div class="flex items-center justify-between px-6 py-4 border-b border-white/[0.06] shrink-0">
                     <h3 class="text-lg font-bold text-white">Review Leave Application</h3>
                     <button (click)="closeActionModal()"
                             class="p-2 rounded-lg text-slate-400 hover:text-white hover:bg-white/[0.04] transition-colors cursor-pointer">
->>>>>>> master
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
                         </svg>
                     </button>
                 </div>
 
-<<<<<<< HEAD
-                <!-- Leave Details -->
-                <div class="mb-6 p-4 bg-white/[0.02] border border-white/[0.06] rounded-xl space-y-3">
-                    <div class="flex items-center gap-3">
-                        <div class="w-10 h-10 rounded-lg bg-blue-500/10 flex items-center justify-center text-blue-400 font-bold text-[13px]">
-                            {{ getInitials(leave.employee.firstName, leave.employee.lastName) }}
-                        </div>
-                        <div>
-                            <p class="text-white text-[13px] font-semibold">
-                                {{ leave.employee.firstName }} {{ leave.employee.lastName }}
-                            </p>
-                            <p class="text-slate-500 text-[12px]">{{ leave.employee.employeeCode }}</p>
-                        </div>
-                    </div>
-                    <div class="grid grid-cols-2 gap-3 pt-3 border-t border-white/[0.06]">
-                        <div>
-                            <p class="text-slate-500 text-[11px] uppercase tracking-wider mb-1">Leave Type</p>
-                            <p class="text-white text-[13px]">{{ leave.leaveType.leaveTypeName }}</p>
-                        </div>
-                        <div>
-                            <p class="text-slate-500 text-[11px] uppercase tracking-wider mb-1">Days</p>
-                            <p class="text-white text-[13px]">{{ leave.totalDays }} day{{ leave.totalDays !== 1 ? 's' : '' }}</p>
-                        </div>
-                        <div class="col-span-2">
-                            <p class="text-slate-500 text-[11px] uppercase tracking-wider mb-1">Dates</p>
-                            <p class="text-white text-[13px]">{{ formatDate(leave.startDate) }} - {{ formatDate(leave.endDate) }}</p>
-                        </div>
-                        <div class="col-span-2">
-                            <p class="text-slate-500 text-[11px] uppercase tracking-wider mb-1">Reason</p>
-                            <p class="text-white text-[13px]">{{ leave.reason }}</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Action Form -->
-                <form [formGroup]="actionForm" (ngSubmit)="submitAction()" class="space-y-4">
-                    <div>
-                        <label class="block text-slate-300 text-[13px] font-medium mb-2">Action</label>
-                        <select formControlName="action"
-                                class="w-full bg-white/[0.04] border border-white/[0.08] rounded-xl px-4 py-2.5 text-[13px] text-slate-300 focus:outline-none focus:border-blue-500/40 transition-all">
-                            <option value="APPROVED" class="bg-slate-900">Approve</option>
-                            <option value="REJECTED" class="bg-slate-900">Reject</option>
-                        </select>
-                    </div>
-
-                    <div>
-                        <label class="block text-slate-300 text-[13px] font-medium mb-2">
-                            Comments
-                            @if (actionForm.get('action')?.value === 'REJECTED') {
-                                <span class="text-red-400">*</span>
-                            }
-                        </label>
-                        <textarea formControlName="comments"
-                                  rows="3"
-                                  placeholder="Add comments (required for rejection)..."
-                                  class="w-full bg-white/[0.04] border border-white/[0.08] rounded-xl px-4 py-2.5 text-[13px] text-white placeholder-slate-500 focus:outline-none focus:border-blue-500/40 transition-all resize-none"></textarea>
-                        @if (hasError('comments')) {
-                            <p class="text-red-400 text-[12px] mt-1">{{ getError('comments') }}</p>
-                        }
-                    </div>
-
-                    @if (error()) {
-                        <div class="bg-red-500/10 border border-red-500/20 rounded-xl p-3 text-red-400 text-[12px]">
-                            {{ error() }}
-                        </div>
-                    }
-
-                    <div class="flex items-center gap-3 pt-2">
-                        <button type="button"
-                                (click)="closeActionModal()"
-                                [disabled]="acting()"
-                                class="flex-1 px-4 py-2.5 rounded-xl bg-white/[0.04] border border-white/[0.08] text-slate-300 text-[13px] font-medium hover:bg-white/[0.08] transition-colors">
-                            Cancel
-                        </button>
-                        <button type="submit"
-                                [disabled]="acting()"
-                                class="flex-1 px-4 py-2.5 rounded-xl bg-blue-500/10 border border-blue-500/20 text-blue-400 text-[13px] font-medium hover:bg-blue-500/20 transition-colors disabled:opacity-50 disabled:cursor-not-allowed">
-                            @if (acting()) {
-                                <span class="flex items-center gap-2">
-                                    <svg class="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24">
-                                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                                    </svg>
-                                    Processing...
-                                </span>
-                            } @else {
-                                Submit
-                            }
-                        </button>
-                    </div>
-                </form>
-=======
                 <div class="overflow-y-auto flex-1 px-6 py-5 space-y-5">
                     <!-- Leave Details -->
                     <div class="p-4 bg-white/[0.02] border border-white/[0.06] rounded-xl space-y-3">
@@ -483,7 +383,6 @@
                         </div>
                     </form>
                 </div>
->>>>>>> master
             </div>
         </div>
     }

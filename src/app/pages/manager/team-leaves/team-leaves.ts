@@ -2,13 +2,9 @@ import { Component, OnInit, OnDestroy, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ManagerService } from '../../../services/manager.service';
-<<<<<<< HEAD
-import { LeaveApplication, LeaveActionRequest } from '../../../models/dashboard.model';
-=======
 import { ExpenseService } from '../../../services/expense.service';
 import { LeaveApplication, LeaveActionRequest } from '../../../models/dashboard.model';
 import { LeaveAnalysisResponse } from '../../../models/expense.model';
->>>>>>> master
 import { interval, Subscription } from 'rxjs';
 
 @Component({
@@ -35,24 +31,18 @@ export class TeamLeaves implements OnInit, OnDestroy {
     acting = signal(false);
     actionForm!: FormGroup;
 
-<<<<<<< HEAD
-=======
     // AI Analysis
     analyzing = signal(false);
     analysisResult = signal<LeaveAnalysisResponse | null>(null);
     analysisError = signal('');
     showAnalysis = signal(false);
 
->>>>>>> master
     skeletonRows = Array(5).fill(0);
     private refreshSubscription: Subscription | null = null;
 
     constructor(
         private managerService: ManagerService,
-<<<<<<< HEAD
-=======
         private expenseService: ExpenseService,
->>>>>>> master
         private fb: FormBuilder
     ) {}
 
@@ -124,8 +114,6 @@ export class TeamLeaves implements OnInit, OnDestroy {
         this.showActionModal.set(false);
         this.selectedLeave.set(null);
         this.actionForm.reset();
-<<<<<<< HEAD
-=======
         this.analysisResult.set(null);
         this.showAnalysis.set(false);
         this.analysisError.set('');
@@ -147,7 +135,6 @@ export class TeamLeaves implements OnInit, OnDestroy {
                 this.analyzing.set(false);
             }
         });
->>>>>>> master
     }
 
     submitAction(): void {

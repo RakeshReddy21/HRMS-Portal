@@ -147,8 +147,6 @@ export const routes: Routes = [
                 loadComponent: () => import('./pages/employee/announcements/employee-announcements').then(m => m.EmployeeAnnouncements),
                 canActivate: [authGuard, roleGuard(Role.EMPLOYEE)]
             },
-<<<<<<< HEAD
-=======
             {
                 path: 'employee/my-expenses',
                 loadComponent: () => import('./pages/employee/expenses/my-expenses').then(m => m.MyExpenses),
@@ -174,7 +172,6 @@ export const routes: Routes = [
                 loadComponent: () => import('./pages/admin/ai-reports/ai-reports').then(m => m.AiReports),
                 canActivate: [authGuard, roleGuard(Role.ADMIN)]
             },
->>>>>>> master
         ]
     },
     {path: '**', redirectTo: 'login'}
