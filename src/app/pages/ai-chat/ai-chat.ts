@@ -95,7 +95,11 @@ export class AIChatbot {
 
         const history: ChatHistoryEntry[] = this.messages()
             .filter(m => !m.loading)
+<<<<<<< HEAD
             .slice(-10)
+=======
+            .slice(-6)
+>>>>>>> master
             .map(m => ({ role: m.role, content: m.content }));
 
         this.aiService.sendMessage({ message: content, history }).subscribe({
