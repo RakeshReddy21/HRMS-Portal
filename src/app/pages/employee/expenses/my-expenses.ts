@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef, NgZone } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ExpenseService } from '../../../services/expense.service';
@@ -21,6 +21,7 @@ export class MyExpenses implements OnInit {
 
     categories = EXPENSE_CATEGORIES;
     submitting = false;
+    submitError = '';
 
     // Form
     title = '';
@@ -41,8 +42,9 @@ export class MyExpenses implements OnInit {
     parsing = false;
     aiError = '';
     aiSuccess = false;
+    parseStep: 'idle' | 'reading' | 'extracting' | 'filling' | 'done' = 'idle';
 
-    constructor(private expenseService: ExpenseService) {}
+    constructor(private expenseService: ExpenseService, private cdr: ChangeDetectorRef, private zone: NgZone) {}
 
     ngOnInit() { this.loadHistory(); }
 
@@ -58,10 +60,18 @@ export class MyExpenses implements OnInit {
         this.uploadedFile = file;
         this.aiError = '';
         this.aiSuccess = false;
+        this.parseStep = 'reading';
         const reader = new FileReader();
         reader.onload = () => {
-            this.fileBase64 = reader.result as string;
-            this.filePreviewUrl = file.type.startsWith('image/') ? this.fileBase64 : null;
+            // ★ FIX: FileReader.onload runs outside Angular zone — wrap in zone.run()
+            // Without this, UI won't update until user clicks somewhere on the page
+            this.zone.run(() => {
+                this.fileBase64 = reader.result as string;
+                this.filePreviewUrl = file.type.startsWith('image/') ? this.fileBase64 : null;
+                this.cdr.detectChanges();
+                // Auto-trigger AI parsing immediately
+                this.autoFill();
+            });
         };
         reader.readAsDataURL(file);
     }
@@ -72,9 +82,10 @@ export class MyExpenses implements OnInit {
         this.fileBase64 = null;
         this.aiError = '';
         this.aiSuccess = false;
+        this.parseStep = 'idle';
     }
 
-    // ─── AI Auto-Fill ───
+    // ─── AI Auto-Fill (optimized for speed) ───
     autoFill() {
         if (!this.fileBase64 || !this.uploadedFile) {
             this.aiError = 'No file uploaded. Please upload a file first.';
@@ -85,52 +96,33 @@ export class MyExpenses implements OnInit {
         console.log('[AutoFill] File:', this.uploadedFile.name, 'Type:', this.uploadedFile.type, 'Base64 length:', this.fileBase64?.length);
 
         this.parsing = true;
+        this.parseStep = 'extracting';
         this.aiError = '';
         this.aiSuccess = false;
 
         this.expenseService.parseFile(this.fileBase64, this.uploadedFile.type).subscribe({
             next: (res: InvoiceParseResponse) => {
                 console.log('[AutoFill] Response received:', JSON.stringify(res).substring(0, 500));
-                this.parsing = false;
+                this.parseStep = 'filling';
 
                 if (res.success) {
+                    this.fillFields(res);
                     this.aiSuccess = true;
-
-                    // Fill all fields from response
-                    if (res.title) this.title = res.title;
-                    if (res.vendorName) this.vendorName = res.vendorName;
-                    if (res.invoiceNumber) this.invoiceNumber = res.invoiceNumber;
-                    if (res.totalAmount != null && res.totalAmount > 0) this.totalAmount = res.totalAmount;
-                    if (res.category && res.category !== 'OTHER') this.category = res.category;
-                    if (res.invoiceDate) this.billDate = res.invoiceDate;
-                    if (res.description) this.description = res.description;
-                    if (res.items?.length) {
-                        this.items = res.items.map(i => ({
-                            description: i.description || '',
-                            amount: i.amount || 0,
-                            quantity: i.quantity || 1
-                        }));
-                    }
-
-                    // Auto-generate title if not provided
-                    if (!this.title) {
-                        const parts: string[] = [];
-                        if (res.vendorName) parts.push(res.vendorName);
-                        if (res.category && res.category !== 'OTHER') parts.push(this.formatCategory(res.category));
-                        this.title = parts.length ? parts.join(' — ') : 'Expense';
-                    }
-
+                    this.parseStep = 'done';
+                    this.parsing = false;
                     console.log('[AutoFill] Fields filled: title=', this.title, 'vendor=', this.vendorName, 'amount=', this.totalAmount);
                 } else {
+                    this.parsing = false;
+                    this.parseStep = 'idle';
                     console.warn('[AutoFill] Parsing failed:', res.errorMessage);
                     this.aiError = res.errorMessage || 'Could not extract data from the file. Please fill the form manually.';
                 }
+                this.cdr.detectChanges(); // ★ Force UI update
             },
             error: (err: any) => {
                 this.parsing = false;
+                this.parseStep = 'idle';
                 console.error('[AutoFill] HTTP Error:', err);
-                console.error('[AutoFill] Status:', err.status, 'StatusText:', err.statusText);
-                console.error('[AutoFill] Error body:', err.error);
 
                 if (err.name === 'TimeoutError') {
                     this.aiError = 'Request timed out. The server is taking too long to process the file.';
@@ -143,32 +135,79 @@ export class MyExpenses implements OnInit {
                 } else {
                     this.aiError = 'Error ' + (err.status || '') + ': ' + (err.error?.message || err.statusText || 'Unknown error');
                 }
+                this.cdr.detectChanges(); // ★ Force UI update
             }
         });
+    }
+
+    /** Fill all form fields from parsed response in a single pass */
+    private fillFields(res: InvoiceParseResponse) {
+        if (res.title) this.title = res.title;
+        if (res.vendorName) this.vendorName = res.vendorName;
+        if (res.invoiceNumber) this.invoiceNumber = res.invoiceNumber;
+        if (res.totalAmount != null && res.totalAmount > 0) this.totalAmount = res.totalAmount;
+        if (res.category && res.category !== 'OTHER') this.category = res.category;
+        if (res.invoiceDate) this.billDate = res.invoiceDate;
+        if (res.description) this.description = res.description;
+        if (res.items?.length) {
+            this.items = res.items.map(i => ({
+                description: i.description || '',
+                amount: i.amount || 0,
+                quantity: i.quantity || 1
+            }));
+        }
+
+        // Auto-generate title if not provided
+        if (!this.title) {
+            const parts: string[] = [];
+            if (res.vendorName) parts.push(res.vendorName);
+            if (res.category && res.category !== 'OTHER') parts.push(this.formatCategory(res.category));
+            this.title = parts.length ? parts.join(' — ') : 'Expense';
+        }
     }
 
     // ─── Submit ───
     submitExpense() {
         if (!this.title || !this.totalAmount) return;
         this.submitting = true;
+        this.submitError = '';
         const req = this.buildRequest();
+        console.log('[Submit] Creating expense:', JSON.stringify(req));
         this.expenseService.createExpense(req).subscribe({
             next: (expense) => {
+                console.log('[Submit] Created expense:', expense.expenseId);
                 this.expenseService.submitExpense(expense.expenseId).subscribe({
-                    next: () => { this.submitting = false; this.resetForm(); this.loadHistory(); this.view = 'history'; },
-                    error: () => { this.submitting = false; this.loadHistory(); }
+                    next: () => { this.submitting = false; this.resetForm(); this.loadHistory(); this.view = 'history'; this.cdr.detectChanges(); },
+                    error: (err) => {
+                        this.submitting = false;
+                        this.submitError = 'Failed to submit: ' + (err.error?.message || err.statusText || 'Unknown error');
+                        console.error('[Submit] Submit failed:', err);
+                        this.loadHistory();
+                        this.cdr.detectChanges();
+                    }
                 });
             },
-            error: () => { this.submitting = false; }
+            error: (err) => {
+                this.submitting = false;
+                this.submitError = 'Failed to create expense: ' + (err.error?.message || err.statusText || err.message || 'Unknown error');
+                console.error('[Submit] Create failed:', err);
+                this.cdr.detectChanges();
+            }
         });
     }
 
     saveDraft() {
         if (!this.title || !this.totalAmount) return;
         this.submitting = true;
+        this.submitError = '';
         this.expenseService.createExpense(this.buildRequest()).subscribe({
-            next: () => { this.submitting = false; this.resetForm(); this.loadHistory(); },
-            error: () => { this.submitting = false; }
+            next: () => { this.submitting = false; this.resetForm(); this.loadHistory(); this.cdr.detectChanges(); },
+            error: (err) => {
+                this.submitting = false;
+                this.submitError = 'Failed to save draft: ' + (err.error?.message || err.statusText || err.message || 'Unknown error');
+                console.error('[Draft] Save failed:', err);
+                this.cdr.detectChanges();
+            }
         });
     }
 
@@ -187,8 +226,8 @@ export class MyExpenses implements OnInit {
     loadHistory() {
         this.loadingHistory = true;
         this.expenseService.getMyExpenses(this.currentPage).subscribe({
-            next: (res) => { this.expenses = res.content; this.totalPages = res.totalPages; this.loadingHistory = false; },
-            error: () => { this.loadingHistory = false; }
+            next: (res) => { this.expenses = res.content; this.totalPages = res.totalPages; this.loadingHistory = false; this.cdr.detectChanges(); },
+            error: () => { this.loadingHistory = false; this.cdr.detectChanges(); }
         });
     }
 
@@ -215,4 +254,32 @@ export class MyExpenses implements OnInit {
 
     formatCategory(cat: string): string { return cat?.replace(/_/g, ' ') || ''; }
     formatStatus(s: string): string { return s?.replace(/_/g, ' ') || ''; }
+
+    // ─── Status Step Tracker ───
+    readonly expenseSteps = [
+        { key: 'DRAFT', label: 'Draft', icon: '📝' },
+        { key: 'SUBMITTED', label: 'Submitted', icon: '📤' },
+        { key: 'MANAGER_APPROVED', label: 'Manager Approved', icon: '👤' },
+        { key: 'FINANCE_APPROVED', label: 'Finance Approved', icon: '🏦' },
+        { key: 'REIMBURSED', label: 'Reimbursed', icon: '✅' }
+    ];
+
+    getStepIndex(status: string): number {
+        const idx = this.expenseSteps.findIndex(s => s.key === status);
+        return idx >= 0 ? idx : -1;
+    }
+
+    isStepCompleted(status: string, stepKey: string): boolean {
+        if (status === 'REJECTED') return false;
+        return this.getStepIndex(status) > this.getStepIndex(stepKey);
+    }
+
+    isStepActive(status: string, stepKey: string): boolean {
+        if (status === 'REJECTED') return false;
+        return status === stepKey;
+    }
+
+    isRejected(status: string): boolean {
+        return status === 'REJECTED';
+    }
 }

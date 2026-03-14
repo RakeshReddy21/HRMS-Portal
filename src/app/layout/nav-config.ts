@@ -113,6 +113,14 @@ export function getNavSections(role: Role): NavSection[]{
                             label: 'Team Expenses', route: '/manager/team-expenses', iconPaths: ICONS['receipt']
                         }
                     ]
+                },
+                {
+                    title: 'Finance',
+                    items: [
+                        {
+                            label: 'All Expenses', route: '/manager/all-expenses', iconPaths: ICONS['receipt']
+                        }
+                    ]
                 }
             ];
         case Role.EMPLOYEE:

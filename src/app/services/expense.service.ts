@@ -41,7 +41,7 @@ export class ExpenseService {
         return this.http.post<InvoiceParseResponse>(
             `${this.apiUrl}/employee/expenses/parse-file`,
             { fileData, fileType }
-        ).pipe(timeout(60000)); // 60 second timeout
+        ).pipe(timeout(90000)); // 90s timeout — regex is instant, only AI fallback takes time
     }
 
     // ─── Manager Expenses ───
@@ -52,6 +52,22 @@ export class ExpenseService {
 
     managerAction(id: number, request: ExpenseActionRequest): Observable<Expense> {
         return this.http.patch<Expense>(`${this.apiUrl}/manager/expenses/${id}/action`, request);
+    }
+
+    // ─── Finance Manager: All Expenses (accessible by MANAGER + ADMIN) ───
+    getManagerAllExpenses(status?: string, page = 0, size = 10): Observable<PageResponse<Expense>> {
+        let params = new HttpParams().set('page', page).set('size', size);
+        if (status) params = params.set('status', status);
+        return this.http.get<PageResponse<Expense>>(`${this.apiUrl}/manager/expenses/all`, { params });
+    }
+
+    getManagerFinancePending(page = 0, size = 10): Observable<PageResponse<Expense>> {
+        const params = new HttpParams().set('page', page).set('size', size);
+        return this.http.get<PageResponse<Expense>>(`${this.apiUrl}/manager/expenses/finance-pending`, { params });
+    }
+
+    managerFinanceAction(id: number, request: ExpenseActionRequest): Observable<Expense> {
+        return this.http.patch<Expense>(`${this.apiUrl}/manager/expenses/${id}/finance-action`, request);
     }
 
     // ─── Admin/Finance Expenses ───
@@ -72,14 +88,16 @@ export class ExpenseService {
 
     // ─── AI Leave Reviewer ───
     analyzeLeave(leaveId: number): Observable<LeaveAnalysisResponse> {
-        return this.http.get<LeaveAnalysisResponse>(`${this.apiUrl}/manager/leave-analysis/${leaveId}`);
+        return this.http.get<LeaveAnalysisResponse>(`${this.apiUrl}/manager/leave-analysis/${leaveId}`)
+            .pipe(timeout(30000)); // 30s timeout for AI analysis
     }
 
     // ─── AI Report Generator ───
     generateReport(employeeId: number, period?: string): Observable<PerformanceReportResponse> {
         let params = new HttpParams();
         if (period) params = params.set('period', period);
-        return this.http.get<PerformanceReportResponse>(`${this.apiUrl}/admin/reports/performance/${employeeId}`, { params });
+        return this.http.get<PerformanceReportResponse>(`${this.apiUrl}/admin/reports/performance/${employeeId}`, { params })
+            .pipe(timeout(30000)); // 30s timeout for AI report
     }
 }
 

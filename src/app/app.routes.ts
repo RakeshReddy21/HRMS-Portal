@@ -154,17 +154,22 @@ export const routes: Routes = [
             },
             {
                 path: 'manager/team-expenses',
-                loadComponent: () => import('./pages/employee/expenses/my-expenses').then(m => m.MyExpenses),
+                loadComponent: () => import('./pages/manager/team-expenses/team-expenses').then(m => m.TeamExpenses),
+                canActivate: [authGuard, roleGuard(Role.MANAGER)]
+            },
+            {
+                path: 'manager/all-expenses',
+                loadComponent: () => import('./pages/manager/all-expenses/all-expenses').then(m => m.ManagerAllExpenses),
                 canActivate: [authGuard, roleGuard(Role.MANAGER)]
             },
             {
                 path: 'admin/expenses',
-                loadComponent: () => import('./pages/employee/expenses/my-expenses').then(m => m.MyExpenses),
+                loadComponent: () => import('./pages/admin/expenses/admin-expenses').then(m => m.AdminExpenses),
                 canActivate: [authGuard, roleGuard(Role.ADMIN)]
             },
             {
                 path: 'admin/ai-reports',
-                loadComponent: () => import('./pages/employee/expenses/my-expenses').then(m => m.MyExpenses),
+                loadComponent: () => import('./pages/admin/ai-reports/ai-reports').then(m => m.AiReports),
                 canActivate: [authGuard, roleGuard(Role.ADMIN)]
             },
         ]

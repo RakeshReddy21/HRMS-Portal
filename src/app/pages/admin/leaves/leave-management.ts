@@ -1,8 +1,11 @@
 import { Component, OnInit, OnDestroy, signal } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { LeaveService } from '../../../services/leave.service';
+import { ExpenseService } from '../../../services/expense.service';
 import { Holiday, LeaveActionRequest, LeaveApplication, LeaveType, LeaveTypeRequest, HolidayRequest } from '../../../models/dashboard.model';
+import { LeaveAnalysisResponse } from '../../../models/expense.model';
 import { PageResponse } from '../../../models/employee.model';
+import { KeyValuePipe } from '@angular/common';
 import { interval, Subscription } from 'rxjs';
 
 type TabKey = 'applications' | 'types' | 'holidays';
@@ -10,7 +13,7 @@ type TabKey = 'applications' | 'types' | 'holidays';
 @Component({
     selector: 'app-leave-management',
     standalone: true,
-    imports: [ReactiveFormsModule],
+    imports: [ReactiveFormsModule, KeyValuePipe],
     templateUrl: './leave-management.html',
     styleUrl: './leave-management.css',
 })
@@ -43,11 +46,18 @@ export class LeaveManagement implements OnInit, OnDestroy {
     holidayForm!: FormGroup;
     holidayYear = signal(new Date().getFullYear());
 
+    // AI Analysis
+    analyzing = signal(false);
+    analysisResult = signal<LeaveAnalysisResponse | null>(null);
+    analysisError = signal('');
+    showAnalysis = signal(false);
+
     skeletonRows = Array(5).fill(0);
     private refreshSubscription: Subscription | null = null;
 
     constructor(
         private leaveService: LeaveService,
+        private expenseService: ExpenseService,
         private fb: FormBuilder
     ) {}
 
@@ -162,6 +172,27 @@ export class LeaveManagement implements OnInit, OnDestroy {
         this.showActionModal.set(false);
         this.selectedLeave.set(null);
         this.actionForm.reset();
+        this.analysisResult.set(null);
+        this.showAnalysis.set(false);
+        this.analysisError.set('');
+    }
+
+    runAnalysis(): void {
+        const leave = this.selectedLeave();
+        if (!leave) return;
+        this.analyzing.set(true);
+        this.analysisError.set('');
+        this.expenseService.analyzeLeave(leave.leaveId).subscribe({
+            next: (res) => {
+                this.analysisResult.set(res);
+                this.showAnalysis.set(true);
+                this.analyzing.set(false);
+            },
+            error: (err) => {
+                this.analysisError.set(err.error?.message || 'AI analysis failed. Please try again.');
+                this.analyzing.set(false);
+            }
+        });
     }
 
     submitAction(): void {

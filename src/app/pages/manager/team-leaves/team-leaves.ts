@@ -2,7 +2,9 @@ import { Component, OnInit, OnDestroy, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ManagerService } from '../../../services/manager.service';
+import { ExpenseService } from '../../../services/expense.service';
 import { LeaveApplication, LeaveActionRequest } from '../../../models/dashboard.model';
+import { LeaveAnalysisResponse } from '../../../models/expense.model';
 import { interval, Subscription } from 'rxjs';
 
 @Component({
@@ -29,11 +31,18 @@ export class TeamLeaves implements OnInit, OnDestroy {
     acting = signal(false);
     actionForm!: FormGroup;
 
+    // AI Analysis
+    analyzing = signal(false);
+    analysisResult = signal<LeaveAnalysisResponse | null>(null);
+    analysisError = signal('');
+    showAnalysis = signal(false);
+
     skeletonRows = Array(5).fill(0);
     private refreshSubscription: Subscription | null = null;
 
     constructor(
         private managerService: ManagerService,
+        private expenseService: ExpenseService,
         private fb: FormBuilder
     ) {}
 
@@ -105,6 +114,27 @@ export class TeamLeaves implements OnInit, OnDestroy {
         this.showActionModal.set(false);
         this.selectedLeave.set(null);
         this.actionForm.reset();
+        this.analysisResult.set(null);
+        this.showAnalysis.set(false);
+        this.analysisError.set('');
+    }
+
+    runAnalysis(): void {
+        const leave = this.selectedLeave();
+        if (!leave) return;
+        this.analyzing.set(true);
+        this.analysisError.set('');
+        this.expenseService.analyzeLeave(leave.leaveId).subscribe({
+            next: (res) => {
+                this.analysisResult.set(res);
+                this.showAnalysis.set(true);
+                this.analyzing.set(false);
+            },
+            error: (err) => {
+                this.analysisError.set(err.error?.message || 'AI analysis failed. Please try again.');
+                this.analyzing.set(false);
+            }
+        });
     }
 
     submitAction(): void {
