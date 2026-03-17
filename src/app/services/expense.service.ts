@@ -54,6 +54,10 @@ export class ExpenseService {
         return this.http.patch<Expense>(`${this.apiUrl}/manager/expenses/${id}/action`, request);
     }
 
+    getManagerExpenseReceipt(id: number): Observable<Blob> {
+        return this.http.get(`${this.apiUrl}/manager/expenses/${id}/receipt`, { responseType: 'blob' });
+    }
+
     // ─── Finance Manager: All Expenses (accessible by MANAGER + ADMIN) ───
     getManagerAllExpenses(status?: string, page = 0, size = 10): Observable<PageResponse<Expense>> {
         let params = new HttpParams().set('page', page).set('size', size);
@@ -84,6 +88,10 @@ export class ExpenseService {
 
     financeAction(id: number, request: ExpenseActionRequest): Observable<Expense> {
         return this.http.patch<Expense>(`${this.apiUrl}/admin/expenses/${id}/finance-action`, request);
+    }
+
+    getAdminExpenseReceipt(id: number): Observable<Blob> {
+        return this.http.get(`${this.apiUrl}/admin/expenses/${id}/receipt`, { responseType: 'blob' });
     }
 
     // ─── AI Leave Reviewer ───

@@ -123,14 +123,22 @@
                                     <span class="text-slate-500 text-[12px]">{{ formatDate(exp.submittedDate || exp.createdAt) }}</span>
                                 </td>
                                 <td class="px-6 py-4 text-center" (click)="$event.stopPropagation()">
-                                    @if (canTakeAction(exp)) {
-                                        <button (click)="openDetail(exp)"
-                                                class="px-3 py-1.5 rounded-lg bg-amber-500/10 border border-amber-500/20 text-amber-500 text-[12px] font-medium hover:bg-amber-500/20 transition-colors cursor-pointer">
-                                            Review
-                                        </button>
-                                    } @else {
-                                        <span class="text-slate-500 text-[12px]">—</span>
-                                    }
+                                    <div class="flex items-center justify-center gap-2">
+                                        @if (hasReceipt(exp)) {
+                                            <button (click)="viewReceipt(exp)"
+                                                    class="px-3 py-1.5 rounded-lg bg-indigo-500/10 border border-indigo-500/20 text-indigo-600 text-[12px] font-medium hover:bg-indigo-500/20 transition-colors cursor-pointer">
+                                                Receipt
+                                            </button>
+                                        }
+                                        @if (canTakeAction(exp)) {
+                                            <button (click)="openDetail(exp)"
+                                                    class="px-3 py-1.5 rounded-lg bg-amber-500/10 border border-amber-500/20 text-amber-500 text-[12px] font-medium hover:bg-amber-500/20 transition-colors cursor-pointer">
+                                                Review
+                                            </button>
+                                        } @else if (!hasReceipt(exp)) {
+                                            <span class="text-slate-500 text-[12px]">—</span>
+                                        }
+                                    </div>
                                 </td>
                             </tr>
                         }
@@ -251,6 +259,18 @@
                             <div class="pt-2 border-t border-slate-200">
                                 <p class="text-slate-500 text-[11px] uppercase tracking-wider mb-0.5">Manager Comments</p>
                                 <p class="text-slate-500 text-[13px]">{{ exp.managerComments }}</p>
+                            </div>
+                        }
+                        @if (hasReceipt(exp)) {
+                            <div class="pt-2 border-t border-slate-200 flex items-center justify-between">
+                                <div>
+                                    <p class="text-slate-500 text-[11px] uppercase tracking-wider mb-0.5">Uploaded Receipt</p>
+                                    <p class="text-slate-500 text-[12px]">{{ exp.receiptFileName || 'Receipt file' }}</p>
+                                </div>
+                                <button (click)="viewReceipt(exp)"
+                                        class="px-3 py-1.5 rounded-lg bg-indigo-500/10 border border-indigo-500/20 text-indigo-600 text-[12px] font-medium hover:bg-indigo-500/20 transition-colors cursor-pointer">
+                                    View Receipt
+                                </button>
                             </div>
                         }
                     </div>

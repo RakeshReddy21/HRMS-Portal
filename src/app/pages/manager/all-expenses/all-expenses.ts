@@ -148,6 +148,18 @@ export class ManagerAllExpenses implements OnInit {
         });
     }
 
+    hasReceipt(expense: Expense): boolean {
+        return !!expense.receiptUrl || !!expense.receiptFileName;
+    }
+
+    viewReceipt(expense: Expense): void {
+        if (!this.hasReceipt(expense)) return;
+        this.expenseService.getManagerExpenseReceipt(expense.expenseId).subscribe({
+            next: (blob) => this.openBlob(blob, expense.receiptFileName || `expense-${expense.expenseId}-receipt`),
+            error: (err) => this.error.set(err.error?.message || 'Unable to open uploaded receipt')
+        });
+    }
+
     canTakeAction(expense: Expense): boolean {
         return expense.status === 'MANAGER_APPROVED' || expense.status === 'FINANCE_APPROVED';
     }
@@ -199,6 +211,18 @@ export class ManagerAllExpenses implements OnInit {
     private showToast(msg: string): void {
         this.success.set(msg);
         setTimeout(() => this.success.set(''), 3000);
+    }
+
+    private openBlob(blob: Blob, fileName: string): void {
+        const url = window.URL.createObjectURL(blob);
+        const newTab = window.open(url, '_blank');
+        if (!newTab) {
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = fileName;
+            a.click();
+        }
+        setTimeout(() => window.URL.revokeObjectURL(url), 10000);
     }
 }
 

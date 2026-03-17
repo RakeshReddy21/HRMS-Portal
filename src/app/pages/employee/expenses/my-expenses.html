@@ -230,6 +230,12 @@
     @if (view === 'history') {
         @if (loadingHistory) {
             <div class="flex items-center justify-center py-20"><span class="w-8 h-8 border-2 border-blue-500/30 border-t-blue-500 rounded-full animate-spin"></span></div>
+        } @else if (historyError) {
+            <div class="text-center py-20">
+                <div class="text-4xl mb-3">⚠️</div>
+                <p class="text-red-500 text-[14px] mb-2">{{ historyError }}</p>
+                <button (click)="loadHistory()" class="text-[13px] text-blue-600 hover:text-blue-600 mt-2">Retry</button>
+            </div>
         } @else if (expenses.length === 0) {
             <div class="text-center py-20">
                 <div class="text-5xl mb-4">🧾</div>

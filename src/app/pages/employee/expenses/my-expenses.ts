@@ -16,6 +16,7 @@ export class MyExpenses implements OnInit {
 
     expenses: Expense[] = [];
     loadingHistory = false;
+    historyError = '';
     totalPages = 0;
     currentPage = 0;
 
@@ -177,7 +178,14 @@ export class MyExpenses implements OnInit {
             next: (expense) => {
                 console.log('[Submit] Created expense:', expense.expenseId);
                 this.expenseService.submitExpense(expense.expenseId).subscribe({
-                    next: () => { this.submitting = false; this.resetForm(); this.loadHistory(); this.view = 'history'; this.cdr.detectChanges(); },
+                    next: () => {
+                        this.submitting = false;
+                        this.currentPage = 0;
+                        this.resetForm();
+                        this.view = 'history';
+                        this.loadHistory();
+                        this.cdr.detectChanges();
+                    },
                     error: (err) => {
                         this.submitting = false;
                         this.submitError = 'Failed to submit: ' + (err.error?.message || err.statusText || 'Unknown error');
@@ -201,7 +209,13 @@ export class MyExpenses implements OnInit {
         this.submitting = true;
         this.submitError = '';
         this.expenseService.createExpense(this.buildRequest()).subscribe({
-            next: () => { this.submitting = false; this.resetForm(); this.loadHistory(); this.cdr.detectChanges(); },
+            next: () => {
+                this.submitting = false;
+                this.currentPage = 0;
+                this.resetForm();
+                this.loadHistory();
+                this.cdr.detectChanges();
+            },
             error: (err) => {
                 this.submitting = false;
                 this.submitError = 'Failed to save draft: ' + (err.error?.message || err.statusText || err.message || 'Unknown error');
@@ -219,15 +233,29 @@ export class MyExpenses implements OnInit {
         return {
             title: this.title, vendorName: this.vendorName, invoiceNumber: this.invoiceNumber,
             expenseDate: this.billDate, totalAmount: this.totalAmount || 0, category: this.category,
-            description: this.description, items: this.items.length ? this.items : undefined
+            description: this.description,
+            receiptBase64: this.fileBase64 || undefined,
+            receiptFileName: this.uploadedFile?.name || undefined,
+            items: this.items.length ? this.items : undefined
         };
     }
 
     loadHistory() {
         this.loadingHistory = true;
+        this.historyError = '';
         this.expenseService.getMyExpenses(this.currentPage).subscribe({
-            next: (res) => { this.expenses = res.content; this.totalPages = res.totalPages; this.loadingHistory = false; this.cdr.detectChanges(); },
-            error: () => { this.loadingHistory = false; this.cdr.detectChanges(); }
+            next: (res) => {
+                this.expenses = res.content;
+                this.totalPages = res.totalPages;
+                this.loadingHistory = false;
+                this.cdr.detectChanges();
+            },
+            error: (err) => {
+                this.loadingHistory = false;
+                this.expenses = [];
+                this.historyError = err.error?.message || err.statusText || 'Unable to load expense history.';
+                this.cdr.detectChanges();
+            }
         });
     }
 
