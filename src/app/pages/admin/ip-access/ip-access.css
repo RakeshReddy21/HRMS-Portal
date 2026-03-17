@@ -32,7 +32,7 @@
     background: linear-gradient(
         90deg,
         rgba(255, 255, 255, 0.03) 25%,
-        rgba(255, 255, 255, 0.06) 50%,
+        #e2e8f0 50%,
         rgba(255, 255, 255, 0.03) 75%
     );
     background-size: 200% 100%;
@@ -62,7 +62,7 @@
     width: 16px;
     height: 16px;
     border-radius: 999px;
-    background: white;
+    background: #ffffff;
     transition: transform 0.25s ease;
 }
 

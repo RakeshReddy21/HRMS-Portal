@@ -1,7 +1,9 @@
 export interface Conversation {
     conversationId: number;
     otherParticipantId: number;
+    otherParticipantEmail: string;
     otherParticipantName: string;
+    otherParticipantDesignation: string;
     otherParticipantCode: string;
     otherParticipantRole: string;
     otherParticipantDepartment: string;

@@ -1,8 +1,8 @@
-<div class="min-h-screen bg-slate-950 p-6 lg:p-8 space-y-6">
+<div class="min-h-screen p-6 lg:p-8 space-y-6">
     <!-- ── Header ────────────────────────────────────── -->
     <div class="animate-fadeIn flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4">
         <div>
-            <h1 class="text-2xl font-bold text-white tracking-tight">Team Attendance</h1>
+            <h1 class="text-2xl font-bold text-slate-900 tracking-tight tracking-tight">Team Attendance</h1>
             <p class="text-slate-500 text-[13px] mt-1">Monitor your team's daily attendance</p>
         </div>
     </div>
@@ -10,20 +10,20 @@
     <!-- ── Filter ────────────────────────────────────── -->
     <div class="flex flex-col sm:flex-row items-start sm:items-center gap-3">
         <select [(ngModel)]="dateFilter" (change)="onFilterChange()"
-                class="filter-select bg-white/[0.04] border border-white/[0.08] rounded-xl px-4 py-2.5 text-[13px] text-slate-300 focus:outline-none focus:border-blue-500/40 transition-all appearance-none cursor-pointer min-w-[160px]">
-            <option value="today" class="bg-slate-900">Today</option>
-            <option value="range" class="bg-slate-900">Date Range</option>
+                class="filter-select bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5 text-[13px] text-slate-500 focus:outline-none focus:border-indigo-500/40 transition-all appearance-none cursor-pointer min-w-[160px]">
+            <option value="today" class="bg-white">Today</option>
+            <option value="range" class="bg-white">Date Range</option>
         </select>
 
         @if (dateFilter === 'range') {
             <div class="flex items-center gap-3">
                 <input type="date" [(ngModel)]="startDate"
-                       class="bg-white/[0.04] border border-white/[0.08] rounded-xl px-4 py-2.5 text-[13px] text-white focus:outline-none focus:border-blue-500/40 transition-all">
+                       class="bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5 text-[13px] text-slate-900 focus:outline-none focus:border-indigo-500/40 transition-all">
                 <span class="text-slate-500 text-[13px]">to</span>
                 <input type="date" [(ngModel)]="endDate"
-                       class="bg-white/[0.04] border border-white/[0.08] rounded-xl px-4 py-2.5 text-[13px] text-white focus:outline-none focus:border-blue-500/40 transition-all">
+                       class="bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5 text-[13px] text-slate-900 focus:outline-none focus:border-indigo-500/40 transition-all">
                 <button (click)="onDateRangeSubmit()"
-                        class="px-4 py-2.5 rounded-xl bg-blue-500/10 border border-blue-500/20 text-blue-400 text-[13px] font-medium hover:bg-blue-500/20 transition-colors">
+                        class="px-4 py-2.5 rounded-xl bg-blue-500/10 border border-blue-500/20 text-blue-600 text-[13px] font-medium hover:bg-indigo-500/20 transition-colors">
                     Load
                 </button>
             </div>
@@ -32,7 +32,7 @@
 
     <!-- ── Error Message ────────────────────────────── -->
     @if (error()) {
-        <div class="bg-red-500/10 border border-red-500/20 rounded-xl p-4 text-red-400 text-[13px]">
+        <div class="bg-red-500/10 border border-red-500/20 rounded-xl p-4 text-red-500 text-[13px]">
             {{ error() }}
         </div>
     }
@@ -40,28 +40,28 @@
     <!-- ── Stats Cards ──────────────────────────────── -->
     @if (!loading() && attendance().length > 0) {
         <div class="grid grid-cols-1 sm:grid-cols-4 gap-4">
-            <div class="bg-white/[0.02] border border-white/[0.06] rounded-2xl p-5">
+            <div class="bg-white border border-slate-200 rounded-2xl p-5">
                 <p class="text-slate-500 text-[11px] font-semibold uppercase tracking-wider mb-2">Total</p>
-                <p class="text-[28px] font-bold text-white">{{ stats.total }}</p>
+                <p class="text-[28px] font-bold text-slate-900">{{ stats.total }}</p>
             </div>
-            <div class="bg-white/[0.02] border border-white/[0.06] rounded-2xl p-5">
+            <div class="bg-white border border-slate-200 rounded-2xl p-5">
                 <p class="text-slate-500 text-[11px] font-semibold uppercase tracking-wider mb-2">Present</p>
-                <p class="text-[28px] font-bold text-emerald-400">{{ stats.present }}</p>
+                <p class="text-[28px] font-bold text-emerald-600">{{ stats.present }}</p>
             </div>
-            <div class="bg-white/[0.02] border border-white/[0.06] rounded-2xl p-5">
+            <div class="bg-white border border-slate-200 rounded-2xl p-5">
                 <p class="text-slate-500 text-[11px] font-semibold uppercase tracking-wider mb-2">Absent</p>
-                <p class="text-[28px] font-bold text-red-400">{{ stats.absent }}</p>
+                <p class="text-[28px] font-bold text-red-500">{{ stats.absent }}</p>
             </div>
-            <div class="bg-white/[0.02] border border-white/[0.06] rounded-2xl p-5">
+            <div class="bg-white border border-slate-200 rounded-2xl p-5">
                 <p class="text-slate-500 text-[11px] font-semibold uppercase tracking-wider mb-2">On Leave</p>
-                <p class="text-[28px] font-bold text-blue-400">{{ stats.onLeave }}</p>
+                <p class="text-[28px] font-bold text-blue-600">{{ stats.onLeave }}</p>
             </div>
         </div>
     }
 
     <!-- ── Loading State ────────────────────────────── -->
     @if (loading()) {
-        <div class="bg-white/[0.02] border border-white/[0.06] rounded-2xl overflow-hidden">
+        <div class="bg-white border border-slate-200 rounded-2xl overflow-hidden">
             <div class="p-6 space-y-4">
                 @for (i of skeletonRows; track i) {
                     <div class="flex items-center gap-4">
@@ -78,44 +78,44 @@
 
     <!-- ── Attendance List ──────────────────────────── -->
     @if (!loading() && attendance().length > 0) {
-        <div class="bg-white/[0.02] border border-white/[0.06] rounded-2xl overflow-hidden">
+        <div class="bg-white border border-slate-200 rounded-2xl overflow-hidden">
             <div class="overflow-x-auto">
                 <table class="w-full">
-                    <thead class="bg-white/[0.02] border-b border-white/[0.06]">
+                    <thead class="bg-white border-b border-slate-200">
                         <tr>
-                            <th class="px-6 py-4 text-left text-slate-400 text-[12px] font-semibold uppercase tracking-wider">Employee</th>
-                            <th class="px-6 py-4 text-left text-slate-400 text-[12px] font-semibold uppercase tracking-wider">Date</th>
-                            <th class="px-6 py-4 text-left text-slate-400 text-[12px] font-semibold uppercase tracking-wider">Check In</th>
-                            <th class="px-6 py-4 text-left text-slate-400 text-[12px] font-semibold uppercase tracking-wider">Check Out</th>
-                            <th class="px-6 py-4 text-center text-slate-400 text-[12px] font-semibold uppercase tracking-wider">Hours</th>
-                            <th class="px-6 py-4 text-center text-slate-400 text-[12px] font-semibold uppercase tracking-wider">Status</th>
+                            <th class="px-6 py-4 text-left text-slate-500 text-[12px] font-semibold uppercase tracking-wider">Employee</th>
+                            <th class="px-6 py-4 text-left text-slate-500 text-[12px] font-semibold uppercase tracking-wider">Date</th>
+                            <th class="px-6 py-4 text-left text-slate-500 text-[12px] font-semibold uppercase tracking-wider">Check In</th>
+                            <th class="px-6 py-4 text-left text-slate-500 text-[12px] font-semibold uppercase tracking-wider">Check Out</th>
+                            <th class="px-6 py-4 text-center text-slate-500 text-[12px] font-semibold uppercase tracking-wider">Hours</th>
+                            <th class="px-6 py-4 text-center text-slate-500 text-[12px] font-semibold uppercase tracking-wider">Status</th>
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-white/[0.06]">
                         @for (att of attendance(); track att.attendanceId) {
-                            <tr class="hover:bg-white/[0.02] transition-colors">
+                            <tr class="hover:bg-white transition-colors">
                                 <td class="px-6 py-4">
                                     <div class="flex items-center gap-3">
-                                        <div class="w-10 h-10 rounded-lg bg-blue-500/10 flex items-center justify-center text-blue-400 font-bold text-[13px]">
+                                        <div class="w-10 h-10 rounded-lg bg-blue-500/10 flex items-center justify-center text-blue-600 font-bold text-[13px]">
                                             {{ getInitials(att.employeeName) }}
                                         </div>
                                         <div>
-                                            <p class="text-white text-[13px] font-semibold">{{ att.employeeName }}</p>
+                                            <p class="text-slate-900 text-[13px] font-semibold">{{ att.employeeName }}</p>
                                             <p class="text-slate-500 text-[12px] mt-0.5">{{ att.employeeCode }}</p>
                                         </div>
                                     </div>
                                 </td>
                                 <td class="px-6 py-4">
-                                    <span class="text-slate-300 text-[13px]">{{ att.attendanceDate | date:'shortDate' }}</span>
+                                    <span class="text-slate-500 text-[13px]">{{ att.attendanceDate | date:'shortDate' }}</span>
                                 </td>
                                 <td class="px-6 py-4">
-                                    <span class="text-slate-300 text-[13px] font-mono">{{ formatTime(att.checkInTime) }}</span>
+                                    <span class="text-slate-500 text-[13px] font-mono">{{ formatTime(att.checkInTime) }}</span>
                                 </td>
                                 <td class="px-6 py-4">
-                                    <span class="text-slate-300 text-[13px] font-mono">{{ formatTime(att.checkOutTime) }}</span>
+                                    <span class="text-slate-500 text-[13px] font-mono">{{ formatTime(att.checkOutTime) }}</span>
                                 </td>
                                 <td class="px-6 py-4 text-center">
-                                    <span class="text-slate-300 text-[13px]">{{ formatHours(att.totalHours) }}</span>
+                                    <span class="text-slate-500 text-[13px]">{{ formatHours(att.totalHours) }}</span>
                                 </td>
                                 <td class="px-6 py-4 text-center">
                                     <span [class]="'px-2.5 py-1 rounded-lg text-[11px] font-medium ' + getStatusClass(att.status)">
@@ -132,14 +132,14 @@
 
     <!-- ── Empty State ───────────────────────────────── -->
     @if (!loading() && attendance().length === 0) {
-        <div class="bg-white/[0.02] border border-white/[0.06] rounded-2xl p-12 text-center">
-            <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-slate-800 flex items-center justify-center">
-                <svg class="w-8 h-8 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <div class="bg-white border border-slate-200 rounded-2xl p-12 text-center">
+            <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-slate-700 flex items-center justify-center">
+                <svg class="w-8 h-8 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                           d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
                 </svg>
             </div>
-            <h3 class="text-white text-lg font-semibold mb-2">No Attendance Records</h3>
+            <h3 class="text-slate-900 text-lg font-semibold mb-2">No Attendance Records</h3>
             <p class="text-slate-500 text-[13px]">No attendance data found for the selected period.</p>
         </div>
     }

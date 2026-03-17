@@ -89,7 +89,7 @@ export class ExpenseService {
     // ─── AI Leave Reviewer ───
     analyzeLeave(leaveId: number): Observable<LeaveAnalysisResponse> {
         return this.http.get<LeaveAnalysisResponse>(`${this.apiUrl}/manager/leave-analysis/${leaveId}`)
-            .pipe(timeout(30000)); // 30s timeout for AI analysis
+            .pipe(timeout(60000)); // 60s timeout for AI analysis
     }
 
     // ─── AI Report Generator ───
@@ -97,7 +97,7 @@ export class ExpenseService {
         let params = new HttpParams();
         if (period) params = params.set('period', period);
         return this.http.get<PerformanceReportResponse>(`${this.apiUrl}/admin/reports/performance/${employeeId}`, { params })
-            .pipe(timeout(30000)); // 30s timeout for AI report
+            .pipe(timeout(60000)); // 60s timeout for AI report
     }
 }
 

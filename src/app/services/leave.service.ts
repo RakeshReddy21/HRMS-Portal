@@ -8,7 +8,8 @@ import { Holiday, HolidayRequest, LeaveActionRequest, LeaveApplication, LeaveTyp
 
 @Injectable({ providedIn: 'root' })
 export class LeaveService {
-    private readonly apiUrl = `${environment.apiUrl}/admin/leaves`;
+    private readonly adminApiUrl = `${environment.apiUrl}/admin/leaves`;
+    private readonly employeeApiUrl = `${environment.apiUrl}/employees/leaves`;
     constructor(private http: HttpClient) {}
 
     getApplications(status?: string, page = 0, size = 10, sortBy = 'appliedDate', direction = 'desc'): Observable<ApiResponse<PageResponse<LeaveApplication>>> {
@@ -18,40 +19,44 @@ export class LeaveService {
             .set('sortBy', sortBy)
             .set('direction', direction);
         if (status) params = params.set('status', status);
-        return this.http.get<ApiResponse<PageResponse<LeaveApplication>>>(`${this.apiUrl}/applications`, { params });
+        return this.http.get<ApiResponse<PageResponse<LeaveApplication>>>(`${this.adminApiUrl}/applications`, { params });
     }
 
     actionLeave(leaveId: number, request: LeaveActionRequest): Observable<ApiResponse<LeaveApplication>> {
-        return this.http.patch<ApiResponse<LeaveApplication>>(`${this.apiUrl}/${leaveId}/action`, request);
+        return this.http.patch<ApiResponse<LeaveApplication>>(`${this.adminApiUrl}/${leaveId}/action`, request);
     }
 
     getLeaveTypes(): Observable<ApiResponse<LeaveType[]>> {
-        return this.http.get<ApiResponse<LeaveType[]>>(`${this.apiUrl}/types`);
+        return this.http.get<ApiResponse<LeaveType[]>>(`${this.adminApiUrl}/types`);
+    }
+
+    getEmployeeLeaveTypes(): Observable<ApiResponse<LeaveType[]>> {
+        return this.http.get<ApiResponse<LeaveType[]>>(`${this.employeeApiUrl}/types`);
     }
 
     createLeaveType(request: LeaveTypeRequest): Observable<ApiResponse<LeaveType>> {
-        return this.http.post<ApiResponse<LeaveType>>(`${this.apiUrl}/types`, request);
+        return this.http.post<ApiResponse<LeaveType>>(`${this.adminApiUrl}/types`, request);
     }
 
     updateLeaveType(id: number, request: LeaveTypeRequest): Observable<ApiResponse<LeaveType>> {
-        return this.http.put<ApiResponse<LeaveType>>(`${this.apiUrl}/types/${id}`, request);
+        return this.http.put<ApiResponse<LeaveType>>(`${this.adminApiUrl}/types/${id}`, request);
     }
 
     getHolidays(year?: number): Observable<ApiResponse<Holiday[]>> {
         let params = new HttpParams();
         if (year) params = params.set('year', year.toString());
-        return this.http.get<ApiResponse<Holiday[]>>(`${this.apiUrl}/holidays`, { params });
+        return this.http.get<ApiResponse<Holiday[]>>(`${this.adminApiUrl}/holidays`, { params });
     }
 
     createHoliday(request: HolidayRequest): Observable<ApiResponse<Holiday>> {
-        return this.http.post<ApiResponse<Holiday>>(`${this.apiUrl}/holidays`, request);
+        return this.http.post<ApiResponse<Holiday>>(`${this.adminApiUrl}/holidays`, request);
     }
 
     updateHoliday(id: number, request: HolidayRequest): Observable<ApiResponse<Holiday>> {
-        return this.http.put<ApiResponse<Holiday>>(`${this.apiUrl}/holidays/${id}`, request);
+        return this.http.put<ApiResponse<Holiday>>(`${this.adminApiUrl}/holidays/${id}`, request);
     }
 
     deleteHoliday(id: number): Observable<ApiResponse<void>> {
-        return this.http.delete<ApiResponse<void>>(`${this.apiUrl}/holidays/${id}`);
+        return this.http.delete<ApiResponse<void>>(`${this.adminApiUrl}/holidays/${id}`);
     }
 }

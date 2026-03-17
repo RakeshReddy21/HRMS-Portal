@@ -1,6 +1,6 @@
 <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
     <div>
-        <h1 class="text-2xl font-bold text-white">Attendance</h1>
+        <h1 class="text-2xl font-bold text-slate-900 tracking-tight">Attendance</h1>
         <p class="text-slate-500 text-[13px] mt-1">
             @if (!loading() && records().length > 0) {
                 {{ totalElements() }} records for {{ formatDateDisplay(selectedDate()) }}
@@ -11,70 +11,70 @@
     </div>
     <div class="flex items-center gap-3">
         <button (click)="goToday()"
-                class="px-4 py-2.5 bg-white/[0.04] border border-white/[0.08] hover:bg-white/[0.06] text-slate-300 text-[13px] font-medium rounded-xl transition-all cursor-pointer">
+                class="px-4 py-2.5 bg-slate-50 border border-slate-200 hover:bg-slate-50 text-slate-500 text-[13px] font-medium rounded-xl transition-all cursor-pointer">
             Today
         </button>
         <input type="date" [value]="selectedDate()" (change)="onDateChange($event)"
-               class="bg-white/[0.04] border border-white/[0.08] rounded-xl px-4 py-2.5 text-white text-[13px] focus:outline-none focus:border-blue-500/40 focus:ring-1 focus:ring-blue-500/20 transition-all" />
+               class="bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5 text-slate-900 text-[13px] focus:outline-none focus:border-indigo-500/40 focus:ring-1 focus:ring-indigo-500/20 transition-all" />
     </div>
 </div>
 
 @if (error()) {
-    <div class="mb-6 px-4 py-3 bg-red-500/10 border border-red-500/20 rounded-xl text-red-400 text-[13px]">
+    <div class="mb-6 px-4 py-3 bg-red-500/10 border border-red-500/20 rounded-xl text-red-500 text-[13px]">
         {{ error() }}
     </div>
 }
 
 @if (!loading() && records().length > 0) {
     <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-6 animate-fadeIn">
-        <div class="bg-white/[0.02] border border-white/[0.06] rounded-2xl p-4">
+        <div class="bg-white border border-slate-200 rounded-2xl p-4">
             <div class="flex items-center gap-3">
                 <div class="w-10 h-10 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center">
-                    <svg class="w-5 h-5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg class="w-5 h-5 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
                     </svg>
                 </div>
                 <div>
-                    <p class="text-white text-xl font-bold tabular-nums">{{ presentCount }}</p>
+                    <p class="text-slate-900 text-xl font-bold tabular-nums">{{ presentCount }}</p>
                     <p class="text-slate-500 text-[11px] uppercase tracking-wider font-semibold">Present</p>
                 </div>
             </div>
         </div>
-        <div class="bg-white/[0.02] border border-white/[0.06] rounded-2xl p-4">
+        <div class="bg-white border border-slate-200 rounded-2xl p-4">
             <div class="flex items-center gap-3">
                 <div class="w-10 h-10 rounded-xl bg-red-500/10 border border-red-500/20 flex items-center justify-center">
-                    <svg class="w-5 h-5 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg class="w-5 h-5 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"/>
                     </svg>
                 </div>
                 <div>
-                    <p class="text-white text-xl font-bold tabular-nums">{{ absentCount }}</p>
+                    <p class="text-slate-900 text-xl font-bold tabular-nums">{{ absentCount }}</p>
                     <p class="text-slate-500 text-[11px] uppercase tracking-wider font-semibold">Absent</p>
                 </div>
             </div>
         </div>
-        <div class="bg-white/[0.02] border border-white/[0.06] rounded-2xl p-4">
+        <div class="bg-white border border-slate-200 rounded-2xl p-4">
             <div class="flex items-center gap-3">
                 <div class="w-10 h-10 rounded-xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center">
-                    <svg class="w-5 h-5 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg class="w-5 h-5 text-amber-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
                     </svg>
                 </div>
                 <div>
-                    <p class="text-white text-xl font-bold tabular-nums">{{ lateCount }}</p>
+                    <p class="text-slate-900 text-xl font-bold tabular-nums">{{ lateCount }}</p>
                     <p class="text-slate-500 text-[11px] uppercase tracking-wider font-semibold">Late</p>
                 </div>
             </div>
         </div>
-        <div class="bg-white/[0.02] border border-white/[0.06] rounded-2xl p-4">
+        <div class="bg-white border border-slate-200 rounded-2xl p-4">
             <div class="flex items-center gap-3">
                 <div class="w-10 h-10 rounded-xl bg-blue-500/10 border border-blue-500/20 flex items-center justify-center">
-                    <svg class="w-5 h-5 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
                     </svg>
                 </div>
                 <div>
-                    <p class="text-white text-xl font-bold tabular-nums">{{ onLeaveCount }}</p>
+                    <p class="text-slate-900 text-xl font-bold tabular-nums">{{ onLeaveCount }}</p>
                     <p class="text-slate-500 text-[11px] uppercase tracking-wider font-semibold">On Leave</p>
                 </div>
             </div>
@@ -82,32 +82,32 @@
     </div>
 }
 
-<div class="bg-white/[0.02] border border-white/[0.06] rounded-2xl overflow-hidden">
-    <div class="grid grid-cols-12 gap-4 px-6 py-3.5 border-b border-white/[0.06] bg-white/[0.02]">
-        <div class="col-span-3 text-[11px] font-semibold uppercase tracking-widest text-slate-500">Employee</div>
-        <div class="col-span-2 text-[11px] font-semibold uppercase tracking-widest text-slate-500 text-center">Status</div>
-        <div class="col-span-2 text-[11px] font-semibold uppercase tracking-widest text-slate-500 text-center">Check In</div>
-        <div class="col-span-2 text-[11px] font-semibold uppercase tracking-widest text-slate-500 text-center">Check Out</div>
-        <div class="col-span-1 text-[11px] font-semibold uppercase tracking-widest text-slate-500 text-center">Hours</div>
-        <div class="col-span-2 text-[11px] font-semibold uppercase tracking-widest text-slate-500 text-center">Flags</div>
+<div class="bg-white border border-slate-200 rounded-2xl overflow-hidden">
+    <div class="grid grid-cols-12 gap-4 px-6 py-3.5 border-b border-slate-200 bg-white">
+        <div class="col-span-3 text-[11px] font-semibold uppercase tracking-widest text-slate-400">Employee</div>
+        <div class="col-span-2 text-[11px] font-semibold uppercase tracking-widest text-slate-400 text-center">Status</div>
+        <div class="col-span-2 text-[11px] font-semibold uppercase tracking-widest text-slate-400 text-center">Check In</div>
+        <div class="col-span-2 text-[11px] font-semibold uppercase tracking-widest text-slate-400 text-center">Check Out</div>
+        <div class="col-span-1 text-[11px] font-semibold uppercase tracking-widest text-slate-400 text-center">Hours</div>
+        <div class="col-span-2 text-[11px] font-semibold uppercase tracking-widest text-slate-400 text-center">Flags</div>
     </div>
 
     @if (loading()) {
         @for (i of skeletonRows; track $index) {
-            <div class="grid grid-cols-12 gap-4 px-6 py-4 border-b border-white/[0.04] animate-pulse">
+            <div class="grid grid-cols-12 gap-4 px-6 py-4 border-b border-slate-200/80 animate-pulse">
                 <div class="col-span-3 flex items-center gap-3">
-                    <div class="w-9 h-9 bg-slate-700/40 rounded-xl shrink-0"></div>
+                    <div class="w-9 h-9 bg-slate-700 rounded-xl shrink-0"></div>
                     <div class="space-y-1.5 flex-1">
-                        <div class="h-3.5 w-3/4 bg-slate-700/40 rounded"></div>
-                        <div class="h-3 w-1/2 bg-slate-700/30 rounded"></div>
+                        <div class="h-3.5 w-3/4 bg-slate-700 rounded"></div>
+                        <div class="h-3 w-1/2 bg-slate-800 rounded"></div>
                     </div>
                 </div>
-                <div class="col-span-2 flex justify-center items-center"><div class="h-5 w-16 bg-slate-700/30 rounded-full"></div></div>
-                <div class="col-span-2 flex justify-center items-center"><div class="h-4 w-14 bg-slate-700/30 rounded"></div></div>
-                <div class="col-span-2 flex justify-center items-center"><div class="h-4 w-14 bg-slate-700/30 rounded"></div></div>
-                <div class="col-span-1 flex justify-center items-center"><div class="h-4 w-10 bg-slate-700/30 rounded"></div></div>
+                <div class="col-span-2 flex justify-center items-center"><div class="h-5 w-16 bg-slate-800 rounded-full"></div></div>
+                <div class="col-span-2 flex justify-center items-center"><div class="h-4 w-14 bg-slate-800 rounded"></div></div>
+                <div class="col-span-2 flex justify-center items-center"><div class="h-4 w-14 bg-slate-800 rounded"></div></div>
+                <div class="col-span-1 flex justify-center items-center"><div class="h-4 w-10 bg-slate-800 rounded"></div></div>
                 <div class="col-span-2 flex justify-center items-center gap-2">
-                    <div class="h-5 w-10 bg-slate-700/30 rounded-full"></div>
+                    <div class="h-5 w-10 bg-slate-800 rounded-full"></div>
                 </div>
             </div>
         }
@@ -115,14 +115,14 @@
 
     @if (!loading()) {
         @for (rec of records(); track rec.attendanceId) {
-            <div class="grid grid-cols-12 gap-4 px-6 py-4 border-b border-white/[0.04] hover:bg-white/[0.02] transition-colors duration-150 group cursor-pointer"
+            <div class="grid grid-cols-12 gap-4 px-6 py-4 border-b border-slate-200/80 hover:bg-white transition-colors duration-150 group cursor-pointer"
                  (click)="openSummary(rec)">
                 <div class="col-span-3 flex items-center gap-3">
-                    <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-blue-500 to-indigo-600 shadow-lg shadow-blue-500/15 flex items-center justify-center text-white text-[12px] font-bold shrink-0">
+                    <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-indigo-500 to-violet-600 shadow-lg shadow-blue-500/15 flex items-center justify-center text-slate-900 text-[12px] font-bold shrink-0">
                         {{ getInitials(rec.employeeName) }}
                     </div>
                     <div class="min-w-0">
-                        <p class="text-white text-[13px] font-medium group-hover:text-blue-400 transition-colors truncate">
+                        <p class="text-slate-700 text-[13px] font-medium group-hover:text-blue-600 transition-colors truncate">
                             {{ rec.employeeName }}
                         </p>
                         <p class="text-slate-500 text-[11px] truncate">{{ rec.employeeCode }}</p>
@@ -136,17 +136,17 @@
                     </span>
                 </div>
                 <div class="col-span-2 flex items-center justify-center">
-                    <span class="text-slate-300 text-[13px] tabular-nums">{{ formatTime(rec.checkInTime) }}</span>
+                    <span class="text-slate-500 text-[13px] tabular-nums">{{ formatTime(rec.checkInTime) }}</span>
                 </div>
                 <div class="col-span-2 flex items-center justify-center">
-                    <span class="text-slate-300 text-[13px] tabular-nums">{{ formatTime(rec.checkOutTime) }}</span>
+                    <span class="text-slate-500 text-[13px] tabular-nums">{{ formatTime(rec.checkOutTime) }}</span>
                 </div>
                 <div class="col-span-1 flex items-center justify-center">
-                    <span class="text-slate-300 text-[13px] font-medium tabular-nums">{{ formatHours(rec.totalHours) }}</span>
+                    <span class="text-slate-500 text-[13px] font-medium tabular-nums">{{ formatHours(rec.totalHours) }}</span>
                 </div>
                 <div class="col-span-2 flex items-center justify-center gap-2">
                     @if (rec.isLate) {
-                        <span class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-semibold bg-amber-500/10 text-amber-400 border border-amber-500/20">
+                        <span class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-semibold bg-amber-500/10 text-amber-500 border border-amber-500/20">
                             LATE
                         </span>
                     }
@@ -156,20 +156,20 @@
                         </span>
                     }
                     @if (!rec.isLate && !rec.isEarlyDeparture) {
-                        <span class="text-slate-600 text-[12px]">—</span>
+                        <span class="text-slate-500 text-[12px]">—</span>
                     }
                 </div>
             </div>
         }
         @if (records().length === 0) {
             <div class="flex flex-col items-center justify-center py-16">
-                <div class="w-16 h-16 rounded-2xl bg-white/[0.03] border border-white/[0.06] flex items-center justify-center mb-4">
-                    <svg class="w-7 h-7 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <div class="w-16 h-16 rounded-2xl bg-white border border-slate-200 flex items-center justify-center mb-4">
+                    <svg class="w-7 h-7 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
                               d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
                     </svg>
                 </div>
-                <h3 class="text-white font-semibold text-lg mb-1">No attendance records</h3>
+                <h3 class="text-slate-900 font-semibold text-lg mb-1">No attendance records</h3>
                 <p class="text-slate-500 text-[13px]">No records found for the selected date</p>
             </div>
         }
@@ -183,7 +183,7 @@
         <div class="flex items-center gap-1.5">
             <button (click)="goToPage(page() - 1)" [disabled]="page() === 0"
                     class="px-3 py-1.5 rounded-lg text-[12px] font-medium transition-all cursor-pointer disabled:opacity-30 disabled:cursor-not-allowed"
-                    [class]="page() === 0 ? 'text-slate-600' : 'text-slate-400 hover:text-white hover:bg-white/[0.06]'">
+                    [class]="page() === 0 ? 'text-slate-500' : 'text-slate-500 hover:text-slate-900 hover:bg-slate-50'">
                 ← Prev
             </button>
             @for (p of [].constructor(totalPages()); track $index) {
@@ -191,17 +191,17 @@
                     <button (click)="goToPage($index)"
                             class="w-8 h-8 rounded-lg text-[12px] font-medium transition-all cursor-pointer"
                             [class]="$index === page()
-                                ? 'bg-blue-600 text-white shadow-lg shadow-blue-600/20'
-                                : 'text-slate-400 hover:text-white hover:bg-white/[0.06]'">
+                                ? 'bg-indigo-600 text-white shadow-lg shadow-indigo-600/25'
+                                : 'text-slate-500 hover:text-slate-900 hover:bg-slate-50'">
                         {{ $index + 1 }}
                     </button>
                 } @else if ($index === 3 || $index === totalPages() - 3) {
-                    <span class="text-slate-600 px-1">…</span>
+                    <span class="text-slate-500 px-1">…</span>
                 }
             }
             <button (click)="goToPage(page() + 1)" [disabled]="page() >= totalPages() - 1"
                     class="px-3 py-1.5 rounded-lg text-[12px] font-medium transition-all cursor-pointer disabled:opacity-30 disabled:cursor-not-allowed"
-                    [class]="page() >= totalPages() - 1 ? 'text-slate-600' : 'text-slate-400 hover:text-white hover:bg-white/[0.06]'">
+                    [class]="page() >= totalPages() - 1 ? 'text-slate-500' : 'text-slate-500 hover:text-slate-900 hover:bg-slate-50'">
                 Next →
             </button>
         </div>
@@ -209,35 +209,35 @@
 }
 
 @if (showSummary()) {
-    <div class="fixed inset-0 bg-black/60 backdrop-blur-sm z-40 flex items-start justify-end" (click)="closeSummary()">
-        <div class="summary-enter w-full max-w-md h-full bg-slate-950 border-l border-white/[0.08] shadow-2xl shadow-black/50 overflow-y-auto"
+    <div class="fixed inset-0 bg-slate-900/20 backdrop-blur-sm z-40 flex items-start justify-end" (click)="closeSummary()">
+        <div class="summary-enter w-full max-w-md h-full bg-white border-l border-slate-200 shadow-2xl shadow-slate-300/50 overflow-y-auto"
              (click)="$event.stopPropagation()">
-            <div class="flex items-center justify-between px-6 py-5 border-b border-white/[0.06]">
+            <div class="flex items-center justify-between px-6 py-5 border-b border-slate-200">
                 <div>
-                    <h2 class="text-white font-semibold text-[16px]">Employee Summary</h2>
+                    <h2 class="text-slate-900 font-semibold text-[16px]">Employee Summary</h2>
                     @if (selectedEmployee(); as emp) {
                         <p class="text-slate-500 text-[13px] mt-0.5">{{ emp.employeeName }} · {{ emp.employeeCode }}</p>
                     }
                 </div>
                 <button (click)="closeSummary()"
-                        class="p-2 rounded-lg text-slate-400 hover:text-white hover:bg-white/[0.06] transition-colors cursor-pointer">
+                        class="p-2 rounded-lg text-slate-500 hover:text-slate-900 hover:bg-slate-50 transition-colors cursor-pointer">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
                     </svg>
                 </button>
             </div>
-            <div class="flex items-center justify-between px-6 py-4 border-b border-white/[0.06]">
+            <div class="flex items-center justify-between px-6 py-4 border-b border-slate-200">
                 <button (click)="changeSummaryMonth(-1)"
-                        class="p-2 rounded-lg text-slate-400 hover:text-white hover:bg-white/[0.06] transition-colors cursor-pointer">
+                        class="p-2 rounded-lg text-slate-500 hover:text-slate-900 hover:bg-slate-50 transition-colors cursor-pointer">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
                     </svg>
                 </button>
-                <span class="text-white text-[14px] font-semibold">
+                <span class="text-slate-900 text-[14px] font-semibold">
                     {{ getMonthName(summaryMonth()) }} {{ summaryYear() }}
                 </span>
                 <button (click)="changeSummaryMonth(1)"
-                        class="p-2 rounded-lg text-slate-400 hover:text-white hover:bg-white/[0.06] transition-colors cursor-pointer">
+                        class="p-2 rounded-lg text-slate-500 hover:text-slate-900 hover:bg-slate-50 transition-colors cursor-pointer">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
                     </svg>
@@ -248,8 +248,8 @@
                 <div class="p-6 space-y-4">
                     @for (i of [0,1,2,3,4,5]; track i) {
                         <div class="flex items-center justify-between animate-pulse">
-                            <div class="h-4 w-28 bg-slate-700/40 rounded"></div>
-                            <div class="h-5 w-12 bg-slate-700/40 rounded"></div>
+                            <div class="h-4 w-28 bg-slate-700 rounded"></div>
+                            <div class="h-5 w-12 bg-slate-700 rounded"></div>
                         </div>
                     }
                 </div>
@@ -257,35 +257,35 @@
                 <div class="p-6 space-y-1">
                     <div class="grid grid-cols-2 gap-3 mb-6">
                         <div class="bg-emerald-500/5 border border-emerald-500/15 rounded-xl p-4 text-center">
-                            <p class="text-emerald-400 text-2xl font-bold tabular-nums">{{ s.totalPresent }}</p>
+                            <p class="text-emerald-600 text-2xl font-bold tabular-nums">{{ s.totalPresent }}</p>
                             <p class="text-slate-500 text-[11px] uppercase tracking-wider font-semibold mt-1">Present</p>
                         </div>
                         <div class="bg-red-500/5 border border-red-500/15 rounded-xl p-4 text-center">
-                            <p class="text-red-400 text-2xl font-bold tabular-nums">{{ s.totalAbsent }}</p>
+                            <p class="text-red-500 text-2xl font-bold tabular-nums">{{ s.totalAbsent }}</p>
                             <p class="text-slate-500 text-[11px] uppercase tracking-wider font-semibold mt-1">Absent</p>
                         </div>
                         <div class="bg-amber-500/5 border border-amber-500/15 rounded-xl p-4 text-center">
-                            <p class="text-amber-400 text-2xl font-bold tabular-nums">{{ s.totalHalfDay }}</p>
+                            <p class="text-amber-500 text-2xl font-bold tabular-nums">{{ s.totalHalfDay }}</p>
                             <p class="text-slate-500 text-[11px] uppercase tracking-wider font-semibold mt-1">Half Day</p>
                         </div>
                         <div class="bg-blue-500/5 border border-blue-500/15 rounded-xl p-4 text-center">
-                            <p class="text-blue-400 text-2xl font-bold tabular-nums">{{ s.totalOnLeave }}</p>
+                            <p class="text-blue-600 text-2xl font-bold tabular-nums">{{ s.totalOnLeave }}</p>
                             <p class="text-slate-500 text-[11px] uppercase tracking-wider font-semibold mt-1">On Leave</p>
                         </div>
                     </div>
 
                     <div class="space-y-3">
-                        <div class="flex items-center justify-between py-2 border-b border-white/[0.04]">
-                            <span class="text-slate-400 text-[13px]">Late Arrivals</span>
-                            <span class="text-amber-400 text-[14px] font-semibold tabular-nums">{{ s.totalLateArrivals }}</span>
+                        <div class="flex items-center justify-between py-2 border-b border-slate-200/80">
+                            <span class="text-slate-500 text-[13px]">Late Arrivals</span>
+                            <span class="text-amber-500 text-[14px] font-semibold tabular-nums">{{ s.totalLateArrivals }}</span>
                         </div>
-                        <div class="flex items-center justify-between py-2 border-b border-white/[0.04]">
-                            <span class="text-slate-400 text-[13px]">Early Departures</span>
+                        <div class="flex items-center justify-between py-2 border-b border-slate-200/80">
+                            <span class="text-slate-500 text-[13px]">Early Departures</span>
                             <span class="text-orange-400 text-[14px] font-semibold tabular-nums">{{ s.totalEarlyDepartures }}</span>
                         </div>
-                        <div class="flex items-center justify-between py-2 border-b border-white/[0.04]">
-                            <span class="text-slate-400 text-[13px]">Total Hours Worked</span>
-                            <span class="text-white text-[14px] font-semibold tabular-nums">{{ s.totalHoursWorked ? s.totalHoursWorked.toFixed(1) + 'h' : '—' }}</span>
+                        <div class="flex items-center justify-between py-2 border-b border-slate-200/80">
+                            <span class="text-slate-500 text-[13px]">Total Hours Worked</span>
+                            <span class="text-slate-900 text-[14px] font-semibold tabular-nums">{{ s.totalHoursWorked ? s.totalHoursWorked.toFixed(1) + 'h' : '—' }}</span>
                         </div>
                     </div>
                 </div>

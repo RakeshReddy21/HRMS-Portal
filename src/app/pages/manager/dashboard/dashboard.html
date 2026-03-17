@@ -1,24 +1,24 @@
 <div class="p-4 lg:p-6 space-y-6 animate-fadeIn">
     <!-- ── Header ────────────────────────────────────────── -->
-    <section class="relative overflow-hidden bg-white/[0.02] border border-white/[0.06] rounded-2xl p-6">
+    <section class="relative overflow-hidden bg-white border border-slate-200 rounded-2xl p-6">
         <div class="absolute top-0 right-0 w-80 h-80 bg-blue-500/[0.03] rounded-full -translate-y-1/2 translate-x-1/4 pointer-events-none"></div>
         <div class="absolute bottom-0 left-0 w-48 h-48 bg-violet-500/[0.02] rounded-full translate-y-1/2 -translate-x-1/4 pointer-events-none"></div>
         <div class="relative flex items-center justify-between">
             <div>
-                <p class="text-blue-400 text-[11px] font-semibold uppercase tracking-[0.15em] mb-1.5">Manager Dashboard</p>
-                <h1 class="text-[22px] lg:text-[26px] font-bold text-white leading-tight">
+                <p class="text-blue-600 text-[11px] font-semibold uppercase tracking-[0.15em] mb-1.5">Manager Dashboard</p>
+                <h1 class="text-[22px] lg:text-[26px] font-bold text-slate-900 leading-tight">
                     {{ greeting }}, <span class="bg-gradient-to-r from-blue-400 to-violet-400 bg-clip-text text-transparent">{{ userName }}</span>
                 </h1>
                 <p class="text-slate-500 text-[13px] mt-1.5">Overview of your team and pending actions</p>
             </div>
             <div class="text-right hidden sm:flex flex-col items-end gap-2">
                 <div>
-                    <p class="text-white font-semibold text-[15px]">{{ currentDate }}</p>
+                    <p class="text-slate-900 font-semibold text-[15px]">{{ currentDate }}</p>
                     <p class="text-slate-500 text-[12px] mt-0.5">{{ currentTime }}</p>
                 </div>
                 <button (click)="loadDashboardData()"
-                        class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white/[0.04] border border-white/[0.06]
-                               text-slate-400 text-[11px] font-medium hover:text-white hover:bg-white/[0.08]
+                        class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-50 border border-slate-200
+                               text-slate-500 text-[11px] font-medium hover:text-slate-900 hover:bg-indigo-500/15
                                transition-all duration-200 cursor-pointer">
                     <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -34,7 +34,7 @@
     @if (loading()) {
         <section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             @for (i of skeletonCards; track i) {
-                <div class="bg-white/[0.02] border border-white/[0.06] rounded-2xl p-5">
+                <div class="bg-white border border-slate-200 rounded-2xl p-5">
                     <div class="flex items-start justify-between">
                         <div class="space-y-3 flex-1">
                             <div class="skeleton h-3 w-24 rounded"></div>
@@ -49,22 +49,22 @@
     } @else {
         <section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             <!-- Team Members -->
-            <div class="group relative bg-white/[0.02] border border-white/[0.06] rounded-2xl p-5
-                        hover:bg-white/[0.04] hover:border-blue-500/20 hover:shadow-lg hover:shadow-blue-500/[0.04]
+            <div class="group relative bg-white border border-slate-200 rounded-2xl p-5
+                        hover:bg-slate-50 hover:border-indigo-500/20 hover:shadow-lg hover:shadow-indigo-500/[0.04]
                         transition-all duration-300">
                 <div class="flex items-start justify-between">
                     <div>
                         <p class="text-slate-500 text-[11px] font-semibold uppercase tracking-wider">Team Members</p>
-                        <p class="text-[28px] font-bold text-white mt-1.5 tracking-tight tabular-nums">
+                        <p class="text-[28px] font-bold text-slate-900 mt-1.5 tracking-tight tabular-nums">
                             {{ teamCount()?.total || 0 }}
                         </p>
-                        <p class="text-slate-600 text-[11px] mt-1">
-                            <span class="text-emerald-400">{{ teamCount()?.active || 0 }}</span> active
+                        <p class="text-slate-500 text-[11px] mt-1">
+                            <span class="text-emerald-600">{{ teamCount()?.active || 0 }}</span> active
                         </p>
                     </div>
                     <div class="w-11 h-11 rounded-xl bg-blue-500/10 flex items-center justify-center
-                                group-hover:bg-blue-500/15 transition-colors">
-                        <svg class="w-5 h-5 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                group-hover:bg-indigo-500/15 transition-colors">
+                        <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"
                                   d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/>
                         </svg>
@@ -74,20 +74,20 @@
 
             <!-- Pending Leaves -->
             <a routerLink="/manager/team-leaves" 
-               class="group relative bg-white/[0.02] border border-white/[0.06] rounded-2xl p-5
-                      hover:bg-white/[0.04] hover:border-amber-500/20 hover:shadow-lg hover:shadow-amber-500/[0.04]
+               class="group relative bg-white border border-slate-200 rounded-2xl p-5
+                      hover:bg-slate-50 hover:border-amber-500/20 hover:shadow-lg hover:shadow-amber-500/[0.04]
                       transition-all duration-300 cursor-pointer">
                 <div class="flex items-start justify-between">
                     <div>
                         <p class="text-slate-500 text-[11px] font-semibold uppercase tracking-wider">Pending Leaves</p>
-                        <p class="text-[28px] font-bold text-white mt-1.5 tracking-tight tabular-nums">
+                        <p class="text-[28px] font-bold text-slate-900 mt-1.5 tracking-tight tabular-nums">
                             {{ pendingTeamLeavesCount() }}
                         </p>
-                        <p class="text-slate-600 text-[11px] mt-1">Requires your action</p>
+                        <p class="text-slate-500 text-[11px] mt-1">Requires your action</p>
                     </div>
                     <div class="w-11 h-11 rounded-xl bg-amber-500/10 flex items-center justify-center
                                 group-hover:bg-amber-500/15 transition-colors">
-                        <svg class="w-5 h-5 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg class="w-5 h-5 text-amber-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"
                                   d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
                         </svg>
@@ -96,22 +96,22 @@
             </a>
 
             <!-- Attendance Today -->
-            <div class="group relative bg-white/[0.02] border border-white/[0.06] rounded-2xl p-5
-                        hover:bg-white/[0.04] hover:border-emerald-500/20 hover:shadow-lg hover:shadow-emerald-500/[0.04]
+            <div class="group relative bg-white border border-slate-200 rounded-2xl p-5
+                        hover:bg-slate-50 hover:border-emerald-500/20 hover:shadow-lg hover:shadow-emerald-500/[0.04]
                         transition-all duration-300">
                 <div class="flex items-start justify-between">
                     <div>
                         <p class="text-slate-500 text-[11px] font-semibold uppercase tracking-wider">Today's Attendance</p>
-                        <p class="text-[28px] font-bold text-white mt-1.5 tracking-tight tabular-nums">
+                        <p class="text-[28px] font-bold text-slate-900 mt-1.5 tracking-tight tabular-nums">
                             {{ presentToday() }}/{{ teamCount()?.total || 0 }}
                         </p>
-                        <p class="text-slate-600 text-[11px] mt-1">
-                            <span class="text-red-400">{{ absentToday() }}</span> absent
+                        <p class="text-slate-500 text-[11px] mt-1">
+                            <span class="text-red-500">{{ absentToday() }}</span> absent
                         </p>
                     </div>
                     <div class="w-11 h-11 rounded-xl bg-emerald-500/10 flex items-center justify-center
                                 group-hover:bg-emerald-500/15 transition-colors">
-                        <svg class="w-5 h-5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg class="w-5 h-5 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"
                                   d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
                         </svg>
@@ -121,20 +121,20 @@
 
             <!-- My Leave Balance -->
             @if (personalDashboard()) {
-                <div class="group relative bg-white/[0.02] border border-white/[0.06] rounded-2xl p-5
-                            hover:bg-white/[0.04] hover:border-violet-500/20 hover:shadow-lg hover:shadow-violet-500/[0.04]
+                <div class="group relative bg-white border border-slate-200 rounded-2xl p-5
+                            hover:bg-slate-50 hover:border-violet-500/20 hover:shadow-lg hover:shadow-violet-500/[0.04]
                             transition-all duration-300">
                     <div class="flex items-start justify-between">
                         <div>
                             <p class="text-slate-500 text-[11px] font-semibold uppercase tracking-wider">My Leaves</p>
-                            <p class="text-[28px] font-bold text-white mt-1.5 tracking-tight tabular-nums">
+                            <p class="text-[28px] font-bold text-slate-900 mt-1.5 tracking-tight tabular-nums">
                                 {{ personalDashboard()!.pendingLeaveRequests }}
                             </p>
-                            <p class="text-slate-600 text-[11px] mt-1">Pending requests</p>
+                            <p class="text-slate-500 text-[11px] mt-1">Pending requests</p>
                         </div>
                         <div class="w-11 h-11 rounded-xl bg-violet-500/10 flex items-center justify-center
                                     group-hover:bg-violet-500/15 transition-colors">
-                            <svg class="w-5 h-5 text-violet-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <svg class="w-5 h-5 text-violet-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"
                                       d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
                             </svg>
@@ -147,27 +147,27 @@
 
     <!-- ── Pending Leaves List ──────────────────────────── -->
     @if (!loading() && pendingTeamLeavesCount() > 0) {
-        <section class="bg-white/[0.02] border border-white/[0.06] rounded-2xl p-6">
+        <section class="bg-white border border-slate-200 rounded-2xl p-6">
             <div class="flex items-center justify-between mb-5">
                 <div>
-                    <h2 class="text-lg font-bold text-white">Pending Leave Requests</h2>
+                    <h2 class="text-lg font-bold text-slate-900 tracking-tight">Pending Leave Requests</h2>
                     <p class="text-slate-500 text-[13px] mt-0.5">{{ pendingTeamLeavesCount() }} requests need your attention</p>
                 </div>
                 <a routerLink="/manager/team-leaves"
-                   class="text-blue-400 text-[13px] font-medium hover:text-blue-300 transition-colors">
+                   class="text-blue-600 text-[13px] font-medium hover:text-blue-600 transition-colors">
                     View All →
                 </a>
             </div>
             <div class="space-y-3">
                 @for (leave of pendingTeamLeaves().slice(0, 5); track leave.leaveId) {
-                    <div class="flex items-center justify-between p-4 bg-white/[0.02] border border-white/[0.06] rounded-xl
-                                hover:bg-white/[0.04] transition-colors">
+                    <div class="flex items-center justify-between p-4 bg-white border border-slate-200 rounded-xl
+                                hover:bg-slate-50 transition-colors">
                         <div class="flex items-center gap-4 flex-1">
-                            <div class="w-10 h-10 rounded-lg bg-blue-500/10 flex items-center justify-center text-blue-400 font-bold text-[13px]">
+                            <div class="w-10 h-10 rounded-lg bg-blue-500/10 flex items-center justify-center text-blue-600 font-bold text-[13px]">
                                 {{ getInitials(leave.employee.firstName, leave.employee.lastName) }}
                             </div>
                             <div class="flex-1">
-                                <p class="text-white text-[13px] font-semibold">
+                                <p class="text-slate-900 text-[13px] font-semibold">
                                     {{ leave.employee.firstName }} {{ leave.employee.lastName }}
                                 </p>
                                 <p class="text-slate-500 text-[12px] mt-0.5">
@@ -177,7 +177,7 @@
                                 </p>
                             </div>
                         </div>
-                        <span class="px-3 py-1 rounded-lg bg-amber-500/10 text-amber-400 border border-amber-500/20 text-[12px] font-medium">
+                        <span class="px-3 py-1 rounded-lg bg-amber-500/10 text-amber-500 border border-amber-500/20 text-[12px] font-medium">
                             PENDING
                         </span>
                     </div>
@@ -188,26 +188,26 @@
 
     <!-- ── Team Attendance Today ───────────────────────────── -->
     @if (!loading() && teamAttendanceToday().length > 0) {
-        <section class="bg-white/[0.02] border border-white/[0.06] rounded-2xl p-6">
+        <section class="bg-white border border-slate-200 rounded-2xl p-6">
             <div class="flex items-center justify-between mb-5">
                 <div>
-                    <h2 class="text-lg font-bold text-white">Team Attendance Today</h2>
+                    <h2 class="text-lg font-bold text-slate-900 tracking-tight">Team Attendance Today</h2>
                     <p class="text-slate-500 text-[13px] mt-0.5">Real-time attendance status</p>
                 </div>
                 <a routerLink="/manager/team-attendance"
-                   class="text-blue-400 text-[13px] font-medium hover:text-blue-300 transition-colors">
+                   class="text-blue-600 text-[13px] font-medium hover:text-blue-600 transition-colors">
                     View All →
                 </a>
             </div>
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
                 @for (att of teamAttendanceToday().slice(0, 6); track att.attendanceId) {
-                    <div class="p-4 bg-white/[0.02] border border-white/[0.06] rounded-xl">
+                    <div class="p-4 bg-white border border-slate-200 rounded-xl">
                         <div class="flex items-center gap-3 mb-3">
-                            <div class="w-9 h-9 rounded-lg bg-blue-500/10 flex items-center justify-center text-blue-400 font-bold text-[12px]">
+                            <div class="w-9 h-9 rounded-lg bg-blue-500/10 flex items-center justify-center text-blue-600 font-bold text-[12px]">
                                 {{ getInitials(att.employeeName.split(' ')[0] || '', att.employeeName.split(' ')[1] || '') }}
                             </div>
                             <div class="flex-1 min-w-0">
-                                <p class="text-white text-[13px] font-semibold truncate">{{ att.employeeName }}</p>
+                                <p class="text-slate-900 text-[13px] font-semibold truncate">{{ att.employeeName }}</p>
                                 <p class="text-slate-500 text-[11px]">{{ att.employeeCode }}</p>
                             </div>
                         </div>
@@ -230,64 +230,64 @@
     <!-- ── Quick Actions ──────────────────────────────────── -->
     <section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         <a routerLink="/manager/team" 
-           class="p-5 bg-white/[0.02] border border-white/[0.06] rounded-2xl hover:bg-white/[0.04] hover:border-blue-500/20 transition-all cursor-pointer">
+           class="p-5 bg-white border border-slate-200 rounded-2xl hover:bg-slate-50 hover:border-indigo-500/20 transition-all cursor-pointer">
             <div class="flex items-center gap-4">
                 <div class="w-12 h-12 rounded-xl bg-blue-500/10 flex items-center justify-center">
-                    <svg class="w-6 h-6 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"
                               d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/>
                     </svg>
                 </div>
                 <div>
-                    <p class="text-white text-[13px] font-semibold">Team Members</p>
+                    <p class="text-slate-900 text-[13px] font-semibold">Team Members</p>
                     <p class="text-slate-500 text-[11px] mt-0.5">View all team members</p>
                 </div>
             </div>
         </a>
 
         <a routerLink="/manager/team-leaves" 
-           class="p-5 bg-white/[0.02] border border-white/[0.06] rounded-2xl hover:bg-white/[0.04] hover:border-amber-500/20 transition-all cursor-pointer">
+           class="p-5 bg-white border border-slate-200 rounded-2xl hover:bg-slate-50 hover:border-amber-500/20 transition-all cursor-pointer">
             <div class="flex items-center gap-4">
                 <div class="w-12 h-12 rounded-xl bg-amber-500/10 flex items-center justify-center">
-                    <svg class="w-6 h-6 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg class="w-6 h-6 text-amber-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"
                               d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
                     </svg>
                 </div>
                 <div>
-                    <p class="text-white text-[13px] font-semibold">Team Leaves</p>
+                    <p class="text-slate-900 text-[13px] font-semibold">Team Leaves</p>
                     <p class="text-slate-500 text-[11px] mt-0.5">Approve or reject leaves</p>
                 </div>
             </div>
         </a>
 
         <a routerLink="/manager/team-attendance" 
-           class="p-5 bg-white/[0.02] border border-white/[0.06] rounded-2xl hover:bg-white/[0.04] hover:border-emerald-500/20 transition-all cursor-pointer">
+           class="p-5 bg-white border border-slate-200 rounded-2xl hover:bg-slate-50 hover:border-emerald-500/20 transition-all cursor-pointer">
             <div class="flex items-center gap-4">
                 <div class="w-12 h-12 rounded-xl bg-emerald-500/10 flex items-center justify-center">
-                    <svg class="w-6 h-6 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg class="w-6 h-6 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"
                               d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
                     </svg>
                 </div>
                 <div>
-                    <p class="text-white text-[13px] font-semibold">Team Attendance</p>
+                    <p class="text-slate-900 text-[13px] font-semibold">Team Attendance</p>
                     <p class="text-slate-500 text-[11px] mt-0.5">Monitor daily attendance</p>
                 </div>
             </div>
         </a>
 
         <a routerLink="/manager/team-performance" 
-           class="p-5 bg-white/[0.02] border border-white/[0.06] rounded-2xl hover:bg-white/[0.04] hover:border-violet-500/20 transition-all cursor-pointer">
+           class="p-5 bg-white border border-slate-200 rounded-2xl hover:bg-slate-50 hover:border-violet-500/20 transition-all cursor-pointer">
             <div class="flex items-center gap-4">
                 <div class="w-12 h-12 rounded-xl bg-violet-500/10 flex items-center justify-center">
-                    <svg class="w-6 h-6 text-violet-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg class="w-6 h-6 text-violet-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"
                               d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
                     </svg>
                 </div>
                 <div>
-                    <p class="text-white text-[13px] font-semibold">Team Performance</p>
+                    <p class="text-slate-900 text-[13px] font-semibold">Team Performance</p>
                     <p class="text-slate-500 text-[11px] mt-0.5">Review and provide feedback</p>
                 </div>
             </div>

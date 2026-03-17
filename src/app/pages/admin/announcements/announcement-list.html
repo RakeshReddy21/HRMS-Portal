@@ -1,19 +1,19 @@
 @if (success()) {
     <div class="fixed top-6 right-6 z-50 flex items-center gap-3 px-5 py-3 bg-emerald-500/15 border border-emerald-500/25 rounded-xl shadow-2xl shadow-emerald-500/10 animate-fadeIn">
-        <svg class="w-5 h-5 text-emerald-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <svg class="w-5 h-5 text-emerald-600 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
         </svg>
-        <span class="text-emerald-300 text-[13px] font-medium">{{ success() }}</span>
+        <span class="text-emerald-600 text-[13px] font-medium">{{ success() }}</span>
     </div>
 }
 
 <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
     <div>
-        <h1 class="text-2xl font-bold text-white">Announcements</h1>
+        <h1 class="text-2xl font-bold text-slate-900 tracking-tight">Announcements</h1>
         <p class="text-slate-500 text-[13px] mt-1">Create and manage company-wide announcements</p>
     </div>
     <button (click)="openCreate()"
-            class="inline-flex items-center gap-2 px-5 py-2.5 bg-violet-600 hover:bg-violet-500 text-white text-[13px] font-semibold rounded-xl transition-all shadow-lg shadow-violet-600/20 cursor-pointer">
+            class="inline-flex items-center gap-2 px-5 py-2.5 bg-violet-600 hover:bg-violet-500 text-slate-900 text-[13px] font-semibold rounded-xl transition-all shadow-lg shadow-violet-600/20 cursor-pointer">
         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
         </svg>
@@ -22,37 +22,37 @@
 </div>
 
 @if (error()) {
-    <div class="mb-6 px-4 py-3 bg-red-500/10 border border-red-500/20 rounded-xl text-red-400 text-[13px]">
+    <div class="mb-6 px-4 py-3 bg-red-500/10 border border-red-500/20 rounded-xl text-red-500 text-[13px]">
         {{ error() }}
     </div>
 }
 
 <div class="grid grid-cols-2 sm:grid-cols-3 gap-4 mb-6">
-    <div class="bg-white/[0.02] border border-white/[0.06] rounded-xl p-4">
+    <div class="bg-white border border-slate-200 rounded-xl p-4">
         <p class="text-slate-500 text-[11px] font-semibold uppercase tracking-widest mb-1">Total</p>
-        <p class="text-white text-xl font-bold tabular-nums">{{ totalElements() }}</p>
+        <p class="text-slate-900 text-xl font-bold tabular-nums">{{ totalElements() }}</p>
     </div>
-    <div class="bg-white/[0.02] border border-white/[0.06] rounded-xl p-4">
+    <div class="bg-white border border-slate-200 rounded-xl p-4">
         <p class="text-slate-500 text-[11px] font-semibold uppercase tracking-widest mb-1">Active</p>
-        <p class="text-emerald-400 text-xl font-bold tabular-nums">{{ activeCount }}</p>
+        <p class="text-emerald-600 text-xl font-bold tabular-nums">{{ activeCount }}</p>
     </div>
-    <div class="bg-white/[0.02] border border-white/[0.06] rounded-xl p-4 hidden sm:block">
+    <div class="bg-white border border-slate-200 rounded-xl p-4 hidden sm:block">
         <p class="text-slate-500 text-[11px] font-semibold uppercase tracking-widest mb-1">Page</p>
-        <p class="text-white text-xl font-bold tabular-nums">{{ page() + 1 }} / {{ totalPages() || 1 }}</p>
+        <p class="text-slate-900 text-xl font-bold tabular-nums">{{ page() + 1 }} / {{ totalPages() || 1 }}</p>
     </div>
 </div>
 
 <div class="space-y-4 animate-fadeIn">
     @if (loading()) {
         @for (i of skeletonRows; track $index) {
-            <div class="bg-white/[0.02] border border-white/[0.06] rounded-2xl p-6 animate-pulse">
+            <div class="bg-white border border-slate-200 rounded-2xl p-6 animate-pulse">
                 <div class="flex items-start justify-between gap-4">
                     <div class="flex-1 space-y-3">
-                        <div class="h-5 w-1/3 bg-slate-700/40 rounded"></div>
-                        <div class="h-4 w-full bg-slate-700/30 rounded"></div>
+                        <div class="h-5 w-1/3 bg-slate-700 rounded"></div>
+                        <div class="h-4 w-full bg-slate-800 rounded"></div>
                         <div class="h-4 w-2/3 bg-slate-700/20 rounded"></div>
                     </div>
-                    <div class="h-8 w-20 bg-slate-700/30 rounded-full shrink-0"></div>
+                    <div class="h-8 w-20 bg-slate-800 rounded-full shrink-0"></div>
                 </div>
             </div>
         }
@@ -60,10 +60,10 @@
 
     @if (!loading()) {
         @for (ann of announcements(); track ann.announcementId) {
-            <div class="bg-white/[0.02] border border-white/[0.06] rounded-2xl p-6 hover:bg-white/[0.03] transition-colors duration-200 group">
+            <div class="bg-white border border-slate-200 rounded-2xl p-6 hover:bg-white transition-colors duration-200 group">
                 <div class="flex items-start justify-between gap-4">
                     <div class="flex items-start gap-4 flex-1 min-w-0">
-                        <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-violet-500 to-purple-600 flex items-center justify-center text-white text-[14px] font-bold shrink-0 shadow-lg shadow-violet-500/15 mt-0.5">
+                        <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-violet-500 to-purple-600 flex items-center justify-center text-slate-900 text-[14px] font-bold shrink-0 shadow-lg shadow-violet-500/15 mt-0.5">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                       d="M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.683A4.001 4.001 0 017 6h1.832c4.1 0 7.625-1.234 9.168-3v14c-1.543-1.766-5.067-3-9.168-3H7a3.988 3.988 0 01-1.564-.317z"/>
@@ -71,31 +71,31 @@
                         </div>
                         <div class="min-w-0 flex-1">
                             <div class="flex items-center gap-3 mb-1.5">
-                                <h3 class="text-white text-[15px] font-semibold truncate group-hover:text-violet-400 transition-colors">
+                                <h3 class="text-slate-900 text-[15px] font-semibold truncate group-hover:text-violet-500 transition-colors">
                                     {{ ann.title }}
                                 </h3>
                                 <span class="px-2 py-0.5 rounded-full text-[10px] font-semibold shrink-0"
                                       [class]="ann.isActive
-                                          ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20'
-                                          : 'bg-slate-500/10 text-slate-500 border border-slate-500/20'">
+                                          ? 'bg-emerald-500/10 text-emerald-600 border border-emerald-500/20'
+                                          : 'bg-slate-500/10 text-slate-500 border border-slate-1000/20'">
                                     {{ ann.isActive ? 'Active' : 'Inactive' }}
                                 </span>
                             </div>
-                            <p class="text-slate-400 text-[13px] leading-relaxed line-clamp-2">{{ ann.content }}</p>
+                            <p class="text-slate-500 text-[13px] leading-relaxed line-clamp-2">{{ ann.content }}</p>
                             <div class="flex items-center gap-4 mt-3">
                                 @if (ann.createdBy) {
-                                    <span class="text-slate-600 text-[11px]">
+                                    <span class="text-slate-500 text-[11px]">
                                         by {{ ann.createdBy.firstName }} {{ ann.createdBy.lastName }}
                                     </span>
                                 }
-                                <span class="text-slate-600 text-[11px]">{{ formatDate(ann.createdAt) }}</span>
+                                <span class="text-slate-500 text-[11px]">{{ formatDate(ann.createdAt) }}</span>
                             </div>
                         </div>
                     </div>
 
                     <div class="flex items-center gap-2 shrink-0">
                         <button (click)="openEdit(ann)"
-                                class="p-2 rounded-lg text-slate-500 hover:text-violet-400 hover:bg-violet-500/10 transition-all cursor-pointer"
+                                class="p-2 rounded-lg text-slate-500 hover:text-violet-500 hover:bg-violet-500/10 transition-all cursor-pointer"
                                 title="Edit">
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -105,8 +105,8 @@
                         <button (click)="toggleStatus(ann)"
                                 class="p-2 rounded-lg transition-all cursor-pointer"
                                 [class]="ann.isActive
-                                    ? 'text-slate-500 hover:text-amber-400 hover:bg-amber-500/10'
-                                    : 'text-slate-500 hover:text-emerald-400 hover:bg-emerald-500/10'"
+                                    ? 'text-slate-500 hover:text-amber-500 hover:bg-amber-500/10'
+                                    : 'text-slate-500 hover:text-emerald-600 hover:bg-emerald-500/10'"
                                 [title]="ann.isActive ? 'Deactivate' : 'Activate'">
                             @if (ann.isActive) {
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -126,13 +126,13 @@
         }
 
         @if (announcements().length === 0) {
-            <div class="bg-white/[0.02] border border-white/[0.06] rounded-2xl p-12 text-center">
-                <svg class="w-12 h-12 mx-auto text-slate-700 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <div class="bg-white border border-slate-200 rounded-2xl p-12 text-center">
+                <svg class="w-12 h-12 mx-auto text-slate-600 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
                           d="M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.683A4.001 4.001 0 017 6h1.832c4.1 0 7.625-1.234 9.168-3v14c-1.543-1.766-5.067-3-9.168-3H7a3.988 3.988 0 01-1.564-.317z"/>
                 </svg>
                 <p class="text-slate-500 text-[14px] font-medium mb-1">No announcements yet</p>
-                <p class="text-slate-600 text-[12px]">Click "New Announcement" to create one</p>
+                <p class="text-slate-500 text-[12px]">Click "New Announcement" to create one</p>
             </div>
         }
     }
@@ -147,15 +147,15 @@
             <button (click)="goToPage(page() - 1)" [disabled]="page() === 0"
                     class="px-3.5 py-2 rounded-lg text-[13px] font-medium border transition-all"
                     [class]="page() === 0
-                        ? 'text-slate-600 border-white/[0.04] cursor-not-allowed'
-                        : 'text-slate-300 border-white/[0.08] hover:bg-white/[0.04] cursor-pointer'">
+                        ? 'text-slate-500 border-slate-200/80 cursor-not-allowed'
+                        : 'text-slate-500 border-slate-200 hover:bg-slate-50 cursor-pointer'">
                 ← Previous
             </button>
             <button (click)="goToPage(page() + 1)" [disabled]="page() >= totalPages() - 1"
                     class="px-3.5 py-2 rounded-lg text-[13px] font-medium border transition-all"
                     [class]="page() >= totalPages() - 1
-                        ? 'text-slate-600 border-white/[0.04] cursor-not-allowed'
-                        : 'text-slate-300 border-white/[0.08] hover:bg-white/[0.04] cursor-pointer'">
+                        ? 'text-slate-500 border-slate-200/80 cursor-not-allowed'
+                        : 'text-slate-500 border-slate-200 hover:bg-slate-50 cursor-pointer'">
                 Next →
             </button>
         </div>
@@ -163,15 +163,15 @@
 }
 
 @if (showModal()) {
-    <div class="fixed inset-0 bg-black/60 backdrop-blur-sm z-40 flex items-center justify-center p-4" (click)="closeModal()">
-        <div class="modal-enter w-full max-w-lg bg-slate-950 border border-white/[0.08] rounded-2xl shadow-2xl shadow-black/50"
+    <div class="fixed inset-0 bg-slate-900/20 backdrop-blur-sm z-40 flex items-center justify-center p-4" (click)="closeModal()">
+        <div class="modal-enter w-full max-w-lg bg-white border border-slate-200 rounded-2xl shadow-2xl shadow-slate-300/50"
              (click)="$event.stopPropagation()">
-            <div class="flex items-center justify-between px-6 py-4 border-b border-white/[0.06]">
-                <h2 class="text-white font-semibold text-[16px]">
+            <div class="flex items-center justify-between px-6 py-4 border-b border-slate-200">
+                <h2 class="text-slate-900 font-semibold text-[16px]">
                     {{ editing() ? 'Edit Announcement' : 'New Announcement' }}
                 </h2>
                 <button (click)="closeModal()"
-                        class="p-2 rounded-lg text-slate-400 hover:text-white hover:bg-white/[0.06] transition-colors cursor-pointer">
+                        class="p-2 rounded-lg text-slate-500 hover:text-slate-900 hover:bg-slate-50 transition-colors cursor-pointer">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
                     </svg>
@@ -180,40 +180,40 @@
 
             <form [formGroup]="form" (ngSubmit)="onSubmit()" class="px-6 py-5 space-y-5">
                 <div>
-                    <label class="block text-[12px] font-semibold text-slate-400 uppercase tracking-wider mb-2">
-                        Title <span class="text-red-400">*</span>
+                    <label class="block text-[12px] font-semibold text-slate-500 uppercase tracking-wider mb-2">
+                        Title <span class="text-red-500">*</span>
                     </label>
                     <input formControlName="title" type="text" placeholder="Announcement title"
-                           class="w-full bg-white/[0.04] border rounded-xl px-4 py-3 text-white text-[14px] placeholder-slate-600 focus:outline-none focus:ring-1 transition-all"
+                           class="w-full bg-slate-50 border rounded-xl px-4 py-3 text-slate-800 text-[14px] placeholder-slate-400 focus:outline-none focus:ring-1 transition-all"
                            [class]="hasError('title')
                                ? 'border-red-500/40 focus:border-red-500/60 focus:ring-red-500/20'
-                               : 'border-white/[0.08] focus:border-violet-500/40 focus:ring-violet-500/20'" />
+                               : 'border-slate-200 focus:border-violet-500/40 focus:ring-violet-500/20'" />
                     @if (hasError('title')) {
-                        <p class="mt-1.5 text-red-400 text-[12px]">{{ getError('title') }}</p>
+                        <p class="mt-1.5 text-red-500 text-[12px]">{{ getError('title') }}</p>
                     }
                 </div>
 
                 <div>
-                    <label class="block text-[12px] font-semibold text-slate-400 uppercase tracking-wider mb-2">
-                        Content <span class="text-red-400">*</span>
+                    <label class="block text-[12px] font-semibold text-slate-500 uppercase tracking-wider mb-2">
+                        Content <span class="text-red-500">*</span>
                     </label>
                     <textarea formControlName="content" rows="5" placeholder="Write your announcement..."
-                              class="w-full bg-white/[0.04] border rounded-xl px-4 py-3 text-white text-[14px] placeholder-slate-600 focus:outline-none focus:ring-1 transition-all resize-none"
+                              class="w-full bg-slate-50 border rounded-xl px-4 py-3 text-slate-800 text-[14px] placeholder-slate-400 focus:outline-none focus:ring-1 transition-all resize-none"
                               [class]="hasError('content')
                                   ? 'border-red-500/40 focus:border-red-500/60 focus:ring-red-500/20'
-                                  : 'border-white/[0.08] focus:border-violet-500/40 focus:ring-violet-500/20'"></textarea>
+                                  : 'border-slate-200 focus:border-violet-500/40 focus:ring-violet-500/20'"></textarea>
                     @if (hasError('content')) {
-                        <p class="mt-1.5 text-red-400 text-[12px]">{{ getError('content') }}</p>
+                        <p class="mt-1.5 text-red-500 text-[12px]">{{ getError('content') }}</p>
                     }
                 </div>
 
                 <div class="flex items-center justify-end gap-3 pt-2">
                     <button type="button" (click)="closeModal()"
-                            class="px-5 py-2.5 rounded-xl text-[13px] font-medium text-slate-400 hover:text-white border border-white/[0.08] hover:bg-white/[0.04] transition-all cursor-pointer">
+                            class="px-5 py-2.5 rounded-xl text-[13px] font-medium text-slate-500 hover:text-slate-900 border border-slate-200 hover:bg-slate-50 transition-all cursor-pointer">
                         Cancel
                     </button>
                     <button type="submit" [disabled]="saving()"
-                            class="px-6 py-2.5 rounded-xl text-[13px] font-semibold text-white bg-violet-600 hover:bg-violet-500 transition-all shadow-lg shadow-violet-600/20 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer">
+                            class="px-6 py-2.5 rounded-xl text-[13px] font-semibold text-slate-900 bg-violet-600 hover:bg-violet-500 transition-all shadow-lg shadow-violet-600/20 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer">
                         @if (saving()) {
                             <span class="inline-flex items-center gap-2">
                                 <svg class="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24">

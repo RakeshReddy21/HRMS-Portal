@@ -1,9 +1,9 @@
-<div class="min-h-screen bg-slate-950 p-6 lg:p-8 space-y-6">
+<div class="min-h-screen p-6 lg:p-8 space-y-6">
 
     <!-- ── Header ────────────────────────────────────────── -->
     <div class="animate-fadeIn flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4">
         <div>
-            <h1 class="text-2xl font-bold text-white tracking-tight">My Attendance</h1>
+            <h1 class="text-2xl font-bold text-slate-900 tracking-tight tracking-tight">My Attendance</h1>
             <p class="text-slate-500 text-[13px] mt-1">Track your daily attendance and monthly summary</p>
         </div>
     </div>
@@ -11,36 +11,36 @@
     <!-- ── Error Banner ────────────────────────────────── -->
     @if (error()) {
         <div class="animate-fadeIn bg-red-500/10 border border-red-500/20 rounded-xl p-4 flex items-start gap-3">
-            <svg class="w-5 h-5 text-red-400 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg class="w-5 h-5 text-red-500 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
             </svg>
             <div>
-                <p class="text-red-400 text-[13px] font-medium">{{ error() }}</p>
+                <p class="text-red-500 text-[13px] font-medium">{{ error() }}</p>
             </div>
-            <button (click)="error.set('')" class="ml-auto text-red-400/60 hover:text-red-400 transition-colors">
+            <button (click)="error.set('')" class="ml-auto text-red-400/60 hover:text-red-500 transition-colors">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
             </button>
         </div>
     }
 
     <!-- ── Today's Card ──────────────────────────────────── -->
-    <div class="animate-fadeIn bg-white/[0.02] border border-white/[0.06] rounded-2xl p-6">
+    <div class="animate-fadeIn bg-white border border-slate-200 rounded-2xl p-6">
         <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
             <div>
                 <span class="text-slate-500 text-[11px] uppercase tracking-wider font-medium">Today's Attendance</span>
                 <div class="flex items-center gap-3 mt-2">
                     @if (isCheckedIn) {
-                        <span class="flex items-center gap-1.5 text-[12px] font-semibold text-emerald-400">
+                        <span class="flex items-center gap-1.5 text-[12px] font-semibold text-emerald-600">
                             <span class="w-2 h-2 rounded-full bg-emerald-400 pulse-indicator"></span>
                             Checked In
                         </span>
                     } @else if (isCompleted) {
-                        <span class="flex items-center gap-1.5 text-[12px] font-semibold text-blue-400">
+                        <span class="flex items-center gap-1.5 text-[12px] font-semibold text-blue-600">
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
                             Day Completed
                         </span>
                     } @else {
-                        <span class="text-[12px] font-semibold text-slate-600">Not Checked In Yet</span>
+                        <span class="text-[12px] font-semibold text-slate-500">Not Checked In Yet</span>
                     }
                 </div>
             </div>
@@ -48,18 +48,18 @@
             <!-- Time Slots -->
             <div class="flex items-center gap-6">
                 <div class="text-center">
-                    <span class="text-slate-600 text-[10px] uppercase tracking-wider block">Check In</span>
-                    <span class="text-white text-lg font-mono font-bold mt-0.5 block">{{ checkInTimeStr }}</span>
+                    <span class="text-slate-500 text-[10px] uppercase tracking-wider block">Check In</span>
+                    <span class="text-slate-900 text-lg font-mono font-bold mt-0.5 block">{{ checkInTimeStr }}</span>
                 </div>
-                <div class="text-slate-700">→</div>
+                <div class="text-slate-600">→</div>
                 <div class="text-center">
-                    <span class="text-slate-600 text-[10px] uppercase tracking-wider block">Check Out</span>
-                    <span class="text-white text-lg font-mono font-bold mt-0.5 block">{{ checkOutTimeStr }}</span>
+                    <span class="text-slate-500 text-[10px] uppercase tracking-wider block">Check Out</span>
+                    <span class="text-slate-900 text-lg font-mono font-bold mt-0.5 block">{{ checkOutTimeStr }}</span>
                 </div>
                 @if (isCompleted) {
-                    <div class="text-center pl-4 border-l border-white/[0.06]">
-                        <span class="text-slate-600 text-[10px] uppercase tracking-wider block">Hours</span>
-                        <span class="text-emerald-400 text-lg font-mono font-bold mt-0.5 block">{{ totalHoursStr }}</span>
+                    <div class="text-center pl-4 border-l border-slate-200">
+                        <span class="text-slate-500 text-[10px] uppercase tracking-wider block">Hours</span>
+                        <span class="text-emerald-600 text-lg font-mono font-bold mt-0.5 block">{{ totalHoursStr }}</span>
                     </div>
                 }
             </div>
@@ -69,7 +69,7 @@
                 <div class="flex gap-2">
                     @if (!isCheckedIn && !isCompleted) {
                         <button (click)="doCheckIn()" [disabled]="checkingIn()"
-                            class="flex items-center gap-2 px-5 py-2.5 bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 rounded-xl text-[13px] font-semibold hover:bg-emerald-500/20 transition-all disabled:opacity-50">
+                            class="flex items-center gap-2 px-5 py-2.5 bg-emerald-500/10 border border-emerald-500/20 text-emerald-600 rounded-xl text-[13px] font-semibold hover:bg-emerald-500/20 transition-all disabled:opacity-50">
                             @if (checkingIn()) {
                                 <svg class="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"/><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"/></svg>
                                 Checking In...
@@ -80,7 +80,7 @@
                         </button>
                     } @else if (isCheckedIn) {
                         <button (click)="doCheckOut()" [disabled]="checkingOut()"
-                            class="flex items-center gap-2 px-5 py-2.5 bg-rose-500/10 border border-rose-500/20 text-rose-400 rounded-xl text-[13px] font-semibold hover:bg-rose-500/20 transition-all disabled:opacity-50">
+                            class="flex items-center gap-2 px-5 py-2.5 bg-rose-500/10 border border-rose-500/20 text-rose-500 rounded-xl text-[13px] font-semibold hover:bg-rose-500/20 transition-all disabled:opacity-50">
                             @if (checkingOut()) {
                                 <svg class="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"/><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"/></svg>
                                 Checking Out...
@@ -96,19 +96,19 @@
     </div>
 
     <!-- ── Monthly Summary ───────────────────────────────── -->
-    <div class="animate-fadeIn bg-white/[0.02] border border-white/[0.06] rounded-2xl p-6">
+    <div class="animate-fadeIn bg-white border border-slate-200 rounded-2xl p-6">
         <div class="flex items-center justify-between mb-5">
-            <h2 class="text-white text-[15px] font-semibold">Monthly Summary</h2>
+            <h2 class="text-slate-900 text-[15px] font-semibold">Monthly Summary</h2>
             <div class="flex items-center gap-2">
                 <button (click)="changeSummaryMonth(-1)"
-                    class="p-1.5 rounded-lg bg-white/[0.04] text-slate-400 hover:bg-white/[0.08] hover:text-white transition-all">
+                    class="p-1.5 rounded-lg bg-slate-50 text-slate-500 hover:bg-indigo-500/15 hover:text-slate-900 transition-all">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
                 </button>
-                <span class="text-slate-300 text-[13px] font-medium min-w-[120px] text-center">
+                <span class="text-slate-500 text-[13px] font-medium min-w-[120px] text-center">
                     {{ getMonthName(summaryMonth()) }} {{ summaryYear() }}
                 </span>
                 <button (click)="changeSummaryMonth(1)"
-                    class="p-1.5 rounded-lg bg-white/[0.04] text-slate-400 hover:bg-white/[0.08] hover:text-white transition-all">
+                    class="p-1.5 rounded-lg bg-slate-50 text-slate-500 hover:bg-indigo-500/15 hover:text-slate-900 transition-all">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
                 </button>
             </div>
@@ -122,33 +122,33 @@
             </div>
         } @else if (summary()) {
             <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4">
-                <div class="bg-white/[0.02] border border-white/[0.04] rounded-xl p-4 text-center">
-                    <span class="text-2xl font-bold text-emerald-400">{{ summary()!.totalPresent }}</span>
+                <div class="bg-white border border-slate-200/80 rounded-xl p-4 text-center">
+                    <span class="text-2xl font-bold text-emerald-600">{{ summary()!.totalPresent }}</span>
                     <p class="text-slate-500 text-[11px] mt-1 uppercase tracking-wider">Present</p>
                 </div>
-                <div class="bg-white/[0.02] border border-white/[0.04] rounded-xl p-4 text-center">
-                    <span class="text-2xl font-bold text-red-400">{{ summary()!.totalAbsent }}</span>
+                <div class="bg-white border border-slate-200/80 rounded-xl p-4 text-center">
+                    <span class="text-2xl font-bold text-red-500">{{ summary()!.totalAbsent }}</span>
                     <p class="text-slate-500 text-[11px] mt-1 uppercase tracking-wider">Absent</p>
                 </div>
-                <div class="bg-white/[0.02] border border-white/[0.04] rounded-xl p-4 text-center">
-                    <span class="text-2xl font-bold text-amber-400">{{ summary()!.totalHalfDay }}</span>
+                <div class="bg-white border border-slate-200/80 rounded-xl p-4 text-center">
+                    <span class="text-2xl font-bold text-amber-500">{{ summary()!.totalHalfDay }}</span>
                     <p class="text-slate-500 text-[11px] mt-1 uppercase tracking-wider">Half Day</p>
                 </div>
-                <div class="bg-white/[0.02] border border-white/[0.04] rounded-xl p-4 text-center">
-                    <span class="text-2xl font-bold text-blue-400">{{ summary()!.totalOnLeave }}</span>
+                <div class="bg-white border border-slate-200/80 rounded-xl p-4 text-center">
+                    <span class="text-2xl font-bold text-blue-600">{{ summary()!.totalOnLeave }}</span>
                     <p class="text-slate-500 text-[11px] mt-1 uppercase tracking-wider">On Leave</p>
                 </div>
-                <div class="bg-white/[0.02] border border-white/[0.04] rounded-xl p-4 text-center">
+                <div class="bg-white border border-slate-200/80 rounded-xl p-4 text-center">
                     <span class="text-2xl font-bold text-orange-400">{{ summary()!.totalLateArrivals }}</span>
                     <p class="text-slate-500 text-[11px] mt-1 uppercase tracking-wider">Late</p>
                 </div>
-                <div class="bg-white/[0.02] border border-white/[0.04] rounded-xl p-4 text-center">
+                <div class="bg-white border border-slate-200/80 rounded-xl p-4 text-center">
                     <span class="text-2xl font-bold text-cyan-400">{{ summary()!.totalHoursWorked | number:'1.0-0' }}</span>
                     <p class="text-slate-500 text-[11px] mt-1 uppercase tracking-wider">Hours</p>
                 </div>
             </div>
         } @else {
-            <div class="flex flex-col items-center py-8 text-slate-600">
+            <div class="flex flex-col items-center py-8 text-slate-500">
                 <svg class="w-10 h-10 mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
                 <p class="text-[13px]">No summary data available</p>
             </div>
@@ -156,11 +156,11 @@
     </div>
 
     <!-- ── Attendance History ─────────────────────────────── -->
-    <div class="animate-fadeIn bg-white/[0.02] border border-white/[0.06] rounded-2xl overflow-hidden">
-        <div class="px-6 py-5 border-b border-white/[0.04] flex items-center justify-between">
+    <div class="animate-fadeIn bg-white border border-slate-200 rounded-2xl overflow-hidden">
+        <div class="px-6 py-5 border-b border-slate-200/80 flex items-center justify-between">
             <div>
-                <h2 class="text-white text-[15px] font-semibold">Attendance History</h2>
-                <p class="text-slate-600 text-[12px] mt-0.5">{{ totalElements() }} records</p>
+                <h2 class="text-slate-900 text-[15px] font-semibold">Attendance History</h2>
+                <p class="text-slate-500 text-[12px] mt-0.5">{{ totalElements() }} records</p>
             </div>
         </div>
 
@@ -168,7 +168,7 @@
         <div class="overflow-x-auto">
             <table class="w-full">
                 <thead>
-                    <tr class="border-b border-white/[0.04]">
+                    <tr class="border-b border-slate-200/80">
                         <th class="text-left text-[11px] font-semibold uppercase tracking-wider text-slate-500 px-6 py-3">Date</th>
                         <th class="text-left text-[11px] font-semibold uppercase tracking-wider text-slate-500 px-4 py-3">Status</th>
                         <th class="text-left text-[11px] font-semibold uppercase tracking-wider text-slate-500 px-4 py-3">Check In</th>
@@ -180,7 +180,7 @@
                 <tbody>
                     @if (loading()) {
                         @for (s of skeletonRows; track $index) {
-                            <tr class="border-b border-white/[0.03]">
+                            <tr class="border-b border-slate-100">
                                 <td class="px-6 py-4"><div class="skeleton-block h-4 w-24 rounded"></div></td>
                                 <td class="px-4 py-4"><div class="skeleton-block h-5 w-16 rounded-full"></div></td>
                                 <td class="px-4 py-4"><div class="skeleton-block h-4 w-16 rounded"></div></td>
@@ -192,7 +192,7 @@
                     } @else if (records().length === 0) {
                         <tr>
                             <td colspan="6" class="text-center py-16">
-                                <div class="flex flex-col items-center text-slate-600">
+                                <div class="flex flex-col items-center text-slate-500">
                                     <svg class="w-12 h-12 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
                                     <p class="text-[14px] font-medium">No attendance records</p>
                                     <p class="text-[12px] mt-1">Records will appear once you start checking in</p>
@@ -201,10 +201,10 @@
                         </tr>
                     } @else {
                         @for (rec of records(); track rec.attendanceId) {
-                            <tr class="border-b border-white/[0.03] hover:bg-white/[0.02] transition-colors">
+                            <tr class="border-b border-slate-100 hover:bg-white transition-colors">
                                 <!-- Date -->
                                 <td class="px-6 py-4">
-                                    <p class="text-white text-[13px] font-medium">{{ formatDateDisplay(rec.attendanceDate) }}</p>
+                                    <p class="text-slate-700 text-[13px] font-medium">{{ formatDateDisplay(rec.attendanceDate) }}</p>
                                 </td>
 
                                 <!-- Status -->
@@ -216,17 +216,17 @@
 
                                 <!-- Check In -->
                                 <td class="px-4 py-4">
-                                    <span class="text-slate-300 text-[13px] font-mono">{{ formatTimeValue(rec.checkInTime) }}</span>
+                                    <span class="text-slate-500 text-[13px] font-mono">{{ formatTimeValue(rec.checkInTime) }}</span>
                                 </td>
 
                                 <!-- Check Out -->
                                 <td class="px-4 py-4">
-                                    <span class="text-slate-300 text-[13px] font-mono">{{ formatTimeValue(rec.checkOutTime) }}</span>
+                                    <span class="text-slate-500 text-[13px] font-mono">{{ formatTimeValue(rec.checkOutTime) }}</span>
                                 </td>
 
                                 <!-- Hours -->
                                 <td class="px-4 py-4">
-                                    <span class="text-slate-400 text-[13px]">{{ formatHours(rec.totalHours) }}</span>
+                                    <span class="text-slate-500 text-[13px]">{{ formatHours(rec.totalHours) }}</span>
                                 </td>
 
                                 <!-- Flags -->
@@ -236,10 +236,10 @@
                                             <span class="px-2 py-0.5 rounded bg-orange-500/10 text-orange-400 text-[10px] font-semibold">LATE</span>
                                         }
                                         @if (rec.isEarlyDeparture) {
-                                            <span class="px-2 py-0.5 rounded bg-amber-500/10 text-amber-400 text-[10px] font-semibold">EARLY</span>
+                                            <span class="px-2 py-0.5 rounded bg-amber-500/10 text-amber-500 text-[10px] font-semibold">EARLY</span>
                                         }
                                         @if (!rec.isLate && !rec.isEarlyDeparture && rec.status === 'PRESENT') {
-                                            <span class="text-slate-600 text-[11px]">—</span>
+                                            <span class="text-slate-500 text-[11px]">—</span>
                                         }
                                     </div>
                                 </td>
@@ -252,13 +252,13 @@
 
         <!-- Pagination -->
         @if (totalPages() > 1) {
-            <div class="px-6 py-4 border-t border-white/[0.04] flex items-center justify-between">
+            <div class="px-6 py-4 border-t border-slate-200/80 flex items-center justify-between">
                 <span class="text-slate-500 text-[12px]">
                     Page {{ page() + 1 }} of {{ totalPages() }}
                 </span>
                 <div class="flex items-center gap-1">
                     <button (click)="goToPage(page() - 1)" [disabled]="page() === 0"
-                        class="px-3 py-1.5 rounded-lg text-[12px] font-medium transition-all disabled:opacity-30 disabled:cursor-not-allowed bg-white/[0.04] text-slate-400 hover:bg-white/[0.08] hover:text-white">
+                        class="px-3 py-1.5 rounded-lg text-[12px] font-medium transition-all disabled:opacity-30 disabled:cursor-not-allowed bg-slate-50 text-slate-500 hover:bg-indigo-500/15 hover:text-slate-900">
                         ← Prev
                     </button>
                     @for (p of [].constructor(totalPages()); track $index) {
@@ -266,14 +266,14 @@
                             <button (click)="goToPage($index)"
                                 class="w-8 h-8 rounded-lg text-[12px] font-medium transition-all"
                                 [class]="$index === page()
-                                    ? 'bg-blue-500/20 text-blue-400 border border-blue-500/30'
-                                    : 'bg-white/[0.04] text-slate-500 hover:bg-white/[0.08] hover:text-white'">
+                                    ? 'bg-blue-500/20 text-blue-600 border border-blue-500/30'
+                                    : 'bg-slate-50 text-slate-500 hover:bg-indigo-500/15 hover:text-slate-900'">
                                 {{ $index + 1 }}
                             </button>
                         }
                     }
                     <button (click)="goToPage(page() + 1)" [disabled]="page() >= totalPages() - 1"
-                        class="px-3 py-1.5 rounded-lg text-[12px] font-medium transition-all disabled:opacity-30 disabled:cursor-not-allowed bg-white/[0.04] text-slate-400 hover:bg-white/[0.08] hover:text-white">
+                        class="px-3 py-1.5 rounded-lg text-[12px] font-medium transition-all disabled:opacity-30 disabled:cursor-not-allowed bg-slate-50 text-slate-500 hover:bg-indigo-500/15 hover:text-slate-900">
                         Next →
                     </button>
                 </div>

@@ -1,15 +1,15 @@
-<div class="min-h-screen bg-slate-950 p-6 lg:p-8 space-y-6">
+<div class="min-h-screen p-6 lg:p-8 space-y-6">
 
     <!-- ── Toast Messages ────────────────────────────── -->
     @if (success()) {
-        <div class="fixed top-6 right-6 z-50 animate-fadeIn flex items-center gap-2 px-5 py-3 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-[13px] font-medium shadow-2xl">
+        <div class="fixed top-6 right-6 z-50 animate-toast flex items-center gap-2.5 px-5 py-3.5 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-600 text-[13px] font-medium shadow-2xl">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
             {{ success() }}
         </div>
     }
 
     @if (error()) {
-        <div class="fixed top-6 right-6 z-50 animate-fadeIn flex items-center gap-2 px-5 py-3 rounded-xl bg-red-500/10 border border-red-500/20 text-red-400 text-[13px] font-medium shadow-2xl">
+        <div class="fixed top-6 right-6 z-50 animate-toast flex items-center gap-2.5 px-5 py-3.5 rounded-xl bg-red-500/10 border border-red-500/20 text-red-500 text-[13px] font-medium shadow-2xl">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
             {{ error() }}
         </div>
@@ -18,30 +18,30 @@
     <!-- ── Header ────────────────────────────────────── -->
     <div class="animate-fadeIn flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4">
         <div>
-            <h1 class="text-2xl font-bold text-white tracking-tight">My Leaves</h1>
+            <h1 class="text-2xl font-bold text-slate-900 tracking-tight tracking-tight">My Leaves</h1>
             <p class="text-slate-500 text-[13px] mt-1">Manage leave applications and view your balance</p>
         </div>
         <button (click)="openApplyModal()"
-            class="flex items-center gap-2 px-5 py-2.5 bg-blue-500/10 border border-blue-500/20 text-blue-400 rounded-xl text-[13px] font-semibold hover:bg-blue-500/20 transition-all">
+            class="flex items-center gap-2 px-5 py-2.5 bg-blue-500/10 border border-blue-500/20 text-blue-600 rounded-xl text-[13px] font-semibold hover:bg-indigo-500/20 transition-all">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
             Apply for Leave
         </button>
     </div>
 
     <!-- ── Tabs ──────────────────────────────────────── -->
-    <div class="animate-fadeIn flex gap-1 p-1 bg-white/[0.02] border border-white/[0.06] rounded-xl w-fit">
+    <div class="animate-fadeIn flex gap-1 p-1 bg-white border border-slate-200 rounded-xl w-fit">
         <button (click)="switchTab('applications')"
             class="px-5 py-2 rounded-lg text-[13px] font-medium transition-all"
             [class]="activeTab() === 'applications'
-                ? 'bg-white/[0.08] text-white shadow-sm'
-                : 'text-slate-500 hover:text-white hover:bg-white/[0.04]'">
+                ? 'bg-indigo-50 text-indigo-700 shadow-sm'
+                : 'text-slate-500 hover:text-slate-900 hover:bg-slate-50'">
             My Applications
         </button>
         <button (click)="switchTab('balances')"
             class="px-5 py-2 rounded-lg text-[13px] font-medium transition-all"
             [class]="activeTab() === 'balances'
-                ? 'bg-white/[0.08] text-white shadow-sm'
-                : 'text-slate-500 hover:text-white hover:bg-white/[0.04]'">
+                ? 'bg-indigo-50 text-indigo-700 shadow-sm'
+                : 'text-slate-500 hover:text-slate-900 hover:bg-slate-50'">
             Leave Balances
         </button>
     </div>
@@ -50,13 +50,13 @@
     <!--  TAB: Applications                                 -->
     <!-- ═══════════════════════════════════════════════════ -->
     @if (activeTab() === 'applications') {
-        <div class="animate-fadeIn bg-white/[0.02] border border-white/[0.06] rounded-2xl overflow-hidden">
+        <div class="animate-fadeIn bg-white border border-slate-200 rounded-2xl overflow-hidden">
 
             <!-- Toolbar -->
-            <div class="px-6 py-4 border-b border-white/[0.04] flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+            <div class="px-6 py-4 border-b border-slate-200/80 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
                 <p class="text-slate-500 text-[12px]">{{ appTotalElements() }} applications</p>
                 <select (change)="onStatusFilterChange($event)"
-                    class="px-3 py-1.5 rounded-lg bg-white/[0.04] border border-white/[0.06] text-slate-300 text-[12px] focus:outline-none focus:ring-1 focus:ring-blue-500/30">
+                    class="px-3 py-1.5 rounded-lg bg-slate-50 border border-slate-200 text-slate-500 text-[12px] focus:outline-none focus:ring-1 focus:ring-indigo-500/30">
                     <option value="">All Statuses</option>
                     <option value="PENDING">Pending</option>
                     <option value="APPROVED">Approved</option>
@@ -69,7 +69,7 @@
             <div class="overflow-x-auto">
                 <table class="w-full">
                     <thead>
-                        <tr class="border-b border-white/[0.04]">
+                        <tr class="border-b border-slate-200/80">
                             <th class="text-left text-[11px] font-semibold uppercase tracking-wider text-slate-500 px-6 py-3">Leave Type</th>
                             <th class="text-left text-[11px] font-semibold uppercase tracking-wider text-slate-500 px-4 py-3">Period</th>
                             <th class="text-center text-[11px] font-semibold uppercase tracking-wider text-slate-500 px-4 py-3">Days</th>
@@ -82,7 +82,7 @@
                     <tbody>
                         @if (appLoading()) {
                             @for (s of skeletonRows; track $index) {
-                                <tr class="border-b border-white/[0.03]">
+                                <tr class="border-b border-slate-100">
                                     <td class="px-6 py-4"><div class="skeleton-block h-4 w-24 rounded"></div></td>
                                     <td class="px-4 py-4"><div class="skeleton-block h-4 w-32 rounded"></div></td>
                                     <td class="px-4 py-4"><div class="skeleton-block h-4 w-8 rounded mx-auto"></div></td>
@@ -95,7 +95,7 @@
                         } @else if (applications().length === 0) {
                             <tr>
                                 <td colspan="7" class="text-center py-16">
-                                    <div class="flex flex-col items-center text-slate-600">
+                                    <div class="flex flex-col items-center text-slate-500">
                                         <svg class="w-12 h-12 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
                                         <p class="text-[14px] font-medium">No leave applications</p>
                                         <p class="text-[12px] mt-1">Apply for leave using the button above</p>
@@ -104,15 +104,15 @@
                             </tr>
                         } @else {
                             @for (app of applications(); track app.leaveId) {
-                                <tr class="border-b border-white/[0.03] hover:bg-white/[0.02] transition-colors">
+                                <tr class="border-b border-slate-100 hover:bg-white transition-colors">
                                     <td class="px-6 py-4">
-                                        <span class="text-white text-[13px] font-medium">{{ app.leaveType.leaveTypeName }}</span>
+                                        <span class="text-slate-700 text-[13px] font-medium">{{ app.leaveType.leaveTypeName }}</span>
                                     </td>
                                     <td class="px-4 py-4">
-                                        <span class="text-slate-300 text-[13px]">{{ formatDateShort(app.startDate) }} — {{ formatDateShort(app.endDate) }}</span>
+                                        <span class="text-slate-500 text-[13px]">{{ formatDateShort(app.startDate) }} — {{ formatDateShort(app.endDate) }}</span>
                                     </td>
                                     <td class="px-4 py-4 text-center">
-                                        <span class="text-white text-[13px] font-semibold">{{ app.totalDays }}</span>
+                                        <span class="text-slate-900 text-[13px] font-semibold">{{ app.totalDays }}</span>
                                     </td>
                                     <td class="px-4 py-4">
                                         <span class="inline-flex items-center px-2.5 py-1 rounded-full text-[11px] font-semibold {{ getStatusClass(app.status) }}">
@@ -123,17 +123,17 @@
                                         <span class="text-slate-500 text-[12px]">{{ formatDate(app.appliedDate) }}</span>
                                     </td>
                                     <td class="px-4 py-4">
-                                        <span class="text-slate-400 text-[12px] line-clamp-1 max-w-[180px]" [title]="app.reason">{{ app.reason }}</span>
+                                        <span class="text-slate-500 text-[12px] line-clamp-1 max-w-[180px]" [title]="app.reason">{{ app.reason }}</span>
                                     </td>
                                     <td class="px-6 py-4 text-right">
                                         @if (app.status === 'PENDING' || app.status === 'APPROVED') {
                                             <button (click)="cancelLeave(app)" [disabled]="cancelling() === app.leaveId"
-                                                class="px-3 py-1.5 rounded-lg text-[11px] font-semibold bg-red-500/10 text-red-400 border border-red-500/20 hover:bg-red-500/20 transition-all disabled:opacity-50">
+                                                class="px-3 py-1.5 rounded-lg text-[11px] font-semibold bg-red-500/10 text-red-500 border border-red-500/20 hover:bg-red-500/20 transition-all disabled:opacity-50">
                                                 {{ cancelling() === app.leaveId ? 'Cancelling...' : 'Cancel' }}
                                             </button>
                                         }
                                         @if (app.managerComments) {
-                                            <span class="text-slate-600 text-[11px] ml-2 italic" [title]="app.managerComments">💬</span>
+                                            <span class="text-slate-500 text-[11px] ml-2 italic" [title]="app.managerComments">💬</span>
                                         }
                                     </td>
                                 </tr>
@@ -145,11 +145,11 @@
 
             <!-- Pagination -->
             @if (appTotalPages() > 1) {
-                <div class="px-6 py-4 border-t border-white/[0.04] flex items-center justify-between">
+                <div class="px-6 py-4 border-t border-slate-200/80 flex items-center justify-between">
                     <span class="text-slate-500 text-[12px]">Page {{ appPage() + 1 }} of {{ appTotalPages() }}</span>
                     <div class="flex items-center gap-1">
                         <button (click)="goToAppPage(appPage() - 1)" [disabled]="appPage() === 0"
-                            class="px-3 py-1.5 rounded-lg text-[12px] font-medium transition-all disabled:opacity-30 disabled:cursor-not-allowed bg-white/[0.04] text-slate-400 hover:bg-white/[0.08] hover:text-white">
+                            class="px-3 py-1.5 rounded-lg text-[12px] font-medium transition-all disabled:opacity-30 disabled:cursor-not-allowed bg-slate-50 text-slate-500 hover:bg-indigo-500/15 hover:text-slate-900">
                             ← Prev
                         </button>
                         @for (p of [].constructor(appTotalPages()); track $index) {
@@ -157,14 +157,14 @@
                                 <button (click)="goToAppPage($index)"
                                     class="w-8 h-8 rounded-lg text-[12px] font-medium transition-all"
                                     [class]="$index === appPage()
-                                        ? 'bg-blue-500/20 text-blue-400 border border-blue-500/30'
-                                        : 'bg-white/[0.04] text-slate-500 hover:bg-white/[0.08] hover:text-white'">
+                                        ? 'bg-blue-500/20 text-blue-600 border border-blue-500/30'
+                                        : 'bg-slate-50 text-slate-500 hover:bg-indigo-500/15 hover:text-slate-900'">
                                     {{ $index + 1 }}
                                 </button>
                             }
                         }
                         <button (click)="goToAppPage(appPage() + 1)" [disabled]="appPage() >= appTotalPages() - 1"
-                            class="px-3 py-1.5 rounded-lg text-[12px] font-medium transition-all disabled:opacity-30 disabled:cursor-not-allowed bg-white/[0.04] text-slate-400 hover:bg-white/[0.08] hover:text-white">
+                            class="px-3 py-1.5 rounded-lg text-[12px] font-medium transition-all disabled:opacity-30 disabled:cursor-not-allowed bg-slate-50 text-slate-500 hover:bg-indigo-500/15 hover:text-slate-900">
                             Next →
                         </button>
                     </div>
@@ -185,7 +185,7 @@
                     }
                 </div>
             } @else if (balances().length === 0) {
-                <div class="flex flex-col items-center py-20 text-slate-600 bg-white/[0.02] border border-white/[0.06] rounded-2xl">
+                <div class="flex flex-col items-center py-20 text-slate-500 bg-white border border-slate-200 rounded-2xl">
                     <svg class="w-14 h-14 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
                     <p class="text-[15px] font-medium">No leave balances available</p>
                     <p class="text-[12px] mt-1">Balance data will appear once allocated by your admin</p>
@@ -193,19 +193,19 @@
             } @else {
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
                     @for (b of balances(); track b.balanceId) {
-                        <div class="bg-white/[0.02] border border-white/[0.06] rounded-2xl p-6 hover:bg-white/[0.03] transition-all">
+                        <div class="bg-white border border-slate-200 rounded-2xl p-6 hover:bg-white transition-all">
                             <div class="flex items-center justify-between mb-4">
-                                <h3 class="text-white text-[15px] font-semibold">{{ b.leaveType.leaveTypeName }}</h3>
+                                <h3 class="text-slate-900 text-[15px] font-semibold">{{ b.leaveType.leaveTypeName }}</h3>
                                 @if (b.leaveType.isPaidLeave) {
-                                    <span class="px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-400 text-[10px] font-semibold">Paid</span>
+                                    <span class="px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-600 text-[10px] font-semibold">Paid</span>
                                 } @else {
-                                    <span class="px-2 py-0.5 rounded bg-slate-500/10 text-slate-400 text-[10px] font-semibold">Unpaid</span>
+                                    <span class="px-2 py-0.5 rounded bg-slate-500/10 text-slate-500 text-[10px] font-semibold">Unpaid</span>
                                 }
                             </div>
 
                             <!-- Progress Bar -->
                             <div class="mb-3">
-                                <div class="w-full h-2.5 bg-slate-800 rounded-full overflow-hidden">
+                                <div class="w-full h-2.5 bg-slate-700 rounded-full overflow-hidden">
                                     <div class="balance-bar h-full rounded-full"
                                         [style.width.%]="getBalancePercent(b)"
                                         [style.background]="getBalanceColor(b)">
@@ -216,16 +216,16 @@
                             <!-- Numbers -->
                             <div class="grid grid-cols-3 gap-3">
                                 <div class="text-center">
-                                    <span class="text-white text-lg font-bold block">{{ b.totalLeaves }}</span>
-                                    <span class="text-slate-600 text-[10px] uppercase tracking-wider">Total</span>
+                                    <span class="text-slate-900 text-lg font-bold block">{{ b.totalLeaves }}</span>
+                                    <span class="text-slate-500 text-[10px] uppercase tracking-wider">Total</span>
                                 </div>
                                 <div class="text-center">
                                     <span class="text-lg font-bold block" [style.color]="getBalanceColor(b)">{{ b.usedLeaves }}</span>
-                                    <span class="text-slate-600 text-[10px] uppercase tracking-wider">Used</span>
+                                    <span class="text-slate-500 text-[10px] uppercase tracking-wider">Used</span>
                                 </div>
                                 <div class="text-center">
-                                    <span class="text-emerald-400 text-lg font-bold block">{{ b.availableBalance }}</span>
-                                    <span class="text-slate-600 text-[10px] uppercase tracking-wider">Available</span>
+                                    <span class="text-emerald-600 text-lg font-bold block">{{ b.availableBalance }}</span>
+                                    <span class="text-slate-500 text-[10px] uppercase tracking-wider">Available</span>
                                 </div>
                             </div>
                         </div>
@@ -239,19 +239,19 @@
     <!--  MODAL: Apply for Leave                            -->
     <!-- ═══════════════════════════════════════════════════ -->
     @if (showApplyModal()) {
-        <div class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm" (click)="closeApplyModal()">
-            <div class="modal-enter bg-slate-900 border border-white/[0.08] rounded-2xl shadow-2xl w-full max-w-lg" (click)="$event.stopPropagation()">
+        <div class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/20 backdrop-blur-sm" (click)="closeApplyModal()">
+            <div class="modal-enter bg-white border border-slate-200 rounded-2xl shadow-2xl w-full max-w-lg" (click)="$event.stopPropagation()">
                 <!-- Header -->
-                <div class="flex items-center justify-between px-6 py-4 border-b border-white/[0.06]">
-                    <h3 class="text-white text-[16px] font-semibold">Apply for Leave</h3>
-                    <button (click)="closeApplyModal()" class="p-1.5 rounded-lg text-slate-500 hover:text-white hover:bg-white/[0.06] transition-all">
+                <div class="flex items-center justify-between px-6 py-4 border-b border-slate-200">
+                    <h3 class="text-slate-900 text-[16px] font-semibold">Apply for Leave</h3>
+                    <button (click)="closeApplyModal()" class="p-1.5 rounded-lg text-slate-500 hover:text-slate-900 hover:bg-slate-50 transition-all">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
                     </button>
                 </div>
 
                 <!-- Error Message -->
                 @if (error()) {
-                    <div class="mx-6 mt-4 px-4 py-3 bg-red-500/10 border border-red-500/20 rounded-xl text-red-400 text-[13px] flex items-center gap-2">
+                    <div class="mx-6 mt-4 px-4 py-3 bg-red-500/10 border border-red-500/20 rounded-xl text-red-500 text-[13px] flex items-center gap-2">
                         <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
                         </svg>
@@ -264,9 +264,9 @@
 
                     <!-- Leave Type -->
                     <div>
-                        <label class="block text-[12px] font-medium text-slate-400 mb-1.5">Leave Type *</label>
+                        <label class="block text-[12px] font-medium text-slate-500 mb-1.5">Leave Type *</label>
                         @if (balancesLoading()) {
-                            <div class="w-full px-4 py-2.5 rounded-xl bg-white/[0.04] border border-white/[0.06] flex items-center gap-2 text-slate-500 text-[13px]">
+                            <div class="w-full px-4 py-2.5 rounded-xl bg-slate-50 border border-slate-200 flex items-center gap-2 text-slate-500 text-[13px]">
                                 <svg class="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24">
                                     <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
                                     <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
@@ -275,8 +275,8 @@
                             </div>
                         } @else {
                             <select formControlName="leaveTypeId"
-                                class="w-full px-4 py-2.5 rounded-xl bg-white/[0.04] border text-white text-[13px] focus:outline-none focus:ring-2 focus:ring-blue-500/30 transition-all"
-                                [class]="hasError('leaveTypeId') ? 'border-red-500/40' : 'border-white/[0.06]'"
+                                class="w-full px-4 py-2.5 rounded-xl bg-slate-50 border text-slate-900 text-[13px] focus:outline-none focus:ring-2 focus:ring-indigo-500/30 transition-all"
+                                [class]="hasError('leaveTypeId') ? 'border-red-500/40' : 'border-slate-200'"
                                 [disabled]="balances().length === 0">
                                 <option [ngValue]="null" disabled>
                                     @if (balances().length === 0) {
@@ -292,56 +292,56 @@
                                 }
                             </select>
                             @if (balances().length === 0 && !balancesLoading()) {
-                                <span class="text-amber-400 text-[11px] mt-1">No leave types are configured for your account. Please contact your administrator.</span>
+                                <span class="text-amber-500 text-[11px] mt-1">No leave types are configured for your account. Please contact your administrator.</span>
                             }
                         }
                         @if (hasError('leaveTypeId')) {
-                            <span class="text-red-400 text-[11px] mt-1">{{ getError('leaveTypeId') }}</span>
+                            <span class="text-red-500 text-[11px] mt-1">{{ getError('leaveTypeId') }}</span>
                         }
                     </div>
 
                     <!-- Date Range -->
                     <div class="grid grid-cols-2 gap-4">
                         <div>
-                            <label class="block text-[12px] font-medium text-slate-400 mb-1.5">Start Date *</label>
+                            <label class="block text-[12px] font-medium text-slate-500 mb-1.5">Start Date *</label>
                             <input type="date" formControlName="startDate"
-                                class="w-full px-4 py-2.5 rounded-xl bg-white/[0.04] border text-white text-[13px] focus:outline-none focus:ring-2 focus:ring-blue-500/30 transition-all"
-                                [class]="hasError('startDate') ? 'border-red-500/40' : 'border-white/[0.06]'">
+                                class="w-full px-4 py-2.5 rounded-xl bg-slate-50 border text-slate-900 text-[13px] focus:outline-none focus:ring-2 focus:ring-indigo-500/30 transition-all"
+                                [class]="hasError('startDate') ? 'border-red-500/40' : 'border-slate-200'">
                             @if (hasError('startDate')) {
-                                <span class="text-red-400 text-[11px] mt-1">{{ getError('startDate') }}</span>
+                                <span class="text-red-500 text-[11px] mt-1">{{ getError('startDate') }}</span>
                             }
                         </div>
                         <div>
-                            <label class="block text-[12px] font-medium text-slate-400 mb-1.5">End Date *</label>
+                            <label class="block text-[12px] font-medium text-slate-500 mb-1.5">End Date *</label>
                             <input type="date" formControlName="endDate"
-                                class="w-full px-4 py-2.5 rounded-xl bg-white/[0.04] border text-white text-[13px] focus:outline-none focus:ring-2 focus:ring-blue-500/30 transition-all"
-                                [class]="hasError('endDate') ? 'border-red-500/40' : 'border-white/[0.06]'">
+                                class="w-full px-4 py-2.5 rounded-xl bg-slate-50 border text-slate-900 text-[13px] focus:outline-none focus:ring-2 focus:ring-indigo-500/30 transition-all"
+                                [class]="hasError('endDate') ? 'border-red-500/40' : 'border-slate-200'">
                             @if (hasError('endDate')) {
-                                <span class="text-red-400 text-[11px] mt-1">{{ getError('endDate') }}</span>
+                                <span class="text-red-500 text-[11px] mt-1">{{ getError('endDate') }}</span>
                             }
                         </div>
                     </div>
 
                     <!-- Reason -->
                     <div>
-                        <label class="block text-[12px] font-medium text-slate-400 mb-1.5">Reason *</label>
+                        <label class="block text-[12px] font-medium text-slate-500 mb-1.5">Reason *</label>
                         <textarea formControlName="reason" rows="3" placeholder="Describe reason for leave..."
-                            class="w-full px-4 py-2.5 rounded-xl bg-white/[0.04] border text-white text-[13px] placeholder-slate-600 focus:outline-none focus:ring-2 focus:ring-blue-500/30 transition-all resize-none"
-                            [class]="hasError('reason') ? 'border-red-500/40' : 'border-white/[0.06]'">
+                            class="w-full px-4 py-2.5 rounded-xl bg-slate-50 border text-slate-800 text-[13px] placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500/30 transition-all resize-none"
+                            [class]="hasError('reason') ? 'border-red-500/40' : 'border-slate-200'">
                         </textarea>
                         @if (hasError('reason')) {
-                            <span class="text-red-400 text-[11px] mt-1">{{ getError('reason') }}</span>
+                            <span class="text-red-500 text-[11px] mt-1">{{ getError('reason') }}</span>
                         }
                     </div>
 
                     <!-- Actions -->
                     <div class="flex items-center justify-end gap-3 pt-2">
                         <button type="button" (click)="closeApplyModal()"
-                            class="px-5 py-2.5 rounded-xl text-[13px] font-medium text-slate-400 hover:text-white bg-white/[0.04] hover:bg-white/[0.08] transition-all">
+                            class="px-5 py-2.5 rounded-xl text-[13px] font-medium text-slate-500 hover:text-slate-900 bg-slate-50 hover:bg-indigo-500/15 transition-all">
                             Cancel
                         </button>
                         <button type="submit" [disabled]="applying()"
-                            class="px-6 py-2.5 rounded-xl text-[13px] font-semibold bg-blue-500/20 text-blue-400 border border-blue-500/30 hover:bg-blue-500/30 transition-all disabled:opacity-50">
+                            class="px-6 py-2.5 rounded-xl text-[13px] font-semibold bg-blue-500/20 text-blue-600 border border-blue-500/30 hover:bg-indigo-500/30 transition-all disabled:opacity-50">
                             {{ applying() ? 'Submitting...' : 'Submit Application' }}
                         </button>
                     </div>

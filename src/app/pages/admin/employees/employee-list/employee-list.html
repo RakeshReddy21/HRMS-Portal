@@ -1,6 +1,6 @@
 <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
     <div>
-        <h1 class="text-2xl font-bold text-white">Employees</h1>
+        <h1 class="text-2xl font-bold text-slate-900 tracking-tight">Employees</h1>
         <p class="text-slate-500 text-[13px] mt-1">
             @if (totalElements() > 0) {
                 {{ totalElements() }} employees found
@@ -10,7 +10,7 @@
         </p>
     </div>
     <a routerLink="/admin/employees/register"
-       class="inline-flex items-center gap-2 px-5 py-2.5 bg-blue-600 hover:bg-blue-500 text-white text-[13px] font-semibold rounded-xl transition-all duration-200 shadow-lg shadow-blue-600/20 hover:shadow-blue-500/30 cursor-pointer">
+       class="inline-flex items-center gap-2 px-5 py-2.5 bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-500 hover:to-violet-500 text-white text-[13px] font-semibold rounded-xl transition-all duration-200 shadow-lg shadow-indigo-600/25 hover:shadow-indigo-500/30 cursor-pointer">
         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
         </svg>
@@ -24,57 +24,57 @@
         </svg>
         <input type="text" placeholder="Search by name, email or code..."
                (input)="onSearchChange($event)"
-               class="w-full bg-white/[0.04] border border-white/[0.08] rounded-xl pl-10 pr-4 py-2.5 text-white text-[13px] placeholder-slate-500 focus:outline-none focus:border-blue-500/40 focus:ring-1 focus:ring-blue-500/20 transition-all"/>
+               class="w-full bg-slate-50 border border-slate-200 rounded-xl pl-10 pr-4 py-2.5 text-slate-800 text-[13px] placeholder-slate-400 focus:outline-none focus:border-indigo-500/40 focus:ring-1 focus:ring-indigo-500/20 transition-all"/>
     </div>
     <select (change)="onDepartmentChange($event)"
-            class="filter-select bg-white/[0.04] border border-white/[0.08] rounded-xl px-4 py-2.5 text-[13px] text-slate-300 focus:outline-none focus:border-blue-500/40 transition-all appearance-none cursor-pointer min-w-[160px]">
-        <option value="" class="bg-slate-900">All Departments</option>
+            class="filter-select bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5 text-[13px] text-slate-500 focus:outline-none focus:border-indigo-500/40 transition-all appearance-none cursor-pointer min-w-[160px]">
+        <option value="" class="bg-white">All Departments</option>
         @for (dept of departments(); track dept.departmentId) {
-            <option [value]="dept.departmentId" class="bg-slate-900">{{ dept.departmentName }}</option>
+            <option [value]="dept.departmentId" class="bg-white">{{ dept.departmentName }}</option>
         }
     </select>
     <select (change)="onRoleChange($event)"
-            class="filter-select bg-white/[0.04] border border-white/[0.08] rounded-xl px-4 py-2.5 text-[13px] text-slate-300 focus:outline-none focus:border-blue-500/40 transition-all appearance-none cursor-pointer min-w-[130px]">
-        <option value="" class="bg-slate-900">All Roles</option>
-        <option value="ADMIN" class="bg-slate-900">Admin</option>
-        <option value="MANAGER" class="bg-slate-900">Manager</option>
-        <option value="EMPLOYEE" class="bg-slate-900">Employee</option>
+            class="filter-select bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5 text-[13px] text-slate-500 focus:outline-none focus:border-indigo-500/40 transition-all appearance-none cursor-pointer min-w-[130px]">
+        <option value="" class="bg-white">All Roles</option>
+        <option value="ADMIN" class="bg-white">Admin</option>
+        <option value="MANAGER" class="bg-white">Manager</option>
+        <option value="EMPLOYEE" class="bg-white">Employee</option>
     </select>
     <select (change)="onStatusChange($event)"
-            class="filter-select bg-white/[0.04] border border-white/[0.08] rounded-xl px-4 py-2.5 text-[13px] text-slate-300 focus:outline-none focus:border-blue-500/40 transition-all appearance-none cursor-pointer min-w-[130px]">
-        <option value="" class="bg-slate-900">All Status</option>
-        <option value="true" class="bg-slate-900">Active</option>
-        <option value="false" class="bg-slate-900">Inactive</option>
+            class="filter-select bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5 text-[13px] text-slate-500 focus:outline-none focus:border-indigo-500/40 transition-all appearance-none cursor-pointer min-w-[130px]">
+        <option value="" class="bg-white">All Status</option>
+        <option value="true" class="bg-white">Active</option>
+        <option value="false" class="bg-white">Inactive</option>
     </select>
 </div>
 @if (error()) {
-    <div class="mb-6 px-4 py-3 bg-red-500/10 border border-red-500/20 rounded-xl text-red-400 text-[13px]">
+    <div class="mb-6 px-4 py-3 bg-red-500/10 border border-red-500/20 rounded-xl text-red-500 text-[13px]">
         {{ error() }}
     </div>
 }
 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
     @if (loading()) {
         @for (i of skeletonCards; track $index) {
-            <div class="bg-white/[0.02] border border-white/[0.06] rounded-2xl p-5 animate-pulse">
+            <div class="bg-white border border-slate-200 rounded-2xl p-5 animate-pulse">
                 <div class="flex flex-col items-center mb-4">
-                    <div class="w-14 h-14 rounded-2xl bg-slate-700/50 mb-3"></div>
-                    <div class="h-4 w-28 bg-slate-700/50 rounded mb-1.5"></div>
-                    <div class="h-3 w-20 bg-slate-700/30 rounded mb-2"></div>
-                    <div class="h-5 w-16 bg-slate-700/30 rounded-full"></div>
+                    <div class="w-14 h-14 rounded-2xl bg-slate-700 mb-3"></div>
+                    <div class="h-4 w-28 bg-slate-700 rounded mb-1.5"></div>
+                    <div class="h-3 w-20 bg-slate-800 rounded mb-2"></div>
+                    <div class="h-5 w-16 bg-slate-800 rounded-full"></div>
                 </div>
-                <div class="h-px bg-white/[0.06] my-3"></div>
+                <div class="h-px bg-[#f0f4fa] my-3"></div>
                 <div class="space-y-2.5">
-                    <div class="h-3 w-full bg-slate-700/30 rounded"></div>
-                    <div class="h-3 w-3/4 bg-slate-700/30 rounded"></div>
-                    <div class="h-3 w-2/3 bg-slate-700/30 rounded"></div>
+                    <div class="h-3 w-full bg-slate-800 rounded"></div>
+                    <div class="h-3 w-3/4 bg-slate-800 rounded"></div>
+                    <div class="h-3 w-2/3 bg-slate-800 rounded"></div>
                 </div>
             </div>
         }
     }
     @if (!loading()) {
         @for (emp of employees(); track emp.employeeCode) {
-            <div class="group relative bg-white/[0.02] border border-white/[0.06] rounded-2xl p-5
-                        hover:bg-white/[0.04] hover:border-blue-500/20 hover:shadow-lg hover:shadow-blue-500/[0.04]
+            <div class="group relative bg-white border border-slate-200 rounded-2xl p-5
+                        hover:bg-slate-50 hover:border-indigo-500/20 hover:shadow-lg hover:shadow-indigo-500/[0.04]
                         transition-all duration-300 cursor-pointer"
                  (click)="selectEmployee(emp)">
 
@@ -89,11 +89,11 @@
                     </span>
                 </div>
                 <div class="flex flex-col items-center text-center mb-4">
-                    <div class="w-14 h-14 rounded-2xl bg-gradient-to-br flex items-center justify-center text-white text-lg font-bold shadow-lg mb-3"
+                    <div class="w-14 h-14 rounded-2xl bg-gradient-to-br flex items-center justify-center text-slate-900 text-lg font-bold shadow-lg mb-3"
                          [class]="getAvatarGradient(emp.role)">
                         {{ getInitials(emp) }}
                     </div>
-                    <h3 class="text-white font-semibold text-[15px] leading-tight">
+                    <h3 class="text-slate-900 font-semibold text-[15px] leading-tight">
                         {{ emp.firstName }} {{ emp.lastName }}
                     </h3>
                     <p class="text-slate-500 text-[11px] font-mono mt-0.5">{{ emp.employeeCode }}</p>
@@ -103,34 +103,34 @@
                     </span>
                 </div>
 
-                <div class="h-px bg-white/[0.06] my-3"></div>
+                <div class="h-px bg-[#f0f4fa] my-3"></div>
                 <div class="space-y-2">
                     <div class="flex items-center gap-2.5">
-                        <svg class="w-3.5 h-3.5 text-slate-600 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg class="w-3.5 h-3.5 text-slate-500 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
                         </svg>
-                        <span class="text-slate-400 text-[12px] truncate">{{ emp.email }}</span>
+                        <span class="text-slate-500 text-[12px] truncate">{{ emp.email }}</span>
                     </div>
                     @if (emp.departmentName) {
                         <div class="flex items-center gap-2.5">
-                            <svg class="w-3.5 h-3.5 text-slate-600 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <svg class="w-3.5 h-3.5 text-slate-500 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/>
                             </svg>
-                            <span class="text-slate-400 text-[12px]">{{ emp.departmentName }}</span>
+                            <span class="text-slate-500 text-[12px]">{{ emp.departmentName }}</span>
                         </div>
                     }
                     @if (emp.designationTitle) {
                         <div class="flex items-center gap-2.5">
-                            <svg class="w-3.5 h-3.5 text-slate-600 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <svg class="w-3.5 h-3.5 text-slate-500 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
                             </svg>
-                            <span class="text-slate-400 text-[12px]">{{ emp.designationTitle }}</span>
+                            <span class="text-slate-500 text-[12px]">{{ emp.designationTitle }}</span>
                         </div>
                     }
                 </div>
-                <div class="mt-4 pt-4 border-t border-white/[0.06]">
+                <div class="mt-4 pt-4 border-t border-slate-200">
                     <a [routerLink]="['/admin/employees', emp.employeeCode]"
-                       class="flex items-center justify-center gap-2 px-4 py-2 rounded-xl bg-blue-500/10 border border-blue-500/20 text-blue-400 text-[12px] font-medium hover:bg-blue-500/20 transition-colors">
+                       class="flex items-center justify-center gap-2 px-4 py-2 rounded-xl bg-blue-500/10 border border-blue-500/20 text-blue-600 text-[12px] font-medium hover:bg-indigo-500/20 transition-colors">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
@@ -144,22 +144,22 @@
 </div>
 @if (!loading() && employees().length === 0 && !error()) {
     <div class="flex flex-col items-center justify-center py-20">
-        <div class="w-20 h-20 rounded-3xl bg-white/[0.03] border border-white/[0.06] flex items-center justify-center mb-5">
-            <svg class="w-8 h-8 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <div class="w-20 h-20 rounded-3xl bg-white border border-slate-200 flex items-center justify-center mb-5">
+            <svg class="w-8 h-8 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
                       d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/>
             </svg>
         </div>
-        <h3 class="text-white font-semibold text-lg mb-1">No employees found</h3>
+        <h3 class="text-slate-900 font-semibold text-lg mb-1">No employees found</h3>
         <p class="text-slate-500 text-[13px] mb-5">Try adjusting your search or filters</p>
         <a routerLink="/admin/employees/register"
-           class="inline-flex items-center gap-2 px-5 py-2.5 bg-blue-600 hover:bg-blue-500 text-white text-[13px] font-semibold rounded-xl transition-all shadow-lg shadow-blue-600/20 cursor-pointer">
+           class="inline-flex items-center gap-2 px-5 py-2.5 bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-500 hover:to-violet-500 text-white text-[13px] font-semibold rounded-xl transition-all shadow-lg shadow-indigo-600/25 cursor-pointer">
             + Add First Employee
         </a>
     </div>
 }
 @if (!loading() && totalPages() > 1) {
-    <div class="flex flex-col sm:flex-row items-center justify-between gap-4 mt-8 pt-6 border-t border-white/[0.06]">
+    <div class="flex flex-col sm:flex-row items-center justify-between gap-4 mt-8 pt-6 border-t border-slate-200">
         <p class="text-slate-500 text-[13px]">
             Showing {{ startItem() }}–{{ endItem() }} of {{ totalElements() }} employees
         </p>
@@ -168,31 +168,31 @@
                     [disabled]="currentPage() === 0"
                     class="px-3.5 py-2 rounded-lg text-[13px] font-medium border transition-all duration-200"
                     [class]="currentPage() === 0
-                        ? 'text-slate-600 border-white/[0.04] cursor-not-allowed'
-                        : 'text-slate-300 border-white/[0.08] hover:bg-white/[0.04] hover:text-white cursor-pointer'">
+                        ? 'text-slate-500 border-slate-200/80 cursor-not-allowed'
+                        : 'text-slate-500 border-slate-200 hover:bg-slate-50 hover:text-slate-900 cursor-pointer'">
                 ← Previous
             </button>
-            <span class="text-slate-400 text-[13px] px-3">
+            <span class="text-slate-500 text-[13px] px-3">
                 Page {{ currentPage() + 1 }} of {{ totalPages() }}
             </span>
             <button (click)="goToPage(currentPage() + 1)"
                     [disabled]="currentPage() >= totalPages() - 1"
                     class="px-3.5 py-2 rounded-lg text-[13px] font-medium border transition-all duration-200"
                     [class]="currentPage() >= totalPages() - 1
-                        ? 'text-slate-600 border-white/[0.04] cursor-not-allowed'
-                        : 'text-slate-300 border-white/[0.08] hover:bg-white/[0.04] hover:text-white cursor-pointer'">
+                        ? 'text-slate-500 border-slate-200/80 cursor-not-allowed'
+                        : 'text-slate-500 border-slate-200 hover:bg-slate-50 hover:text-slate-900 cursor-pointer'">
                 Next →
             </button>
         </div>
     </div>
 }
 @if (selectedEmployee(); as emp) {
-    <div class="fixed inset-0 bg-black/60 backdrop-blur-sm z-40" (click)="closeDetail()"></div>
-    <div class="detail-panel fixed top-0 right-0 bottom-0 w-full sm:w-[420px] bg-slate-950 border-l border-white/[0.06] z-50 flex flex-col shadow-2xl shadow-black/50">
-        <div class="flex items-center justify-between px-6 h-16 border-b border-white/[0.06] shrink-0">
-            <h2 class="text-white font-semibold text-[15px]">Employee Details</h2>
+    <div class="fixed inset-0 bg-slate-900/20 backdrop-blur-sm z-40" (click)="closeDetail()"></div>
+    <div class="detail-panel fixed top-0 right-0 bottom-0 w-full sm:w-[420px] bg-white border-l border-slate-200 z-50 flex flex-col shadow-2xl shadow-slate-300/50">
+        <div class="flex items-center justify-between px-6 h-16 border-b border-slate-200 shrink-0">
+            <h2 class="text-slate-900 font-semibold text-[15px]">Employee Details</h2>
             <button (click)="closeDetail()"
-                    class="p-2 rounded-lg text-slate-400 hover:text-white hover:bg-white/[0.06] transition-colors cursor-pointer">
+                    class="p-2 rounded-lg text-slate-500 hover:text-slate-900 hover:bg-slate-50 transition-colors cursor-pointer">
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
                 </svg>
@@ -200,17 +200,17 @@
         </div>
         <div class="flex-1 overflow-y-auto detail-scroll px-6 py-6">
             <div class="flex flex-col items-center text-center mb-6">
-                <div class="w-20 h-20 rounded-2xl bg-gradient-to-br flex items-center justify-center text-white text-2xl font-bold shadow-xl mb-4"
+                <div class="w-20 h-20 rounded-2xl bg-gradient-to-br flex items-center justify-center text-slate-900 text-2xl font-bold shadow-xl mb-4"
                      [class]="getAvatarGradient(emp.role)">
                     {{ getInitials(emp) }}
                 </div>
-                <h3 class="text-white font-bold text-xl">{{ emp.firstName }} {{ emp.lastName }}</h3>
+                <h3 class="text-slate-900 font-bold text-xl">{{ emp.firstName }} {{ emp.lastName }}</h3>
                 <p class="text-slate-500 text-[13px] font-mono mt-0.5">{{ emp.employeeCode }}</p>
                 <div class="flex items-center gap-2.5 mt-3">
                     <span class="px-3 py-1 rounded-full text-[11px] font-bold tracking-wide"
                           [class]="getRoleBadgeClass(emp.role)">{{ emp.role }}</span>
                     <span class="flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-semibold"
-                          [class]="emp.isActive ? 'bg-emerald-500/10 text-emerald-400' : 'bg-red-500/10 text-red-400'">
+                          [class]="emp.isActive ? 'bg-emerald-500/10 text-emerald-600' : 'bg-red-500/10 text-red-500'">
                         <span class="w-1.5 h-1.5 rounded-full"
                               [class]="emp.isActive ? 'bg-emerald-400' : 'bg-red-400'"></span>
                         {{ emp.isActive ? 'Active' : 'Inactive' }}
@@ -218,8 +218,8 @@
                 </div>
             </div>
             <div class="mb-5">
-                <h4 class="text-[11px] font-semibold uppercase tracking-widest text-slate-600 mb-3">Personal</h4>
-                <div class="space-y-3 bg-white/[0.02] rounded-xl border border-white/[0.06] p-4">
+                <h4 class="text-[11px] font-semibold uppercase tracking-widest text-slate-400 mb-3">Personal</h4>
+                <div class="space-y-3 bg-white rounded-xl border border-slate-200 p-4">
                     <div class="detail-row">
                         <span class="detail-label">Email</span>
                         <span class="detail-value">{{ emp.email }}</span>
@@ -246,8 +246,8 @@
             </div>
             @if (emp.address || emp.emergencyContactName) {
                 <div class="mb-5">
-                    <h4 class="text-[11px] font-semibold uppercase tracking-widest text-slate-600 mb-3">Address & Emergency</h4>
-                    <div class="space-y-3 bg-white/[0.02] rounded-xl border border-white/[0.06] p-4">
+                    <h4 class="text-[11px] font-semibold uppercase tracking-widest text-slate-400 mb-3">Address & Emergency</h4>
+                    <div class="space-y-3 bg-white rounded-xl border border-slate-200 p-4">
                         @if (emp.address) {
                             <div class="detail-row">
                                 <span class="detail-label">Address</span>
@@ -270,8 +270,8 @@
                 </div>
             }
             <div class="mb-5">
-                <h4 class="text-[11px] font-semibold uppercase tracking-widest text-slate-600 mb-3">Work Details</h4>
-                <div class="space-y-3 bg-white/[0.02] rounded-xl border border-white/[0.06] p-4">
+                <h4 class="text-[11px] font-semibold uppercase tracking-widest text-slate-400 mb-3">Work Details</h4>
+                <div class="space-y-3 bg-white rounded-xl border border-slate-200 p-4">
                     @if (emp.departmentName) {
                         <div class="detail-row">
                             <span class="detail-label">Department</span>
@@ -305,8 +305,8 @@
                 </div>
             </div>
             <div class="mb-5">
-                <h4 class="text-[11px] font-semibold uppercase tracking-widest text-slate-600 mb-3">System Info</h4>
-                <div class="space-y-3 bg-white/[0.02] rounded-xl border border-white/[0.06] p-4">
+                <h4 class="text-[11px] font-semibold uppercase tracking-widest text-slate-400 mb-3">System Info</h4>
+                <div class="space-y-3 bg-white rounded-xl border border-slate-200 p-4">
                     @if (emp.createdAt) {
                         <div class="detail-row">
                             <span class="detail-label">Created</span>
@@ -322,9 +322,9 @@
                 </div>
             </div>
         </div>
-        <div class="px-6 py-4 border-t border-white/[0.06] shrink-0 space-y-2">
+        <div class="px-6 py-4 border-t border-slate-200 shrink-0 space-y-2">
             <button (click)="openEditModal()"
-                    class="w-full py-2.5 rounded-xl text-[13px] font-semibold transition-all duration-200 cursor-pointer bg-blue-500/10 text-blue-400 hover:bg-blue-500/20 border border-blue-500/20 flex items-center justify-center gap-2">
+                    class="w-full py-2.5 rounded-xl text-[13px] font-semibold transition-all duration-200 cursor-pointer bg-blue-500/10 text-blue-600 hover:bg-indigo-500/20 border border-blue-500/20 flex items-center justify-center gap-2">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
                 </svg>
@@ -333,8 +333,8 @@
             <button (click)="toggleStatus(emp)"
                     class="w-full py-2.5 rounded-xl text-[13px] font-semibold transition-all duration-200 cursor-pointer"
                     [class]="emp.isActive
-                        ? 'bg-red-500/10 text-red-400 hover:bg-red-500/20 border border-red-500/20'
-                        : 'bg-emerald-500/10 text-emerald-400 hover:bg-emerald-500/20 border border-emerald-500/20'">
+                        ? 'bg-red-500/10 text-red-500 hover:bg-red-500/20 border border-red-500/20'
+                        : 'bg-emerald-500/10 text-emerald-600 hover:bg-emerald-500/20 border border-emerald-500/20'">
                 {{ emp.isActive ? 'Deactivate Employee' : 'Activate Employee' }}
             </button>
         </div>
@@ -343,23 +343,23 @@
 
 <!-- Success Toast -->
 @if (success()) {
-    <div class="fixed top-6 right-6 z-[60] px-5 py-3 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-[13px] font-medium shadow-lg shadow-emerald-500/5 animate-fadeIn">
+    <div class="fixed top-6 right-6 z-[60] px-5 py-3 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-600 text-[13px] font-medium shadow-lg shadow-emerald-500/5 animate-fadeIn">
         ✓ {{ success() }}
     </div>
 }
 
 <!-- ══════ Edit Employee Modal ══════ -->
 @if (showEditModal()) {
-    <div class="fixed inset-0 z-[55] flex items-start justify-center pt-8 px-4 bg-black/70 backdrop-blur-sm" (click)="closeEditModal()">
-        <div class="bg-slate-900 border border-white/[0.08] rounded-2xl shadow-2xl w-full max-w-2xl max-h-[85vh] overflow-y-auto"
+    <div class="fixed inset-0 z-[55] flex items-start justify-center pt-8 px-4 bg-white/30 backdrop-blur-md" (click)="closeEditModal()">
+        <div class="bg-white border border-slate-200 rounded-2xl shadow-2xl w-full max-w-2xl max-h-[85vh] overflow-y-auto"
              (click)="$event.stopPropagation()">
             <!-- Modal Header -->
-            <div class="flex items-center justify-between px-6 py-4 border-b border-white/[0.06] sticky top-0 bg-slate-900 z-10">
+            <div class="flex items-center justify-between px-6 py-4 border-b border-slate-200 sticky top-0 bg-white z-10">
                 <div>
-                    <h2 class="text-lg font-bold text-white">Edit Employee</h2>
+                    <h2 class="text-lg font-bold text-slate-900 tracking-tight">Edit Employee</h2>
                     <p class="text-slate-500 text-[12px] mt-0.5">{{ selectedEmployee()?.employeeCode }} — All fields editable</p>
                 </div>
-                <button (click)="closeEditModal()" class="p-2 rounded-lg text-slate-400 hover:text-white hover:bg-white/[0.05] transition-colors">
+                <button (click)="closeEditModal()" class="p-2 rounded-lg text-slate-500 hover:text-slate-900 hover:bg-slate-100 transition-colors">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
                     </svg>
@@ -367,7 +367,7 @@
             </div>
 
             @if (editError()) {
-                <div class="mx-6 mt-4 px-4 py-3 rounded-xl bg-red-500/10 border border-red-500/20 text-red-400 text-[12px]">
+                <div class="mx-6 mt-4 px-4 py-3 rounded-xl bg-red-500/10 border border-red-500/20 text-red-500 text-[12px]">
                     {{ editError() }}
                 </div>
             }
@@ -375,40 +375,40 @@
             <div class="p-6 space-y-6">
                 <!-- Personal Info -->
                 <div>
-                    <h3 class="text-white text-[13px] font-semibold mb-3 flex items-center gap-2">
-                        <span class="w-5 h-5 rounded-md bg-blue-500/10 text-blue-400 flex items-center justify-center text-[10px]">👤</span>
+                    <h3 class="text-slate-900 text-[13px] font-semibold mb-3 flex items-center gap-2">
+                        <span class="w-5 h-5 rounded-md bg-blue-500/10 text-blue-600 flex items-center justify-center text-[10px]">👤</span>
                         Personal Information
                     </h3>
                     <div class="grid grid-cols-2 gap-3">
                         <div>
                             <label class="text-slate-500 text-[11px] font-medium mb-1 block">First Name *</label>
                             <input [(ngModel)]="editForm.firstName" type="text"
-                                   class="w-full px-3 py-2 rounded-lg bg-white/[0.04] border border-white/[0.08] text-white text-[13px] placeholder:text-slate-600 focus:outline-none focus:ring-1 focus:ring-blue-500/40 focus:border-blue-500/30">
+                                   class="w-full px-3 py-2 rounded-lg bg-slate-50 border border-slate-200 text-slate-800 text-[13px] placeholder:text-slate-500 focus:outline-none focus:ring-1 focus:ring-indigo-500/40 focus:border-indigo-500/30">
                         </div>
                         <div>
                             <label class="text-slate-500 text-[11px] font-medium mb-1 block">Last Name *</label>
                             <input [(ngModel)]="editForm.lastName" type="text"
-                                   class="w-full px-3 py-2 rounded-lg bg-white/[0.04] border border-white/[0.08] text-white text-[13px] placeholder:text-slate-600 focus:outline-none focus:ring-1 focus:ring-blue-500/40 focus:border-blue-500/30">
+                                   class="w-full px-3 py-2 rounded-lg bg-slate-50 border border-slate-200 text-slate-800 text-[13px] placeholder:text-slate-500 focus:outline-none focus:ring-1 focus:ring-indigo-500/40 focus:border-indigo-500/30">
                         </div>
                         <div>
                             <label class="text-slate-500 text-[11px] font-medium mb-1 block">Email *</label>
                             <input [(ngModel)]="editForm.email" type="email"
-                                   class="w-full px-3 py-2 rounded-lg bg-white/[0.04] border border-white/[0.08] text-white text-[13px] placeholder:text-slate-600 focus:outline-none focus:ring-1 focus:ring-blue-500/40 focus:border-blue-500/30">
+                                   class="w-full px-3 py-2 rounded-lg bg-slate-50 border border-slate-200 text-slate-800 text-[13px] placeholder:text-slate-500 focus:outline-none focus:ring-1 focus:ring-indigo-500/40 focus:border-indigo-500/30">
                         </div>
                         <div>
                             <label class="text-slate-500 text-[11px] font-medium mb-1 block">Phone</label>
                             <input [(ngModel)]="editForm.phone" type="text"
-                                   class="w-full px-3 py-2 rounded-lg bg-white/[0.04] border border-white/[0.08] text-white text-[13px] placeholder:text-slate-600 focus:outline-none focus:ring-1 focus:ring-blue-500/40 focus:border-blue-500/30">
+                                   class="w-full px-3 py-2 rounded-lg bg-slate-50 border border-slate-200 text-slate-800 text-[13px] placeholder:text-slate-500 focus:outline-none focus:ring-1 focus:ring-indigo-500/40 focus:border-indigo-500/30">
                         </div>
                         <div>
                             <label class="text-slate-500 text-[11px] font-medium mb-1 block">Date of Birth</label>
                             <input [(ngModel)]="editForm.dateOfBirth" type="date"
-                                   class="w-full px-3 py-2 rounded-lg bg-white/[0.04] border border-white/[0.08] text-white text-[13px] focus:outline-none focus:ring-1 focus:ring-blue-500/40 [color-scheme:dark]">
+                                   class="w-full px-3 py-2 rounded-lg bg-slate-50 border border-slate-200 text-slate-900 text-[13px] focus:outline-none focus:ring-1 focus:ring-indigo-500/40 [color-scheme:light]">
                         </div>
                         <div>
                             <label class="text-slate-500 text-[11px] font-medium mb-1 block">Gender</label>
                             <select [(ngModel)]="editForm.gender"
-                                    class="w-full px-3 py-2 rounded-lg bg-white/[0.04] border border-white/[0.08] text-white text-[13px] focus:outline-none focus:ring-1 focus:ring-blue-500/40">
+                                    class="w-full px-3 py-2 rounded-lg bg-slate-50 border border-slate-200 text-slate-900 text-[13px] focus:outline-none focus:ring-1 focus:ring-indigo-500/40">
                                 <option value="">Select</option>
                                 <option value="MALE">Male</option>
                                 <option value="FEMALE">Female</option>
@@ -418,22 +418,22 @@
                         <div class="col-span-2">
                             <label class="text-slate-500 text-[11px] font-medium mb-1 block">Address</label>
                             <textarea [(ngModel)]="editForm.address" rows="2"
-                                      class="w-full px-3 py-2 rounded-lg bg-white/[0.04] border border-white/[0.08] text-white text-[13px] placeholder:text-slate-600 focus:outline-none focus:ring-1 focus:ring-blue-500/40 resize-none"></textarea>
+                                      class="w-full px-3 py-2 rounded-lg bg-slate-50 border border-slate-200 text-slate-800 text-[13px] placeholder:text-slate-500 focus:outline-none focus:ring-1 focus:ring-indigo-500/40 resize-none"></textarea>
                         </div>
                     </div>
                 </div>
 
                 <!-- Work Info -->
                 <div>
-                    <h3 class="text-white text-[13px] font-semibold mb-3 flex items-center gap-2">
-                        <span class="w-5 h-5 rounded-md bg-emerald-500/10 text-emerald-400 flex items-center justify-center text-[10px]">💼</span>
+                    <h3 class="text-slate-900 text-[13px] font-semibold mb-3 flex items-center gap-2">
+                        <span class="w-5 h-5 rounded-md bg-emerald-500/10 text-emerald-600 flex items-center justify-center text-[10px]">💼</span>
                         Work Information
                     </h3>
                     <div class="grid grid-cols-2 gap-3">
                         <div>
                             <label class="text-slate-500 text-[11px] font-medium mb-1 block">Department</label>
                             <select [(ngModel)]="editForm.departmentId"
-                                    class="w-full px-3 py-2 rounded-lg bg-white/[0.04] border border-white/[0.08] text-white text-[13px] focus:outline-none focus:ring-1 focus:ring-blue-500/40">
+                                    class="w-full px-3 py-2 rounded-lg bg-slate-50 border border-slate-200 text-slate-900 text-[13px] focus:outline-none focus:ring-1 focus:ring-indigo-500/40">
                                 <option [ngValue]="null">Select Department</option>
                                 @for (dept of departments(); track dept.departmentId) {
                                     <option [ngValue]="dept.departmentId">{{ dept.departmentName }}</option>
@@ -443,7 +443,7 @@
                         <div>
                             <label class="text-slate-500 text-[11px] font-medium mb-1 block">Designation</label>
                             <select [(ngModel)]="editForm.designationId"
-                                    class="w-full px-3 py-2 rounded-lg bg-white/[0.04] border border-white/[0.08] text-white text-[13px] focus:outline-none focus:ring-1 focus:ring-blue-500/40">
+                                    class="w-full px-3 py-2 rounded-lg bg-slate-50 border border-slate-200 text-slate-900 text-[13px] focus:outline-none focus:ring-1 focus:ring-indigo-500/40">
                                 <option [ngValue]="null">Select Designation</option>
                                 @for (desig of designations(); track desig.designationId) {
                                     <option [ngValue]="desig.designationId">{{ desig.designationName }}</option>
@@ -453,7 +453,7 @@
                         <div>
                             <label class="text-slate-500 text-[11px] font-medium mb-1 block">Role</label>
                             <select [(ngModel)]="editForm.role"
-                                    class="w-full px-3 py-2 rounded-lg bg-white/[0.04] border border-white/[0.08] text-white text-[13px] focus:outline-none focus:ring-1 focus:ring-blue-500/40">
+                                    class="w-full px-3 py-2 rounded-lg bg-slate-50 border border-slate-200 text-slate-900 text-[13px] focus:outline-none focus:ring-1 focus:ring-indigo-500/40">
                                 <option value="EMPLOYEE">Employee</option>
                                 <option value="MANAGER">Manager</option>
                                 <option value="ADMIN">Admin</option>
@@ -461,9 +461,9 @@
                         </div>
                         @if (editForm.role === 'EMPLOYEE') {
                             <div>
-                                <label class="text-slate-500 text-[11px] font-medium mb-1 block">Manager <span class="text-red-400">*</span></label>
+                                <label class="text-slate-500 text-[11px] font-medium mb-1 block">Manager <span class="text-red-500">*</span></label>
                                 @if (loadingManagers()) {
-                                    <div class="w-full px-3 py-2 rounded-lg bg-white/[0.04] border border-white/[0.08] text-slate-500 text-[13px] flex items-center gap-2">
+                                    <div class="w-full px-3 py-2 rounded-lg bg-slate-50 border border-slate-200 text-slate-500 text-[13px] flex items-center gap-2">
                                         <svg class="w-3.5 h-3.5 animate-spin" fill="none" viewBox="0 0 24 24">
                                             <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
                                             <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
@@ -472,7 +472,7 @@
                                     </div>
                                 } @else {
                                     <select [(ngModel)]="editForm.managerCode"
-                                            class="w-full px-3 py-2 rounded-lg bg-white/[0.04] border border-white/[0.08] text-white text-[13px] focus:outline-none focus:ring-1 focus:ring-blue-500/40">
+                                            class="w-full px-3 py-2 rounded-lg bg-slate-50 border border-slate-200 text-slate-900 text-[13px] focus:outline-none focus:ring-1 focus:ring-indigo-500/40">
                                         <option value="">Select Manager</option>
                                         @for (mgr of managers(); track mgr.employeeCode) {
                                             <option [value]="mgr.employeeCode">
@@ -481,7 +481,7 @@
                                         }
                                     </select>
                                     @if (managers().length === 0) {
-                                        <p class="text-amber-400 text-[11px] mt-1">No managers found.</p>
+                                        <p class="text-amber-500 text-[11px] mt-1">No managers found.</p>
                                     }
                                 }
                             </div>
@@ -489,45 +489,45 @@
                         <div>
                             <label class="text-slate-500 text-[11px] font-medium mb-1 block">Joining Date</label>
                             <input [(ngModel)]="editForm.joiningDate" type="date"
-                                   class="w-full px-3 py-2 rounded-lg bg-white/[0.04] border border-white/[0.08] text-white text-[13px] focus:outline-none focus:ring-1 focus:ring-blue-500/40 [color-scheme:dark]">
+                                   class="w-full px-3 py-2 rounded-lg bg-slate-50 border border-slate-200 text-slate-900 text-[13px] focus:outline-none focus:ring-1 focus:ring-indigo-500/40 [color-scheme:light]">
                         </div>
                         <div>
                             <label class="text-slate-500 text-[11px] font-medium mb-1 block">Salary</label>
                             <input [(ngModel)]="editForm.salary" type="number"
-                                   class="w-full px-3 py-2 rounded-lg bg-white/[0.04] border border-white/[0.08] text-white text-[13px] placeholder:text-slate-600 focus:outline-none focus:ring-1 focus:ring-blue-500/40">
+                                   class="w-full px-3 py-2 rounded-lg bg-slate-50 border border-slate-200 text-slate-800 text-[13px] placeholder:text-slate-500 focus:outline-none focus:ring-1 focus:ring-indigo-500/40">
                         </div>
                     </div>
                 </div>
 
                 <!-- Emergency Contact -->
                 <div>
-                    <h3 class="text-white text-[13px] font-semibold mb-3 flex items-center gap-2">
-                        <span class="w-5 h-5 rounded-md bg-amber-500/10 text-amber-400 flex items-center justify-center text-[10px]">📞</span>
+                    <h3 class="text-slate-900 text-[13px] font-semibold mb-3 flex items-center gap-2">
+                        <span class="w-5 h-5 rounded-md bg-amber-500/10 text-amber-500 flex items-center justify-center text-[10px]">📞</span>
                         Emergency Contact
                     </h3>
                     <div class="grid grid-cols-2 gap-3">
                         <div>
                             <label class="text-slate-500 text-[11px] font-medium mb-1 block">Contact Name</label>
                             <input [(ngModel)]="editForm.emergencyContactName" type="text"
-                                   class="w-full px-3 py-2 rounded-lg bg-white/[0.04] border border-white/[0.08] text-white text-[13px] placeholder:text-slate-600 focus:outline-none focus:ring-1 focus:ring-blue-500/40">
+                                   class="w-full px-3 py-2 rounded-lg bg-slate-50 border border-slate-200 text-slate-800 text-[13px] placeholder:text-slate-500 focus:outline-none focus:ring-1 focus:ring-indigo-500/40">
                         </div>
                         <div>
                             <label class="text-slate-500 text-[11px] font-medium mb-1 block">Contact Phone</label>
                             <input [(ngModel)]="editForm.emergencyContactPhone" type="text"
-                                   class="w-full px-3 py-2 rounded-lg bg-white/[0.04] border border-white/[0.08] text-white text-[13px] placeholder:text-slate-600 focus:outline-none focus:ring-1 focus:ring-blue-500/40">
+                                   class="w-full px-3 py-2 rounded-lg bg-slate-50 border border-slate-200 text-slate-800 text-[13px] placeholder:text-slate-500 focus:outline-none focus:ring-1 focus:ring-indigo-500/40">
                         </div>
                     </div>
                 </div>
             </div>
 
             <!-- Modal Footer -->
-            <div class="flex items-center justify-end gap-3 px-6 py-4 border-t border-white/[0.06] sticky bottom-0 bg-slate-900">
+            <div class="flex items-center justify-end gap-3 px-6 py-4 border-t border-slate-200 sticky bottom-0 bg-white">
                 <button (click)="closeEditModal()"
-                        class="px-5 py-2.5 rounded-xl text-[13px] font-medium text-slate-400 hover:text-white hover:bg-white/[0.05] transition-colors">
+                        class="px-5 py-2.5 rounded-xl text-[13px] font-medium text-slate-500 hover:text-slate-900 hover:bg-slate-100 transition-colors">
                     Cancel
                 </button>
                 <button (click)="saveEmployee()" [disabled]="saving()"
-                        class="px-6 py-2.5 rounded-xl text-[13px] font-semibold bg-blue-500 text-white hover:bg-blue-600 transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2">
+                        class="px-6 py-2.5 rounded-xl text-[13px] font-semibold bg-blue-500 text-white hover:bg-indigo-600 transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2">
                     @if (saving()) {
                         <svg class="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24">
                             <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>

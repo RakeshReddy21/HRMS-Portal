@@ -1,34 +1,34 @@
-<div class="min-h-screen bg-slate-950 p-6 lg:p-8 space-y-6">
+<div class="min-h-screen p-6 lg:p-8 space-y-6">
     @if (success()) {
-        <div class="fixed top-6 right-6 z-50 animate-fadeIn flex items-center gap-2 px-5 py-3 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-[13px] font-medium shadow-2xl">
+        <div class="fixed top-6 right-6 z-50 animate-toast flex items-center gap-2.5 px-5 py-3.5 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-600 text-[13px] font-medium shadow-2xl">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
             {{ success() }}
         </div>
     }
     <div class="animate-fadeIn flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4">
         <div>
-            <h1 class="text-2xl font-bold text-white tracking-tight">Team Performance</h1>
+            <h1 class="text-2xl font-bold text-slate-900 tracking-tight tracking-tight">Team Performance</h1>
             <p class="text-slate-500 text-[13px] mt-1">Review and provide feedback on team performance</p>
         </div>
     </div>
     <div class="flex items-center gap-3">
         <select (change)="onStatusFilterChange($event)"
-                class="filter-select bg-white/[0.04] border border-white/[0.08] rounded-xl px-4 py-2.5 text-[13px] text-slate-300 focus:outline-none focus:border-blue-500/40 transition-all appearance-none cursor-pointer min-w-[160px]">
-            <option value="" class="bg-slate-900 text-slate-300">All Status</option>
-            <option value="SUBMITTED" class="bg-slate-900 text-slate-300">Submitted</option>
-            <option value="REVIEWED" class="bg-slate-900 text-slate-300">Reviewed</option>
+                class="filter-select bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5 text-[13px] text-slate-500 focus:outline-none focus:border-indigo-500/40 transition-all appearance-none cursor-pointer min-w-[160px]">
+            <option value="" class="bg-white text-slate-500">All Status</option>
+            <option value="SUBMITTED" class="bg-white text-slate-500">Submitted</option>
+            <option value="REVIEWED" class="bg-white text-slate-500">Reviewed</option>
         </select>
         @if (totalElements() > 0) {
             <span class="text-slate-500 text-[13px]">{{ totalElements() }} review{{ totalElements() !== 1 ? 's' : '' }}</span>
         }
     </div>
     @if (error()) {
-        <div class="bg-red-500/10 border border-red-500/20 rounded-xl p-4 text-red-400 text-[13px]">
+        <div class="bg-red-500/10 border border-red-500/20 rounded-xl p-4 text-red-500 text-[13px]">
             {{ error() }}
         </div>
     }
     @if (loading()) {
-        <div class="bg-white/[0.02] border border-white/[0.06] rounded-2xl overflow-hidden">
+        <div class="bg-white border border-slate-200 rounded-2xl overflow-hidden">
             <div class="p-6 space-y-4">
                 @for (i of skeletonRows; track i) {
                     <div class="flex items-center gap-4">
@@ -43,48 +43,48 @@
         </div>
     }
     @if (!loading() && reviews().length > 0) {
-        <div class="bg-white/[0.02] border border-white/[0.06] rounded-2xl overflow-hidden">
+        <div class="bg-white border border-slate-200 rounded-2xl overflow-hidden">
             <div class="overflow-x-auto">
                 <table class="w-full">
-                    <thead class="bg-white/[0.02] border-b border-white/[0.06]">
+                    <thead class="bg-white border-b border-slate-200">
                         <tr>
-                            <th class="px-6 py-4 text-left text-slate-400 text-[12px] font-semibold uppercase tracking-wider">Employee</th>
-                            <th class="px-6 py-4 text-left text-slate-400 text-[12px] font-semibold uppercase tracking-wider">Review Period</th>
-                            <th class="px-6 py-4 text-center text-slate-400 text-[12px] font-semibold uppercase tracking-wider">Self Rating</th>
-                            <th class="px-6 py-4 text-center text-slate-400 text-[12px] font-semibold uppercase tracking-wider">Manager Rating</th>
-                            <th class="px-6 py-4 text-center text-slate-400 text-[12px] font-semibold uppercase tracking-wider">Status</th>
-                            <th class="px-6 py-4 text-left text-slate-400 text-[12px] font-semibold uppercase tracking-wider">Submitted</th>
-                            <th class="px-6 py-4 text-center text-slate-400 text-[12px] font-semibold uppercase tracking-wider">Action</th>
+                            <th class="px-6 py-4 text-left text-slate-500 text-[12px] font-semibold uppercase tracking-wider">Employee</th>
+                            <th class="px-6 py-4 text-left text-slate-500 text-[12px] font-semibold uppercase tracking-wider">Review Period</th>
+                            <th class="px-6 py-4 text-center text-slate-500 text-[12px] font-semibold uppercase tracking-wider">Self Rating</th>
+                            <th class="px-6 py-4 text-center text-slate-500 text-[12px] font-semibold uppercase tracking-wider">Manager Rating</th>
+                            <th class="px-6 py-4 text-center text-slate-500 text-[12px] font-semibold uppercase tracking-wider">Status</th>
+                            <th class="px-6 py-4 text-left text-slate-500 text-[12px] font-semibold uppercase tracking-wider">Submitted</th>
+                            <th class="px-6 py-4 text-center text-slate-500 text-[12px] font-semibold uppercase tracking-wider">Action</th>
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-white/[0.06]">
                         @for (review of reviews(); track review.reviewId) {
-                            <tr class="hover:bg-white/[0.02] transition-colors">
+                            <tr class="hover:bg-white transition-colors">
                                 <td class="px-6 py-4">
                                     <div class="flex items-center gap-3">
-                                        <div class="w-10 h-10 rounded-lg bg-blue-500/10 flex items-center justify-center text-blue-400 font-bold text-[13px]">
+                                        <div class="w-10 h-10 rounded-lg bg-blue-500/10 flex items-center justify-center text-blue-600 font-bold text-[13px]">
                                             {{ getInitials(review) }}
                                         </div>
                                         <div>
-                                            <p class="text-white text-[13px] font-semibold">{{ getEmployeeName(review) }}</p>
+                                            <p class="text-slate-900 text-[13px] font-semibold">{{ getEmployeeName(review) }}</p>
                                         </div>
                                     </div>
                                 </td>
                                 <td class="px-6 py-4">
-                                    <span class="text-slate-300 text-[13px]">{{ review.reviewPeriod }}</span>
+                                    <span class="text-slate-500 text-[13px]">{{ review.reviewPeriod }}</span>
                                 </td>
                                 <td class="px-6 py-4 text-center">
                                     @if (review.selfAssessmentRating) {
-                                        <span class="text-white text-[13px] font-semibold">{{ review.selfAssessmentRating }}/5</span>
+                                        <span class="text-slate-900 text-[13px] font-semibold">{{ review.selfAssessmentRating }}/5</span>
                                     } @else {
-                                        <span class="text-slate-600 text-[13px]">—</span>
+                                        <span class="text-slate-500 text-[13px]">—</span>
                                     }
                                 </td>
                                 <td class="px-6 py-4 text-center">
                                     @if (review.managerRating) {
-                                        <span class="text-white text-[13px] font-semibold">{{ review.managerRating }}/5</span>
+                                        <span class="text-slate-900 text-[13px] font-semibold">{{ review.managerRating }}/5</span>
                                     } @else {
-                                        <span class="text-slate-600 text-[13px]">—</span>
+                                        <span class="text-slate-500 text-[13px]">—</span>
                                     }
                                 </td>
                                 <td class="px-6 py-4 text-center">
@@ -96,19 +96,19 @@
                                     @if (review.submittedDate) {
                                         <span class="text-slate-500 text-[12px]">{{ formatDate(review.submittedDate) }}</span>
                                     } @else {
-                                        <span class="text-slate-600 text-[12px]">—</span>
+                                        <span class="text-slate-500 text-[12px]">—</span>
                                     }
                                 </td>
                                 <td class="px-6 py-4 text-center">
                                     @if (review.status === 'SUBMITTED') {
                                         <button (click)="openFeedbackModal(review)"
-                                                class="px-3 py-1.5 rounded-lg bg-blue-500/10 border border-blue-500/20 text-blue-400 text-[12px] font-medium hover:bg-blue-500/20 transition-colors">
+                                                class="px-3 py-1.5 rounded-lg bg-blue-500/10 border border-blue-500/20 text-blue-600 text-[12px] font-medium hover:bg-indigo-500/20 transition-colors">
                                             Provide Feedback
                                         </button>
                                     } @else if (review.status === 'REVIEWED') {
-                                        <span class="text-slate-600 text-[12px]">Reviewed</span>
+                                        <span class="text-slate-500 text-[12px]">Reviewed</span>
                                     } @else {
-                                        <span class="text-slate-600 text-[12px]">—</span>
+                                        <span class="text-slate-500 text-[12px]">—</span>
                                     }
                                 </td>
                             </tr>
@@ -119,19 +119,19 @@
         </div>
     }
     @if (!loading() && reviews().length === 0) {
-        <div class="bg-white/[0.02] border border-white/[0.06] rounded-2xl p-12 text-center">
-            <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-slate-800 flex items-center justify-center">
-                <svg class="w-8 h-8 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <div class="bg-white border border-slate-200 rounded-2xl p-12 text-center">
+            <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-slate-700 flex items-center justify-center">
+                <svg class="w-8 h-8 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                           d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
                 </svg>
             </div>
-            <h3 class="text-white text-lg font-semibold mb-2">No Performance Reviews</h3>
+            <h3 class="text-slate-900 text-lg font-semibold mb-2">No Performance Reviews</h3>
             <p class="text-slate-500 text-[13px]">No performance reviews found for your team.</p>
         </div>
     }
     @if (!loading() && totalPages() > 1) {
-        <div class="flex flex-col sm:flex-row items-center justify-between gap-4 pt-6 border-t border-white/[0.06]">
+        <div class="flex flex-col sm:flex-row items-center justify-between gap-4 pt-6 border-t border-slate-200">
             <p class="text-slate-500 text-[13px]">
                 Showing {{ (page() * pageSize) + 1 }}–{{ ((page() + 1) * pageSize) > totalElements() ? totalElements() : ((page() + 1) * pageSize) }} of {{ totalElements() }} reviews
             </p>
@@ -140,103 +140,103 @@
                         [disabled]="page() === 0"
                         class="px-3.5 py-2 rounded-lg text-[13px] font-medium border transition-all duration-200"
                         [class]="page() === 0
-                            ? 'text-slate-600 border-white/[0.04] cursor-not-allowed'
-                            : 'text-slate-300 border-white/[0.08] hover:bg-white/[0.04] hover:text-white cursor-pointer'">
+                            ? 'text-slate-500 border-slate-200/80 cursor-not-allowed'
+                            : 'text-slate-500 border-slate-200 hover:bg-slate-50 hover:text-slate-900 cursor-pointer'">
                     ← Previous
                 </button>
-                <span class="text-slate-400 text-[13px] px-3">
+                <span class="text-slate-500 text-[13px] px-3">
                     Page {{ page() + 1 }} of {{ totalPages() }}
                 </span>
                 <button (click)="goToPage(page() + 1)"
                         [disabled]="page() >= totalPages() - 1"
                         class="px-3.5 py-2 rounded-lg text-[13px] font-medium border transition-all duration-200"
                         [class]="page() >= totalPages() - 1
-                            ? 'text-slate-600 border-white/[0.04] cursor-not-allowed'
-                            : 'text-slate-300 border-white/[0.08] hover:bg-white/[0.04] hover:text-white cursor-pointer'">
+                            ? 'text-slate-500 border-slate-200/80 cursor-not-allowed'
+                            : 'text-slate-500 border-slate-200 hover:bg-slate-50 hover:text-slate-900 cursor-pointer'">
                     Next →
                 </button>
             </div>
         </div>
     }
     @if (showFeedbackModal() && selectedReview(); as review) {
-        <div class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-fadeIn">
-            <div class="bg-slate-900 border border-white/[0.08] rounded-2xl p-6 w-full max-w-2xl max-h-[90vh] overflow-y-auto animate-scaleIn">
+        <div class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/20 backdrop-blur-sm animate-fadeIn">
+            <div class="bg-white border border-slate-200 rounded-2xl p-6 w-full max-w-2xl max-h-[90vh] overflow-y-auto animate-scaleIn">
                 <div class="flex items-center justify-between mb-6">
-                    <h3 class="text-lg font-bold text-white">Provide Performance Feedback</h3>
+                    <h3 class="text-lg font-bold text-slate-900 tracking-tight">Provide Performance Feedback</h3>
                     <button (click)="closeFeedbackModal()"
-                            class="p-2 rounded-lg text-slate-400 hover:text-white hover:bg-white/[0.04] transition-colors">
+                            class="p-2 rounded-lg text-slate-500 hover:text-slate-900 hover:bg-slate-50 transition-colors">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
                         </svg>
                     </button>
                 </div>
-                <div class="mb-6 p-4 bg-white/[0.02] border border-white/[0.06] rounded-xl space-y-3">
+                <div class="mb-6 p-4 bg-white border border-slate-200 rounded-xl space-y-3">
                     <div class="flex items-center gap-3 mb-4">
-                        <div class="w-10 h-10 rounded-lg bg-blue-500/10 flex items-center justify-center text-blue-400 font-bold text-[13px]">
+                        <div class="w-10 h-10 rounded-lg bg-blue-500/10 flex items-center justify-center text-blue-600 font-bold text-[13px]">
                             {{ getInitials(review) }}
                         </div>
                         <div>
-                            <p class="text-white text-[13px] font-semibold">{{ getEmployeeName(review) }}</p>
+                            <p class="text-slate-900 text-[13px] font-semibold">{{ getEmployeeName(review) }}</p>
                             <p class="text-slate-500 text-[12px]">{{ review.reviewPeriod }}</p>
                         </div>
                     </div>
                     @if (review.keyDeliverables) {
                         <div>
                             <p class="text-slate-500 text-[11px] uppercase tracking-wider mb-1">Key Deliverables</p>
-                            <p class="text-white text-[13px]">{{ review.keyDeliverables }}</p>
+                            <p class="text-slate-900 text-[13px]">{{ review.keyDeliverables }}</p>
                         </div>
                     }
                     @if (review.accomplishments) {
                         <div>
                             <p class="text-slate-500 text-[11px] uppercase tracking-wider mb-1">Accomplishments</p>
-                            <p class="text-white text-[13px]">{{ review.accomplishments }}</p>
+                            <p class="text-slate-900 text-[13px]">{{ review.accomplishments }}</p>
                         </div>
                     }
                     @if (review.areasOfImprovement) {
                         <div>
                             <p class="text-slate-500 text-[11px] uppercase tracking-wider mb-1">Areas of Improvement</p>
-                            <p class="text-white text-[13px]">{{ review.areasOfImprovement }}</p>
+                            <p class="text-slate-900 text-[13px]">{{ review.areasOfImprovement }}</p>
                         </div>
                     }
                     @if (review.selfAssessmentRating) {
                         <div>
                             <p class="text-slate-500 text-[11px] uppercase tracking-wider mb-1">Self Assessment Rating</p>
-                            <p class="text-white text-[13px] font-semibold">{{ review.selfAssessmentRating }}/5</p>
+                            <p class="text-slate-900 text-[13px] font-semibold">{{ review.selfAssessmentRating }}/5</p>
                         </div>
                     }
                 </div>
                 <form [formGroup]="feedbackForm" (ngSubmit)="submitFeedback()" class="space-y-4">
                     <div>
-                        <label class="block text-slate-300 text-[13px] font-medium mb-2">
-                            Manager Rating <span class="text-red-400">*</span>
+                        <label class="block text-slate-500 text-[13px] font-medium mb-2">
+                            Manager Rating <span class="text-red-500">*</span>
                         </label>
                         <select formControlName="managerRating"
-                                class="w-full bg-white/[0.04] border border-white/[0.08] rounded-xl px-4 py-2.5 text-[13px] text-slate-300 focus:outline-none focus:border-blue-500/40 transition-all">
-                            <option value="" class="bg-slate-900">Select rating</option>
-                            <option [value]="1" class="bg-slate-900">1 - Needs Improvement</option>
-                            <option [value]="2" class="bg-slate-900">2 - Below Expectations</option>
-                            <option [value]="3" class="bg-slate-900">3 - Meets Expectations</option>
-                            <option [value]="4" class="bg-slate-900">4 - Exceeds Expectations</option>
-                            <option [value]="5" class="bg-slate-900">5 - Outstanding</option>
+                                class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5 text-[13px] text-slate-500 focus:outline-none focus:border-indigo-500/40 transition-all">
+                            <option value="" class="bg-white">Select rating</option>
+                            <option [value]="1" class="bg-white">1 - Needs Improvement</option>
+                            <option [value]="2" class="bg-white">2 - Below Expectations</option>
+                            <option [value]="3" class="bg-white">3 - Meets Expectations</option>
+                            <option [value]="4" class="bg-white">4 - Exceeds Expectations</option>
+                            <option [value]="5" class="bg-white">5 - Outstanding</option>
                         </select>
                         @if (hasError('managerRating')) {
-                            <p class="text-red-400 text-[12px] mt-1">{{ getError('managerRating') }}</p>
+                            <p class="text-red-500 text-[12px] mt-1">{{ getError('managerRating') }}</p>
                         }
                     </div>
                     <div>
-                        <label class="block text-slate-300 text-[13px] font-medium mb-2">
-                            Manager Feedback <span class="text-red-400">*</span>
+                        <label class="block text-slate-500 text-[13px] font-medium mb-2">
+                            Manager Feedback <span class="text-red-500">*</span>
                         </label>
                         <textarea formControlName="managerFeedback"
                                   rows="5"
                                   placeholder="Provide detailed feedback on the employee's performance..."
-                                  class="w-full bg-white/[0.04] border border-white/[0.08] rounded-xl px-4 py-2.5 text-[13px] text-white placeholder-slate-500 focus:outline-none focus:border-blue-500/40 transition-all resize-none"></textarea>
+                                  class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5 text-[13px] text-slate-900 placeholder-slate-400 focus:outline-none focus:border-indigo-500/40 transition-all resize-none"></textarea>
                         @if (hasError('managerFeedback')) {
-                            <p class="text-red-400 text-[12px] mt-1">{{ getError('managerFeedback') }}</p>
+                            <p class="text-red-500 text-[12px] mt-1">{{ getError('managerFeedback') }}</p>
                         }
                     </div>
                     @if (error()) {
-                        <div class="bg-red-500/10 border border-red-500/20 rounded-xl p-3 text-red-400 text-[12px]">
+                        <div class="bg-red-500/10 border border-red-500/20 rounded-xl p-3 text-red-500 text-[12px]">
                             {{ error() }}
                         </div>
                     }
@@ -244,12 +244,12 @@
                         <button type="button"
                                 (click)="closeFeedbackModal()"
                                 [disabled]="submitting()"
-                                class="flex-1 px-4 py-2.5 rounded-xl bg-white/[0.04] border border-white/[0.08] text-slate-300 text-[13px] font-medium hover:bg-white/[0.08] transition-colors">
+                                class="flex-1 px-4 py-2.5 rounded-xl bg-slate-50 border border-slate-200 text-slate-500 text-[13px] font-medium hover:bg-indigo-500/15 transition-colors">
                             Cancel
                         </button>
                         <button type="submit"
                                 [disabled]="submitting()"
-                                class="flex-1 px-4 py-2.5 rounded-xl bg-blue-500/10 border border-blue-500/20 text-blue-400 text-[13px] font-medium hover:bg-blue-500/20 transition-colors disabled:opacity-50 disabled:cursor-not-allowed">
+                                class="flex-1 px-4 py-2.5 rounded-xl bg-blue-500/10 border border-blue-500/20 text-blue-600 text-[13px] font-medium hover:bg-indigo-500/20 transition-colors disabled:opacity-50 disabled:cursor-not-allowed">
                             @if (submitting()) {
                                 <span class="flex items-center gap-2">
                                     <svg class="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24">

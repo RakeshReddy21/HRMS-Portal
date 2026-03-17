@@ -27,6 +27,16 @@ export class ChatService {
             { params }
         );
     }
+    sendMessage(request: {
+        conversationId?: number;
+        recipientId?: number;
+        content: string;
+        messageType?: 'TEXT' | 'IMAGE' | 'FILE';
+        fileUrl?: string | null;
+        fileName?: string | null;
+    }): Observable<ApiResponse<ChatMessage>> {
+        return this.http.post<ApiResponse<ChatMessage>>(`${this.baseUrl}/messages`, request);
+    }
     markConversationAsRead(conversationId: number): Observable<ApiResponse<any>> {
         return this.http.patch<ApiResponse<any>>(
             `${this.baseUrl}/conversations/${conversationId}/read`,

@@ -3,9 +3,9 @@
     <div class="conv-panel" [class.mobile-hidden]="!showMobileConversations()">
         <!-- Header -->
         <div class="conv-header">
-            <h2 class="text-[15px] font-bold text-white">Messages</h2>
+            <h2 class="text-[15px] font-bold text-slate-900">Messages</h2>
             <button (click)="openNewChatModal()"
-                    class="w-8 h-8 rounded-lg bg-blue-500/10 hover:bg-blue-500/20 text-blue-400 hover:text-blue-300 flex items-center justify-center transition-all duration-200 cursor-pointer"
+                    class="w-8 h-8 rounded-lg bg-blue-500/10 hover:bg-indigo-500/20 text-blue-600 hover:text-blue-600 flex items-center justify-center transition-all duration-200 cursor-pointer"
                     title="New conversation">
                 <svg class="w-4.5 h-4.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
@@ -22,7 +22,7 @@
                 <input type="text"
                        [(ngModel)]="searchQuery"
                        placeholder="Search conversations..."
-                       class="w-full bg-white/[0.04] border border-white/[0.06] rounded-xl pl-10 pr-4 py-2.5 text-[13px] text-white placeholder-slate-500 focus:outline-none focus:border-blue-500/40 focus:bg-white/[0.06] transition-all"/>
+                       class="w-full bg-slate-50 border border-slate-200 rounded-xl pl-10 pr-4 py-2.5 text-[13px] text-slate-900 placeholder-slate-400 focus:outline-none focus:border-indigo-500/40 focus:bg-[#f0f4fa] transition-all"/>
             </div>
         </div>
 
@@ -31,17 +31,17 @@
             @if (loading()) {
                 @for (i of [1,2,3,4,5]; track i) {
                     <div class="flex items-center gap-3 px-4 py-3.5">
-                        <div class="w-10 h-10 rounded-full bg-white/[0.06] animate-pulse shrink-0"></div>
+                        <div class="w-10 h-10 rounded-full bg-[#f0f4fa] animate-pulse shrink-0"></div>
                         <div class="flex-1 min-w-0">
-                            <div class="h-3.5 w-24 bg-white/[0.06] rounded animate-pulse mb-2"></div>
-                            <div class="h-3 w-36 bg-white/[0.04] rounded animate-pulse"></div>
+                            <div class="h-3.5 w-24 bg-[#f0f4fa] rounded animate-pulse mb-2"></div>
+                            <div class="h-3 w-36 bg-slate-50 rounded animate-pulse"></div>
                         </div>
                     </div>
                 }
             } @else if (filteredConversations.length === 0) {
                 <div class="flex flex-col items-center justify-center py-16 px-6 text-center">
-                    <div class="w-14 h-14 rounded-2xl bg-white/[0.04] flex items-center justify-center mb-4">
-                        <svg class="w-7 h-7 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <div class="w-14 h-14 rounded-2xl bg-slate-50 flex items-center justify-center mb-4">
+                        <svg class="w-7 h-7 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/>
                         </svg>
                     </div>
@@ -52,7 +52,7 @@
                             No conversations yet
                         }
                     </p>
-                    <p class="text-slate-600 text-[12px] mt-1">Click the + button to start a new chat</p>
+                    <p class="text-slate-500 text-[12px] mt-1">Click the + button to start a new chat</p>
                 </div>
             } @else {
                 @for (conv of filteredConversations; track trackByConversationId($index, conv)) {
@@ -60,19 +60,19 @@
                             class="conv-item w-full text-left"
                             [class.conv-item-active]="activeConversation()?.conversationId === conv.conversationId">
                         <div class="relative shrink-0">
-                            <div class="w-10 h-10 rounded-full bg-gradient-to-br from-blue-500/20 to-indigo-600/20 border border-white/[0.08] flex items-center justify-center text-blue-400 text-[12px] font-bold">
+                            <div class="w-10 h-10 rounded-full bg-gradient-to-br from-blue-500/20 to-indigo-600/20 border border-slate-200 flex items-center justify-center text-blue-600 text-[12px] font-bold">
                                 {{ getInitials(conv.otherParticipantName) }}
                             </div>
                             <!-- Online/Offline indicator -->
-                            @if (conv.online) {
-                                <span class="absolute -bottom-0.5 -right-0.5 w-3.5 h-3.5 bg-emerald-500 rounded-full border-2 border-slate-900 shadow-[0_0_6px_rgba(16,185,129,0.4)]"></span>
+                            @if (isConversationOnline(conv)) {
+                                <span class="online-indicator absolute -bottom-0.5 -right-0.5 w-3.5 h-3.5 rounded-full border-2"></span>
                             } @else {
-                                <span class="absolute -bottom-0.5 -right-0.5 w-3.5 h-3.5 bg-slate-600 rounded-full border-2 border-slate-900"></span>
+                                <span class="offline-indicator absolute -bottom-0.5 -right-0.5 w-3.5 h-3.5 rounded-full border-2"></span>
                             }
                         </div>
                         <div class="flex-1 min-w-0">
                             <div class="flex items-center justify-between mb-0.5">
-                                <span class="text-[13px] font-semibold text-white truncate">{{ conv.otherParticipantName }}</span>
+                                <span class="text-[13px] font-semibold text-slate-900 truncate">{{ getNameAndDesignation(conv) }}</span>
                                 <span class="text-[10px] text-slate-500 shrink-0 ml-2">{{ formatTime(conv.lastMessageAt) }}</span>
                             </div>
                             <div class="flex items-center justify-between">
@@ -84,15 +84,16 @@
                                     }
                                 </p>
                                 @if (conv.unreadCount > 0) {
-                                    <span class="shrink-0 min-w-[18px] h-[18px] px-1 bg-blue-500 rounded-full text-white text-[10px] font-bold flex items-center justify-center">
+                                    <span class="shrink-0 min-w-[18px] h-[18px] px-1 bg-blue-500 rounded-full text-slate-900 text-[10px] font-bold flex items-center justify-center">
                                         {{ conv.unreadCount > 99 ? '99+' : conv.unreadCount }}
                                     </span>
                                 }
                             </div>
                             <div class="flex items-center gap-1.5 mt-0.5">
-                                <p class="text-[11px] text-slate-600">{{ conv.otherParticipantDepartment }}</p>
-                                @if (conv.online) {
-                                    <span class="text-[10px] text-emerald-500 font-medium">· Online</span>
+                                @if (isConversationOnline(conv)) {
+                                    <span class="text-[10px] text-emerald-600 font-medium">Online</span>
+                                } @else {
+                                    <span class="text-[10px] text-slate-500 font-medium">Offline</span>
                                 }
                             </div>
                         </div>
@@ -108,28 +109,28 @@
             <!-- Chat Header -->
             <div class="msg-header">
                 <button (click)="goBackToList()"
-                        class="lg:hidden p-2 -ml-1 mr-2 rounded-xl text-slate-400 hover:text-white hover:bg-white/[0.04] transition-colors cursor-pointer">
+                        class="lg:hidden p-2 -ml-1 mr-2 rounded-xl text-slate-500 hover:text-slate-900 hover:bg-slate-50 transition-colors cursor-pointer">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
                     </svg>
                 </button>
                 <div class="relative shrink-0">
-                    <div class="w-9 h-9 rounded-full bg-gradient-to-br from-blue-500/20 to-indigo-600/20 border border-white/[0.08] flex items-center justify-center text-blue-400 text-[11px] font-bold">
+                    <div class="w-9 h-9 rounded-full bg-gradient-to-br from-blue-500/20 to-indigo-600/20 border border-slate-200 flex items-center justify-center text-blue-600 text-[11px] font-bold">
                         {{ getInitials(conv.otherParticipantName) }}
                     </div>
-                    @if (conv.online) {
-                        <span class="absolute -bottom-0.5 -right-0.5 w-3 h-3 bg-emerald-500 rounded-full border-2 border-slate-950 shadow-[0_0_6px_rgba(16,185,129,0.4)]"></span>
+                    @if (isConversationOnline(conv)) {
+                        <span class="online-indicator absolute -bottom-0.5 -right-0.5 w-3 h-3 rounded-full border-2"></span>
                     } @else {
-                        <span class="absolute -bottom-0.5 -right-0.5 w-3 h-3 bg-slate-600 rounded-full border-2 border-slate-950"></span>
+                        <span class="offline-indicator absolute -bottom-0.5 -right-0.5 w-3 h-3 rounded-full border-2"></span>
                     }
                 </div>
                 <div class="ml-3 min-w-0">
-                    <h3 class="text-[13px] font-semibold text-white truncate">{{ conv.otherParticipantName }}</h3>
+                    <h3 class="text-[13px] font-semibold text-slate-900 truncate">{{ conv.otherParticipantName }}</h3>
                     <p class="text-[11px] truncate">
                         @if (typingUser()) {
-                            <span class="text-blue-400 typing-animation">typing...</span>
-                        } @else if (conv.online) {
-                            <span class="text-emerald-400">Online</span>
+                            <span class="text-blue-600 typing-animation">typing...</span>
+                        } @else if (isConversationOnline(conv)) {
+                            <span class="text-emerald-600">Online</span>
                         } @else {
                             <span class="text-slate-500">{{ conv.otherParticipantDepartment }} · {{ conv.otherParticipantRole }}</span>
                         }
@@ -146,13 +147,13 @@
                     </div>
                 } @else if (messages().length === 0) {
                     <div class="flex flex-col items-center justify-center h-full">
-                        <div class="w-16 h-16 rounded-2xl bg-white/[0.03] flex items-center justify-center mb-4">
-                            <svg class="w-8 h-8 text-slate-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <div class="w-16 h-16 rounded-2xl bg-white flex items-center justify-center mb-4">
+                            <svg class="w-8 h-8 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/>
                             </svg>
                         </div>
                         <p class="text-slate-500 text-[13px] font-medium">No messages yet</p>
-                        <p class="text-slate-600 text-[12px] mt-1">Say hello to {{ conv.otherParticipantName }}!</p>
+                        <p class="text-slate-500 text-[12px] mt-1">Say hello to {{ conv.otherParticipantName }}!</p>
                     </div>
                 } @else {
                     <div class="msg-list">
@@ -168,7 +169,7 @@
                                     <div class="flex items-center gap-1.5 mt-1" [class.justify-end]="isMyMessage(msg)">
                                         <span class="text-[10px] opacity-60">{{ formatMessageTime(msg.createdAt) }}</span>
                                         @if (isMyMessage(msg) && msg.isRead) {
-                                            <svg class="w-3 h-3 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <svg class="w-3 h-3 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/>
                                             </svg>
                                         }
@@ -219,15 +220,15 @@
         } @else {
             <!-- Empty State -->
             <div class="flex flex-col items-center justify-center h-full">
-                <div class="w-20 h-20 rounded-3xl bg-white/[0.03] flex items-center justify-center mb-6">
-                    <svg class="w-10 h-10 text-slate-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <div class="w-20 h-20 rounded-3xl bg-white flex items-center justify-center mb-6">
+                    <svg class="w-10 h-10 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/>
                     </svg>
                 </div>
-                <h3 class="text-white text-[15px] font-semibold mb-2">Team Chat</h3>
+                <h3 class="text-slate-900 text-[15px] font-semibold mb-2">Team Chat</h3>
                 <p class="text-slate-500 text-[13px] max-w-xs text-center mb-5">Select a conversation to start messaging or find a colleague</p>
                 <button (click)="openNewChatModal()"
-                        class="px-5 py-2.5 rounded-xl bg-blue-500/10 hover:bg-blue-500/20 text-blue-400 hover:text-blue-300 text-[13px] font-semibold transition-all duration-200 flex items-center gap-2 cursor-pointer">
+                        class="px-5 py-2.5 rounded-xl bg-blue-500/10 hover:bg-indigo-500/20 text-blue-600 hover:text-blue-600 text-[13px] font-semibold transition-all duration-200 flex items-center gap-2 cursor-pointer">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
                     </svg>
@@ -245,11 +246,11 @@
             <!-- Modal Header -->
             <div class="modal-header">
                 <div>
-                    <h2 class="text-[15px] font-bold text-white">New Conversation</h2>
+                    <h2 class="text-[15px] font-bold text-slate-900">New Conversation</h2>
                     <p class="text-[12px] text-slate-500 mt-0.5">Select a colleague to start chatting</p>
                 </div>
                 <button (click)="closeNewChatModal()"
-                        class="p-2 rounded-xl text-slate-400 hover:text-white hover:bg-white/[0.06] transition-colors cursor-pointer">
+                        class="p-2 rounded-xl text-slate-500 hover:text-slate-900 hover:bg-slate-50 transition-colors cursor-pointer">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
                     </svg>
@@ -257,7 +258,7 @@
             </div>
 
             <!-- Search -->
-            <div class="px-5 py-3 border-b border-white/[0.06]">
+            <div class="px-5 py-3 border-b border-slate-200">
                 <div class="relative">
                     <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
@@ -266,7 +267,7 @@
                            [(ngModel)]="directorySearch"
                            (ngModelChange)="onDirectorySearchChange()"
                            placeholder="Search by name, code, or department..."
-                           class="w-full bg-white/[0.04] border border-white/[0.06] rounded-xl pl-10 pr-4 py-2.5 text-[13px] text-white placeholder-slate-500 focus:outline-none focus:border-blue-500/40 focus:bg-white/[0.06] transition-all"/>
+                           class="w-full bg-slate-50 border border-slate-200 rounded-xl pl-10 pr-4 py-2.5 text-[13px] text-slate-900 placeholder-slate-400 focus:outline-none focus:border-indigo-500/40 focus:bg-[#f0f4fa] transition-all"/>
                 </div>
             </div>
 
@@ -275,20 +276,20 @@
                 @if (loadingDirectory()) {
                     @for (i of [1,2,3,4,5,6]; track i) {
                         <div class="flex items-center gap-3 px-5 py-3.5">
-                            <div class="w-10 h-10 rounded-full bg-white/[0.06] animate-pulse shrink-0"></div>
+                            <div class="w-10 h-10 rounded-full bg-[#f0f4fa] animate-pulse shrink-0"></div>
                             <div class="flex-1 min-w-0">
-                                <div class="h-3.5 w-28 bg-white/[0.06] rounded animate-pulse mb-2"></div>
-                                <div class="h-3 w-40 bg-white/[0.04] rounded animate-pulse"></div>
+                                <div class="h-3.5 w-28 bg-[#f0f4fa] rounded animate-pulse mb-2"></div>
+                                <div class="h-3 w-40 bg-slate-50 rounded animate-pulse"></div>
                             </div>
                         </div>
                     }
                 } @else if (directoryEmployees().length === 0) {
                     <div class="flex flex-col items-center justify-center py-16 text-center">
-                        <svg class="w-12 h-12 text-slate-700 mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg class="w-12 h-12 text-slate-600 mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/>
                         </svg>
                         <p class="text-slate-500 text-[13px] font-medium">No employees found</p>
-                        <p class="text-slate-600 text-[12px] mt-1">Try a different search term</p>
+                        <p class="text-slate-500 text-[12px] mt-1">Try a different search term</p>
                     </div>
                 } @else {
                     @for (emp of directoryEmployees(); track emp.employeeCode) {
@@ -297,39 +298,39 @@
                                 class="dir-item w-full text-left">
                             <div class="relative shrink-0">
                                 <div class="w-10 h-10 rounded-full flex items-center justify-center text-[12px] font-bold"
-                                     [class]="isEmployeeOnline(emp.email) ? 'bg-gradient-to-br from-blue-500/20 to-indigo-600/20 border border-blue-500/20 text-blue-400' : 'bg-white/[0.06] border border-white/[0.06] text-slate-400'">
+                                     [class]="isEmployeeOnline(emp.email) ? 'bg-gradient-to-br from-blue-500/20 to-indigo-600/20 border border-blue-500/20 text-blue-600' : 'bg-[#f0f4fa] border border-slate-200 text-slate-500'">
                                     {{ getInitials(emp.firstName + ' ' + emp.lastName) }}
                                 </div>
                                 <!-- Online / Offline dot -->
                                 @if (isEmployeeOnline(emp.email)) {
-                                    <span class="absolute -bottom-0.5 -right-0.5 w-3.5 h-3.5 bg-emerald-500 rounded-full border-2 border-slate-900 shadow-[0_0_6px_rgba(16,185,129,0.4)]"></span>
+                                    <span class="online-indicator absolute -bottom-0.5 -right-0.5 w-3.5 h-3.5 rounded-full border-2"></span>
                                 } @else {
-                                    <span class="absolute -bottom-0.5 -right-0.5 w-3.5 h-3.5 bg-slate-600 rounded-full border-2 border-slate-900"></span>
+                                    <span class="offline-indicator absolute -bottom-0.5 -right-0.5 w-3.5 h-3.5 rounded-full border-2"></span>
                                 }
                             </div>
                             <div class="flex-1 min-w-0">
                                 <div class="flex items-center gap-2 mb-0.5">
-                                    <span class="text-[13px] font-semibold text-white truncate">{{ emp.firstName }} {{ emp.lastName }}</span>
+                                    <span class="text-[13px] font-semibold text-slate-900 truncate">{{ emp.firstName }} {{ emp.lastName }}</span>
                                     <span class="role-badge" [ngClass]="getRoleBadgeClass(emp.role)">{{ emp.role }}</span>
                                 </div>
                                 <div class="flex items-center gap-2">
                                     <span class="text-[12px] text-slate-500">{{ emp.employeeCode }}</span>
                                     @if (emp.departmentName) {
-                                        <span class="text-slate-700">·</span>
+                                        <span class="text-slate-600">·</span>
                                         <span class="text-[12px] text-slate-500 truncate">{{ emp.departmentName }}</span>
                                     }
                                 </div>
                                 @if (emp.designationTitle) {
-                                    <p class="text-[11px] text-slate-600 mt-0.5 truncate">{{ emp.designationTitle }}</p>
+                                    <p class="text-[11px] text-slate-500 mt-0.5 truncate">{{ emp.designationTitle }}</p>
                                 }
                             </div>
                             <div class="shrink-0 flex flex-col items-end gap-1">
                                 @if (isEmployeeOnline(emp.email)) {
                                     <span class="text-[10px] text-emerald-500 font-medium">Online</span>
                                 } @else {
-                                    <span class="text-[10px] text-slate-600">Offline</span>
+                                    <span class="text-[10px] text-slate-500">Offline</span>
                                 }
-                                <svg class="w-4 h-4 text-slate-600 group-hover:text-blue-400 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <svg class="w-4 h-4 text-slate-500 group-hover:text-blue-600 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/>
                                 </svg>
                             </div>

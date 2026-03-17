@@ -133,12 +133,22 @@ export class Chat implements OnInit, OnDestroy {
         const content = this.newMessage.trim();
         this.newMessage = '';
 
-        this.wsService.sendChatMessage({
+        const payload: { conversationId: number; recipientId: number; content: string; messageType: 'TEXT' } = {
             conversationId: conv.conversationId,
             recipientId: conv.otherParticipantId,
             content: content,
             messageType: 'TEXT'
-        });
+        };
+        const sentOverWs = this.wsService.sendChatMessage(payload);
+        if (!sentOverWs) {
+            this.chatService.sendMessage(payload).subscribe({
+                error: () => {
+                    // Keep optimistic UI, but refresh from source of truth on transport errors.
+                    this.loadMessages(conv.conversationId);
+                    this.loadConversations();
+                }
+            });
+        }
 
         const optimisticMsg: ChatMessage = {
             messageId: Date.now(),
@@ -271,6 +281,22 @@ export class Chat implements OnInit, OnDestroy {
         return this.onlineEmails().has(email);
     }
 
+    isConversationOnline(conv: Conversation): boolean {
+        if (conv.otherParticipantEmail) {
+            return this.onlineEmails().has(conv.otherParticipantEmail);
+        }
+        return !!conv.online;
+    }
+    getFirstName(name: string): string {
+        if (!name) return '';
+        return name.split(' ')[0];
+    }
+    getNameAndDesignation(conv: Conversation): string {
+        const firstName = this.getFirstName(conv.otherParticipantName);
+        const designation = (conv.otherParticipantDesignation || '').trim();
+        return designation ? `${firstName} - ${designation}` : firstName;
+    }
+
     getRoleBadgeClass(role: string): string {
         switch (role) {
             case 'ADMIN': return 'role-admin';
@@ -339,8 +365,17 @@ export class Chat implements OnInit, OnDestroy {
                     }
                     return newSet;
                 });
-
-                this.refreshConversationsQuietly();
+                this.conversations.update(convs =>
+                    convs.map(c =>
+                        c.otherParticipantEmail === event.email
+                            ? { ...c, online: event.online }
+                            : c
+                    )
+                );
+                const active = this.activeConversation();
+                if (active && active.otherParticipantEmail === event.email) {
+                    this.activeConversation.set({ ...active, online: event.online });
+                }
             })
         );
     }

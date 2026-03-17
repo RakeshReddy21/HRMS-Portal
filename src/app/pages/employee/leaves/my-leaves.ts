@@ -102,8 +102,8 @@ export class MyLeaves implements OnInit {
     }
     private loadLeaveTypesAsFallback(): void {
         const user = this.authService.currentUser();
-        if (user && (user.role === 'MANAGER' || user.role === 'ADMIN')) {
-            this.leaveService.getLeaveTypes().subscribe({
+        if (user) {
+            this.leaveService.getEmployeeLeaveTypes().subscribe({
                 next: (res) => {
                     if (res.success && res.data && res.data.length > 0) {
                         this.leaveTypes.set(res.data);
@@ -141,7 +141,7 @@ export class MyLeaves implements OnInit {
         } else {
             this.balancesLoading.set(false);
             if (this.showApplyModal()) {
-                this.error.set('No leave quotas assigned. Please contact your administrator to assign leave quotas.');
+                this.error.set('Please login again to load leave types.');
             }
         }
     }

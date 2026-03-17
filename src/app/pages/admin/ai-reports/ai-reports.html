@@ -1,24 +1,24 @@
-<div class="min-h-screen bg-slate-950 p-6 lg:p-8 space-y-6">
+<div class="min-h-screen p-6 lg:p-8 space-y-6">
 
     <!-- Header -->
     <div class="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4">
         <div>
-            <h1 class="text-2xl font-bold text-white tracking-tight">AI Performance Reports</h1>
+            <h1 class="text-2xl font-bold text-slate-900 tracking-tight tracking-tight">AI Performance Reports</h1>
             <p class="text-slate-500 text-[13px] mt-1">Generate AI-powered performance assessments for employees</p>
         </div>
     </div>
 
     <!-- ── Employee Selection ─────────────────────────── -->
     @if (!selectedEmployee()) {
-        <div class="bg-white/[0.02] border border-white/[0.06] rounded-2xl p-6 space-y-4">
+        <div class="bg-white border border-slate-200 rounded-2xl p-6 space-y-4">
             <div class="flex items-center gap-3">
                 <div class="w-10 h-10 rounded-xl bg-violet-500/20 flex items-center justify-center shrink-0">
-                    <svg class="w-5 h-5 text-violet-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg class="w-5 h-5 text-violet-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
                     </svg>
                 </div>
                 <div>
-                    <h3 class="text-white text-[15px] font-semibold">Select an Employee</h3>
+                    <h3 class="text-slate-900 text-[15px] font-semibold">Select an Employee</h3>
                     <p class="text-slate-500 text-[12px]">Search and select an employee to generate their performance report</p>
                 </div>
             </div>
@@ -28,9 +28,9 @@
                 <input [(ngModel)]="searchKeyword"
                        (keyup.enter)="onSearch()"
                        placeholder="Search by name, email, or employee code..."
-                       class="flex-1 bg-white/[0.04] border border-white/[0.08] rounded-xl px-4 py-3 text-white text-[13px] placeholder-slate-600 focus:outline-none focus:border-violet-500/40 focus:ring-1 focus:ring-violet-500/20 transition-all">
+                       class="flex-1 bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-slate-800 text-[13px] placeholder-slate-400 focus:outline-none focus:border-violet-500/40 focus:ring-1 focus:ring-violet-500/20 transition-all">
                 <button (click)="onSearch()"
-                        class="px-5 py-3 rounded-xl bg-violet-600 text-white text-[13px] font-semibold hover:bg-violet-500 transition-all shadow-lg shadow-violet-600/20 cursor-pointer">
+                        class="px-5 py-3 rounded-xl bg-violet-600 text-slate-900 text-[13px] font-semibold hover:bg-violet-500 transition-all shadow-lg shadow-violet-600/20 cursor-pointer">
                     Search
                 </button>
             </div>
@@ -38,7 +38,7 @@
             <!-- Employee List -->
             @if (loadingEmployees()) {
                 <div class="flex items-center justify-center py-8">
-                    <div class="w-8 h-8 border-2 border-violet-500/30 border-t-violet-400 rounded-full animate-spin"></div>
+                    <div class="w-8 h-8 border-2 border-violet-500/30 border-t-violet-500 rounded-full animate-spin"></div>
                 </div>
             } @else if (employees().length === 0) {
                 <div class="text-center py-8">
@@ -48,20 +48,20 @@
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 max-h-[400px] overflow-y-auto pr-1">
                     @for (emp of employees(); track emp.employeeId) {
                         <button (click)="selectEmployee(emp)"
-                                class="flex items-center gap-3 p-3.5 bg-white/[0.02] border border-white/[0.06] rounded-xl hover:bg-white/[0.04] hover:border-violet-500/20 transition-all text-left cursor-pointer group">
-                            <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center text-white text-[12px] font-bold shrink-0">
+                                class="flex items-center gap-3 p-3.5 bg-white border border-slate-200 rounded-xl hover:bg-slate-50 hover:border-violet-500/20 transition-all text-left cursor-pointer group">
+                            <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-indigo-500 to-violet-600 flex items-center justify-center text-white text-[12px] font-bold shrink-0">
                                 {{ getInitials(emp.firstName, emp.lastName) }}
                             </div>
                             <div class="min-w-0 flex-1">
-                                <p class="text-white text-[13px] font-medium truncate group-hover:text-violet-300 transition-colors">
+                                <p class="text-slate-700 text-[13px] font-medium truncate group-hover:text-violet-600 transition-colors">
                                     {{ emp.firstName }} {{ emp.lastName }}
                                 </p>
                                 <p class="text-slate-500 text-[11px] font-mono truncate">{{ emp.employeeCode }}</p>
                                 @if (emp.designationTitle) {
-                                    <p class="text-slate-600 text-[11px] truncate mt-0.5">{{ emp.designationTitle }}</p>
+                                    <p class="text-slate-500 text-[11px] truncate mt-0.5">{{ emp.designationTitle }}</p>
                                 }
                             </div>
-                            <svg class="w-4 h-4 text-slate-600 group-hover:text-violet-400 transition-colors shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <svg class="w-4 h-4 text-slate-500 group-hover:text-violet-500 transition-colors shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
                             </svg>
                         </button>
@@ -73,30 +73,30 @@
 
     <!-- ── Selected Employee + Generate ───────────────── -->
     @if (selectedEmployee(); as emp) {
-        <div class="bg-white/[0.02] border border-white/[0.06] rounded-2xl p-5">
+        <div class="bg-white border border-slate-200 rounded-2xl p-5">
             <div class="flex items-center justify-between">
                 <div class="flex items-center gap-4">
-                    <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-violet-500 to-purple-600 flex items-center justify-center text-white text-[14px] font-bold shadow-lg shadow-violet-500/20">
+                    <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-violet-500 to-purple-600 flex items-center justify-center text-slate-900 text-[14px] font-bold shadow-lg shadow-violet-500/20">
                         {{ getInitials(emp.firstName, emp.lastName) }}
                     </div>
                     <div>
-                        <p class="text-white text-[16px] font-semibold">{{ emp.firstName }} {{ emp.lastName }}</p>
+                        <p class="text-slate-900 text-[16px] font-semibold">{{ emp.firstName }} {{ emp.lastName }}</p>
                         <div class="flex items-center gap-3 mt-0.5">
                             <span class="text-slate-500 text-[12px] font-mono">{{ emp.employeeCode }}</span>
                             @if (emp.departmentName) {
-                                <span class="text-slate-600 text-[12px]">{{ emp.departmentName }}</span>
+                                <span class="text-slate-500 text-[12px]">{{ emp.departmentName }}</span>
                             }
                             @if (emp.designationTitle) {
-                                <span class="text-slate-600 text-[12px]">{{ emp.designationTitle }}</span>
+                                <span class="text-slate-500 text-[12px]">{{ emp.designationTitle }}</span>
                             }
                         </div>
                     </div>
                 </div>
                 <div class="flex items-center gap-3">
                     <input [(ngModel)]="period" placeholder="e.g. Q1 2026"
-                           class="w-32 bg-white/[0.04] border border-white/[0.08] rounded-lg px-3 py-2 text-[13px] text-white placeholder-slate-600 focus:outline-none focus:border-violet-500/40 transition-all">
+                           class="w-32 bg-slate-50 border border-slate-200 rounded-lg px-3 py-2 text-[13px] text-slate-900 placeholder-slate-400 focus:outline-none focus:border-violet-500/40 transition-all">
                     <button (click)="generateReport()" [disabled]="generating()"
-                            class="px-5 py-2.5 rounded-xl bg-gradient-to-r from-violet-600 to-purple-600 text-white text-[13px] font-semibold hover:from-violet-500 hover:to-purple-500 transition-all shadow-lg shadow-violet-500/25 disabled:opacity-50 flex items-center gap-2 cursor-pointer">
+                            class="px-5 py-2.5 rounded-xl bg-gradient-to-r from-violet-600 to-purple-600 text-slate-900 text-[13px] font-semibold hover:from-violet-500 hover:to-purple-500 transition-all shadow-lg shadow-violet-500/25 disabled:opacity-50 flex items-center gap-2 cursor-pointer">
                         @if (generating()) {
                             <span class="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></span>
                             Generating...
@@ -108,7 +108,7 @@
                         }
                     </button>
                     <button (click)="clearSelection()"
-                            class="p-2.5 rounded-lg text-slate-400 hover:text-white hover:bg-white/[0.06] transition-colors cursor-pointer"
+                            class="p-2.5 rounded-lg text-slate-500 hover:text-slate-900 hover:bg-slate-50 transition-colors cursor-pointer"
                             title="Change employee">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
@@ -119,15 +119,15 @@
         </div>
 
         @if (error()) {
-            <div class="bg-red-500/10 border border-red-500/20 rounded-xl p-4 text-red-400 text-[13px]">{{ error() }}</div>
+            <div class="bg-red-500/10 border border-red-500/20 rounded-xl p-4 text-red-500 text-[13px]">{{ error() }}</div>
         }
 
         <!-- ── Generating State ───────────────────────── -->
         @if (generating()) {
-            <div class="bg-violet-500/[0.05] border border-violet-500/20 rounded-2xl p-12 text-center space-y-4">
-                <div class="w-14 h-14 mx-auto border-3 border-violet-500/30 border-t-violet-400 rounded-full animate-spin"></div>
+            <div class="bg-violet-50 border border-violet-500/20 rounded-2xl p-12 text-center space-y-4">
+                <div class="w-14 h-14 mx-auto border-3 border-violet-500/30 border-t-violet-500 rounded-full animate-spin"></div>
                 <div>
-                    <p class="text-violet-300 text-[15px] font-semibold">AI is generating the performance report...</p>
+                    <p class="text-violet-600 text-[15px] font-semibold">AI is generating the performance report...</p>
                     <p class="text-slate-500 text-[12px] mt-1">Analyzing goals, reviews, attendance, and leave data</p>
                 </div>
             </div>
@@ -148,25 +148,25 @@
                         </div>
                         <span class="text-slate-500 text-[12px]">{{ r.reportPeriod }}</span>
                     </div>
-                    <p class="text-slate-300 text-[13px] leading-relaxed">{{ r.aiOverallAssessment }}</p>
+                    <p class="text-slate-500 text-[13px] leading-relaxed">{{ r.aiOverallAssessment }}</p>
                 </div>
 
                 <!-- Key Metrics -->
                 <div class="grid grid-cols-2 lg:grid-cols-4 gap-3">
-                    <div class="bg-white/[0.02] border border-white/[0.06] rounded-xl p-4 text-center">
-                        <p class="text-white text-[24px] font-bold tabular-nums">{{ r.totalPresentDays }}</p>
+                    <div class="bg-white border border-slate-200 rounded-xl p-4 text-center">
+                        <p class="text-slate-900 text-[24px] font-bold tabular-nums">{{ r.totalPresentDays }}</p>
                         <p class="text-slate-500 text-[11px] uppercase tracking-wider mt-1">Present Days</p>
                     </div>
-                    <div class="bg-white/[0.02] border border-white/[0.06] rounded-xl p-4 text-center">
-                        <p class="text-white text-[24px] font-bold tabular-nums">{{ r.averageHoursPerDay }}</p>
+                    <div class="bg-white border border-slate-200 rounded-xl p-4 text-center">
+                        <p class="text-slate-900 text-[24px] font-bold tabular-nums">{{ r.averageHoursPerDay }}</p>
                         <p class="text-slate-500 text-[11px] uppercase tracking-wider mt-1">Avg Hours/Day</p>
                     </div>
-                    <div class="bg-white/[0.02] border border-white/[0.06] rounded-xl p-4 text-center">
-                        <p class="text-white text-[24px] font-bold tabular-nums">{{ r.completedGoals }}/{{ r.totalGoals }}</p>
+                    <div class="bg-white border border-slate-200 rounded-xl p-4 text-center">
+                        <p class="text-slate-900 text-[24px] font-bold tabular-nums">{{ r.completedGoals }}/{{ r.totalGoals }}</p>
                         <p class="text-slate-500 text-[11px] uppercase tracking-wider mt-1">Goals Completed</p>
                     </div>
-                    <div class="bg-white/[0.02] border border-white/[0.06] rounded-xl p-4 text-center">
-                        <p class="text-white text-[24px] font-bold tabular-nums">{{ r.totalLeavesTaken }}</p>
+                    <div class="bg-white border border-slate-200 rounded-xl p-4 text-center">
+                        <p class="text-slate-900 text-[24px] font-bold tabular-nums">{{ r.totalLeavesTaken }}</p>
                         <p class="text-slate-500 text-[11px] uppercase tracking-wider mt-1">Leaves Taken</p>
                     </div>
                 </div>
@@ -176,76 +176,76 @@
                     <!-- Strengths -->
                     <div class="bg-emerald-500/[0.05] border border-emerald-500/15 rounded-xl p-5">
                         <div class="flex items-center gap-2 mb-3">
-                            <svg class="w-5 h-5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <svg class="w-5 h-5 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
                             </svg>
-                            <h3 class="text-emerald-400 text-[13px] font-bold uppercase tracking-wider">Strengths</h3>
+                            <h3 class="text-emerald-600 text-[13px] font-bold uppercase tracking-wider">Strengths</h3>
                         </div>
-                        <p class="text-slate-300 text-[13px] leading-relaxed">{{ r.aiStrengths }}</p>
+                        <p class="text-slate-500 text-[13px] leading-relaxed">{{ r.aiStrengths }}</p>
                     </div>
 
                     <!-- Areas for Improvement -->
                     <div class="bg-amber-500/[0.05] border border-amber-500/15 rounded-xl p-5">
                         <div class="flex items-center gap-2 mb-3">
-                            <svg class="w-5 h-5 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <svg class="w-5 h-5 text-amber-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.34 16.5c-.77.833.192 2.5 1.732 2.5z"/>
                             </svg>
-                            <h3 class="text-amber-400 text-[13px] font-bold uppercase tracking-wider">Areas to Improve</h3>
+                            <h3 class="text-amber-500 text-[13px] font-bold uppercase tracking-wider">Areas to Improve</h3>
                         </div>
-                        <p class="text-slate-300 text-[13px] leading-relaxed">{{ r.aiAreasForImprovement }}</p>
+                        <p class="text-slate-500 text-[13px] leading-relaxed">{{ r.aiAreasForImprovement }}</p>
                     </div>
 
                     <!-- Recommendations -->
                     <div class="bg-blue-500/[0.05] border border-blue-500/15 rounded-xl p-5">
                         <div class="flex items-center gap-2 mb-3">
-                            <svg class="w-5 h-5 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
                             </svg>
-                            <h3 class="text-blue-400 text-[13px] font-bold uppercase tracking-wider">Recommendations</h3>
+                            <h3 class="text-blue-600 text-[13px] font-bold uppercase tracking-wider">Recommendations</h3>
                         </div>
-                        <p class="text-slate-300 text-[13px] leading-relaxed">{{ r.aiRecommendations }}</p>
+                        <p class="text-slate-500 text-[13px] leading-relaxed">{{ r.aiRecommendations }}</p>
                     </div>
                 </div>
 
                 <!-- Attendance & Leave Details -->
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
                     <!-- Attendance Card -->
-                    <div class="bg-white/[0.02] border border-white/[0.06] rounded-xl p-5">
-                        <h3 class="text-white text-[14px] font-semibold mb-4">Attendance Summary</h3>
+                    <div class="bg-white border border-slate-200 rounded-xl p-5">
+                        <h3 class="text-slate-900 text-[14px] font-semibold mb-4">Attendance Summary</h3>
                         <div class="grid grid-cols-2 gap-3">
-                            <div class="bg-white/[0.03] rounded-lg p-3">
+                            <div class="bg-white rounded-lg p-3">
                                 <p class="text-slate-500 text-[11px] uppercase tracking-wider mb-1">Present</p>
-                                <p class="text-white text-[16px] font-bold tabular-nums">{{ r.totalPresentDays }}</p>
+                                <p class="text-slate-900 text-[16px] font-bold tabular-nums">{{ r.totalPresentDays }}</p>
                             </div>
-                            <div class="bg-white/[0.03] rounded-lg p-3">
+                            <div class="bg-white rounded-lg p-3">
                                 <p class="text-slate-500 text-[11px] uppercase tracking-wider mb-1">Absent</p>
-                                <p class="text-white text-[16px] font-bold tabular-nums">{{ r.totalAbsentDays }}</p>
+                                <p class="text-slate-900 text-[16px] font-bold tabular-nums">{{ r.totalAbsentDays }}</p>
                             </div>
-                            <div class="bg-white/[0.03] rounded-lg p-3">
+                            <div class="bg-white rounded-lg p-3">
                                 <p class="text-slate-500 text-[11px] uppercase tracking-wider mb-1">Late Arrivals</p>
-                                <p class="text-white text-[16px] font-bold tabular-nums">{{ r.lateArrivals }}</p>
+                                <p class="text-slate-900 text-[16px] font-bold tabular-nums">{{ r.lateArrivals }}</p>
                             </div>
-                            <div class="bg-white/[0.03] rounded-lg p-3">
+                            <div class="bg-white rounded-lg p-3">
                                 <p class="text-slate-500 text-[11px] uppercase tracking-wider mb-1">Avg Hours</p>
-                                <p class="text-white text-[16px] font-bold tabular-nums">{{ r.averageHoursPerDay }}h</p>
+                                <p class="text-slate-900 text-[16px] font-bold tabular-nums">{{ r.averageHoursPerDay }}h</p>
                             </div>
                         </div>
                     </div>
 
                     <!-- Leave Breakdown -->
-                    <div class="bg-white/[0.02] border border-white/[0.06] rounded-xl p-5">
-                        <h3 class="text-white text-[14px] font-semibold mb-4">Leave Breakdown ({{ r.totalLeavesTaken }} days)</h3>
+                    <div class="bg-white border border-slate-200 rounded-xl p-5">
+                        <h3 class="text-slate-900 text-[14px] font-semibold mb-4">Leave Breakdown ({{ r.totalLeavesTaken }} days)</h3>
                         @if (r.leaveBreakdown) {
                             <div class="space-y-2.5">
                                 @for (entry of r.leaveBreakdown | keyvalue; track entry.key) {
                                     <div class="flex items-center justify-between">
-                                        <span class="text-slate-400 text-[13px]">{{ entry.key }}</span>
+                                        <span class="text-slate-500 text-[13px]">{{ entry.key }}</span>
                                         <div class="flex items-center gap-3">
-                                            <div class="w-24 h-2 rounded-full bg-white/[0.06] overflow-hidden">
+                                            <div class="w-24 h-2 rounded-full bg-[#f0f4fa] overflow-hidden">
                                                 <div class="h-full rounded-full bg-blue-500"
                                                      [style.width.%]="r.totalLeavesTaken > 0 ? (entry.value / r.totalLeavesTaken * 100) : 0"></div>
                                             </div>
-                                            <span class="text-white text-[13px] font-semibold tabular-nums w-8 text-right">{{ entry.value }}</span>
+                                            <span class="text-slate-900 text-[13px] font-semibold tabular-nums w-8 text-right">{{ entry.value }}</span>
                                         </div>
                                     </div>
                                 }
@@ -258,28 +258,28 @@
 
                 <!-- Goals -->
                 @if (r.goals?.length) {
-                    <div class="bg-white/[0.02] border border-white/[0.06] rounded-xl p-5">
+                    <div class="bg-white border border-slate-200 rounded-xl p-5">
                         <div class="flex items-center justify-between mb-4">
-                            <h3 class="text-white text-[14px] font-semibold">Goals ({{ r.averageGoalProgress }}% avg progress)</h3>
+                            <h3 class="text-slate-900 text-[14px] font-semibold">Goals ({{ r.averageGoalProgress }}% avg progress)</h3>
                             <span class="text-slate-500 text-[12px]">{{ r.completedGoals }} of {{ r.totalGoals }} completed</span>
                         </div>
                         <div class="space-y-3">
                             @for (goal of r.goals; track goal.title) {
-                                <div class="flex items-center gap-4 bg-white/[0.02] rounded-xl px-4 py-3">
+                                <div class="flex items-center gap-4 bg-white rounded-xl px-4 py-3">
                                     <div class="flex-1 min-w-0">
                                         <div class="flex items-center gap-2 mb-1.5">
-                                            <p class="text-white text-[13px] font-medium truncate">{{ goal.title }}</p>
+                                            <p class="text-slate-700 text-[13px] font-medium truncate">{{ goal.title }}</p>
                                             <span class="px-2 py-0.5 rounded-full text-[10px] font-semibold shrink-0 {{ getGoalStatusColor(goal.status) }}">
                                                 {{ goal.status.replace('_', ' ') }}
                                             </span>
                                         </div>
-                                        <div class="w-full h-1.5 rounded-full bg-white/[0.06] overflow-hidden">
+                                        <div class="w-full h-1.5 rounded-full bg-[#f0f4fa] overflow-hidden">
                                             <div class="h-full rounded-full transition-all duration-300"
                                                  [class]="goal.progress >= 100 ? 'bg-emerald-500' : goal.progress >= 50 ? 'bg-blue-500' : 'bg-amber-500'"
                                                  [style.width.%]="goal.progress"></div>
                                         </div>
                                     </div>
-                                    <span class="text-white text-[14px] font-bold tabular-nums shrink-0">{{ goal.progress }}%</span>
+                                    <span class="text-slate-900 text-[14px] font-bold tabular-nums shrink-0">{{ goal.progress }}%</span>
                                 </div>
                             }
                         </div>
@@ -288,28 +288,28 @@
 
                 <!-- Reviews -->
                 @if (r.reviews?.length) {
-                    <div class="bg-white/[0.02] border border-white/[0.06] rounded-xl p-5">
+                    <div class="bg-white border border-slate-200 rounded-xl p-5">
                         <div class="flex items-center justify-between mb-4">
-                            <h3 class="text-white text-[14px] font-semibold">Performance Reviews</h3>
+                            <h3 class="text-slate-900 text-[14px] font-semibold">Performance Reviews</h3>
                             <div class="flex items-center gap-4 text-[12px]">
-                                <span class="text-slate-500">Avg Self: <span class="text-white font-semibold">{{ r.averageSelfRating | number:'1.1-1' }}</span></span>
-                                <span class="text-slate-500">Avg Manager: <span class="text-white font-semibold">{{ r.averageManagerRating | number:'1.1-1' }}</span></span>
+                                <span class="text-slate-500">Avg Self: <span class="text-slate-900 font-semibold">{{ r.averageSelfRating | number:'1.1-1' }}</span></span>
+                                <span class="text-slate-500">Avg Manager: <span class="text-slate-900 font-semibold">{{ r.averageManagerRating | number:'1.1-1' }}</span></span>
                             </div>
                         </div>
                         <div class="space-y-2">
                             @for (review of r.reviews; track review.period) {
-                                <div class="flex items-center justify-between bg-white/[0.02] rounded-xl px-4 py-3">
-                                    <span class="text-white text-[13px] font-medium">{{ review.period }}</span>
+                                <div class="flex items-center justify-between bg-white rounded-xl px-4 py-3">
+                                    <span class="text-slate-700 text-[13px] font-medium">{{ review.period }}</span>
                                     <div class="flex items-center gap-4">
                                         <div class="text-center">
                                             <p class="text-slate-500 text-[10px] uppercase tracking-wider">Self</p>
-                                            <p class="text-white text-[14px] font-bold tabular-nums">{{ review.selfRating || '—' }}</p>
+                                            <p class="text-slate-900 text-[14px] font-bold tabular-nums">{{ review.selfRating || '—' }}</p>
                                         </div>
                                         <div class="text-center">
                                             <p class="text-slate-500 text-[10px] uppercase tracking-wider">Manager</p>
-                                            <p class="text-white text-[14px] font-bold tabular-nums">{{ review.managerRating || '—' }}</p>
+                                            <p class="text-slate-900 text-[14px] font-bold tabular-nums">{{ review.managerRating || '—' }}</p>
                                         </div>
-                                        <span class="px-2.5 py-1 rounded-lg text-[11px] font-medium {{ review.status === 'COMPLETED' ? 'bg-emerald-500/10 text-emerald-400' : 'bg-amber-500/10 text-amber-400' }}">
+                                        <span class="px-2.5 py-1 rounded-lg text-[11px] font-medium {{ review.status === 'COMPLETED' ? 'bg-emerald-500/10 text-emerald-600' : 'bg-amber-500/10 text-amber-500' }}">
                                             {{ review.status }}
                                         </span>
                                     </div>

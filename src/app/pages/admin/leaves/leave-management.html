@@ -1,45 +1,45 @@
 @if (success()) {
     <div class="fixed top-6 right-6 z-50 flex items-center gap-3 px-5 py-3 bg-emerald-500/15 border border-emerald-500/25 rounded-xl shadow-2xl shadow-emerald-500/10 animate-fadeIn">
-        <svg class="w-5 h-5 text-emerald-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <svg class="w-5 h-5 text-emerald-600 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
         </svg>
-        <span class="text-emerald-300 text-[13px] font-medium">{{ success() }}</span>
+        <span class="text-emerald-600 text-[13px] font-medium">{{ success() }}</span>
     </div>
 }
 
 <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
     <div>
-        <h1 class="text-2xl font-bold text-white">Leave Management</h1>
+        <h1 class="text-2xl font-bold text-slate-900 tracking-tight">Leave Management</h1>
         <p class="text-slate-500 text-[13px] mt-1">Manage leave applications, types and holidays</p>
     </div>
 </div>
 
-<div class="flex items-center gap-1 bg-white/[0.02] border border-white/[0.06] rounded-xl p-1 mb-6 w-fit">
+<div class="flex items-center gap-1 bg-white border border-slate-200 rounded-xl p-1 mb-6 w-fit">
     <button (click)="switchTab('applications')"
             class="px-4 py-2 rounded-lg text-[13px] font-medium transition-all duration-200 cursor-pointer"
             [class]="activeTab() === 'applications'
-                ? 'bg-white/[0.08] text-white shadow-sm'
-                : 'text-slate-500 hover:text-slate-300'">
+                ? 'bg-indigo-50 text-indigo-700 shadow-sm'
+                : 'text-slate-500 hover:text-slate-500'">
         Applications
     </button>
     <button (click)="switchTab('types')"
             class="px-4 py-2 rounded-lg text-[13px] font-medium transition-all duration-200 cursor-pointer"
             [class]="activeTab() === 'types'
-                ? 'bg-white/[0.08] text-white shadow-sm'
-                : 'text-slate-500 hover:text-slate-300'">
+                ? 'bg-indigo-50 text-indigo-700 shadow-sm'
+                : 'text-slate-500 hover:text-slate-500'">
         Leave Types
     </button>
     <button (click)="switchTab('holidays')"
             class="px-4 py-2 rounded-lg text-[13px] font-medium transition-all duration-200 cursor-pointer"
             [class]="activeTab() === 'holidays'
-                ? 'bg-white/[0.08] text-white shadow-sm'
-                : 'text-slate-500 hover:text-slate-300'">
+                ? 'bg-indigo-50 text-indigo-700 shadow-sm'
+                : 'text-slate-500 hover:text-slate-500'">
         Holidays
     </button>
 </div>
 
 @if (error()) {
-    <div class="mb-6 px-4 py-3 bg-red-500/10 border border-red-500/20 rounded-xl text-red-400 text-[13px]">
+    <div class="mb-6 px-4 py-3 bg-red-500/10 border border-red-500/20 rounded-xl text-red-500 text-[13px]">
         {{ error() }}
     </div>
 }
@@ -48,63 +48,63 @@
     <div class="animate-fadeIn">
         <div class="flex items-center gap-3 mb-4">
             <select (change)="onAppStatusChange($event)"
-                    class="filter-select bg-white/[0.04] border border-white/[0.08] rounded-xl px-4 py-2.5 text-[13px] text-slate-300 focus:outline-none focus:border-blue-500/40 transition-all appearance-none cursor-pointer min-w-[160px]">
-                <option value="" class="bg-slate-900">All Status</option>
-                <option value="PENDING" class="bg-slate-900">Pending</option>
-                <option value="APPROVED" class="bg-slate-900">Approved</option>
-                <option value="REJECTED" class="bg-slate-900">Rejected</option>
-                <option value="CANCELLED" class="bg-slate-900">Cancelled</option>
+                    class="filter-select bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5 text-[13px] text-slate-500 focus:outline-none focus:border-indigo-500/40 transition-all appearance-none cursor-pointer min-w-[160px]">
+                <option value="" class="bg-white">All Status</option>
+                <option value="PENDING" class="bg-white">Pending</option>
+                <option value="APPROVED" class="bg-white">Approved</option>
+                <option value="REJECTED" class="bg-white">Rejected</option>
+                <option value="CANCELLED" class="bg-white">Cancelled</option>
             </select>
             @if (appTotalElements() > 0) {
                 <span class="text-slate-500 text-[13px]">{{ appTotalElements() }} applications</span>
             }
         </div>
 
-        <div class="bg-white/[0.02] border border-white/[0.06] rounded-2xl overflow-hidden">
-            <div class="grid grid-cols-12 gap-4 px-6 py-3.5 border-b border-white/[0.06] bg-white/[0.02]">
-                <div class="col-span-3 text-[11px] font-semibold uppercase tracking-widest text-slate-500">Employee</div>
-                <div class="col-span-2 text-[11px] font-semibold uppercase tracking-widest text-slate-500">Type</div>
-                <div class="col-span-2 text-[11px] font-semibold uppercase tracking-widest text-slate-500">Dates</div>
-                <div class="col-span-1 text-[11px] font-semibold uppercase tracking-widest text-slate-500 text-center">Days</div>
-                <div class="col-span-1 text-[11px] font-semibold uppercase tracking-widest text-slate-500 text-center">Status</div>
-                <div class="col-span-1 text-[11px] font-semibold uppercase tracking-widest text-slate-500 text-right">Applied</div>
-                <div class="col-span-2 text-[11px] font-semibold uppercase tracking-widest text-slate-500 text-center">Action</div>
+        <div class="bg-white border border-slate-200 rounded-2xl overflow-hidden">
+            <div class="grid grid-cols-12 gap-4 px-6 py-3.5 border-b border-slate-200 bg-white">
+                <div class="col-span-3 text-[11px] font-semibold uppercase tracking-widest text-slate-400">Employee</div>
+                <div class="col-span-2 text-[11px] font-semibold uppercase tracking-widest text-slate-400">Type</div>
+                <div class="col-span-2 text-[11px] font-semibold uppercase tracking-widest text-slate-400">Dates</div>
+                <div class="col-span-1 text-[11px] font-semibold uppercase tracking-widest text-slate-400 text-center">Days</div>
+                <div class="col-span-1 text-[11px] font-semibold uppercase tracking-widest text-slate-400 text-center">Status</div>
+                <div class="col-span-1 text-[11px] font-semibold uppercase tracking-widest text-slate-400 text-right">Applied</div>
+                <div class="col-span-2 text-[11px] font-semibold uppercase tracking-widest text-slate-400 text-center">Action</div>
             </div>
 
             @if (appLoading()) {
                 @for (i of skeletonRows; track $index) {
-                    <div class="grid grid-cols-12 gap-4 px-6 py-4 border-b border-white/[0.04] animate-pulse">
-                        <div class="col-span-3"><div class="h-4 w-3/4 bg-slate-700/40 rounded"></div></div>
-                        <div class="col-span-2"><div class="h-4 w-2/3 bg-slate-700/30 rounded"></div></div>
-                        <div class="col-span-2"><div class="h-4 w-full bg-slate-700/30 rounded"></div></div>
-                        <div class="col-span-1 flex justify-center"><div class="h-4 w-6 bg-slate-700/30 rounded"></div></div>
-                        <div class="col-span-1 flex justify-center"><div class="h-5 w-16 bg-slate-700/30 rounded-full"></div></div>
-                        <div class="col-span-1 flex justify-end"><div class="h-4 w-20 bg-slate-700/30 rounded"></div></div>
-                        <div class="col-span-2 flex justify-center"><div class="h-7 w-16 bg-slate-700/30 rounded-lg"></div></div>
+                    <div class="grid grid-cols-12 gap-4 px-6 py-4 border-b border-slate-200/80 animate-pulse">
+                        <div class="col-span-3"><div class="h-4 w-3/4 bg-slate-700 rounded"></div></div>
+                        <div class="col-span-2"><div class="h-4 w-2/3 bg-slate-800 rounded"></div></div>
+                        <div class="col-span-2"><div class="h-4 w-full bg-slate-800 rounded"></div></div>
+                        <div class="col-span-1 flex justify-center"><div class="h-4 w-6 bg-slate-800 rounded"></div></div>
+                        <div class="col-span-1 flex justify-center"><div class="h-5 w-16 bg-slate-800 rounded-full"></div></div>
+                        <div class="col-span-1 flex justify-end"><div class="h-4 w-20 bg-slate-800 rounded"></div></div>
+                        <div class="col-span-2 flex justify-center"><div class="h-7 w-16 bg-slate-800 rounded-lg"></div></div>
                     </div>
                 }
             }
 
             @if (!appLoading()) {
                 @for (app of applications(); track app.leaveId) {
-                    <div class="grid grid-cols-12 gap-4 px-6 py-4 border-b border-white/[0.04] hover:bg-white/[0.02] transition-colors duration-150">
+                    <div class="grid grid-cols-12 gap-4 px-6 py-4 border-b border-slate-200/80 hover:bg-white transition-colors duration-150">
                         <div class="col-span-3 flex items-center gap-3">
-                            <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center text-white text-[11px] font-bold shrink-0">
+                            <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-indigo-500 to-violet-600 flex items-center justify-center text-white text-[11px] font-bold shrink-0">
                                 {{ getInitials(app.employee.firstName, app.employee.lastName) }}
                             </div>
                             <div class="min-w-0">
-                                <p class="text-white text-[13px] font-medium truncate">{{ app.employee.firstName }} {{ app.employee.lastName }}</p>
-                                <p class="text-slate-600 text-[11px] font-mono">{{ app.employee.employeeCode }}</p>
+                                <p class="text-slate-700 text-[13px] font-medium truncate">{{ app.employee.firstName }} {{ app.employee.lastName }}</p>
+                                <p class="text-slate-500 text-[11px] font-mono">{{ app.employee.employeeCode }}</p>
                             </div>
                         </div>
                         <div class="col-span-2 flex items-center">
-                            <span class="text-slate-400 text-[13px] truncate">{{ app.leaveType.leaveTypeName }}</span>
+                            <span class="text-slate-500 text-[13px] truncate">{{ app.leaveType.leaveTypeName }}</span>
                         </div>
                         <div class="col-span-2 flex items-center">
-                            <span class="text-slate-400 text-[12px]">{{ formatDate(app.startDate) }} – {{ formatDate(app.endDate) }}</span>
+                            <span class="text-slate-500 text-[12px]">{{ formatDate(app.startDate) }} – {{ formatDate(app.endDate) }}</span>
                         </div>
                         <div class="col-span-1 flex items-center justify-center">
-                            <span class="text-white text-[13px] font-medium tabular-nums">{{ app.totalDays }}</span>
+                            <span class="text-slate-700 text-[13px] font-medium tabular-nums">{{ app.totalDays }}</span>
                         </div>
                         <div class="col-span-1 flex items-center justify-center">
                             <span class="px-2.5 py-1 rounded-full text-[11px] font-semibold" [class]="getStatusClass(app.status)">
@@ -117,11 +117,11 @@
                         <div class="col-span-2 flex items-center justify-center">
                             @if (app.status === 'PENDING') {
                                 <button (click)="openActionModal(app)"
-                                        class="px-3 py-1.5 rounded-lg bg-blue-500/10 border border-blue-500/20 text-blue-400 text-[12px] font-medium hover:bg-blue-500/20 transition-colors cursor-pointer">
+                                        class="px-3 py-1.5 rounded-lg bg-blue-500/10 border border-blue-500/20 text-blue-600 text-[12px] font-medium hover:bg-indigo-500/20 transition-colors cursor-pointer">
                                     Review
                                 </button>
                             } @else {
-                                <span class="text-slate-600 text-[12px]">—</span>
+                                <span class="text-slate-500 text-[12px]">—</span>
                             }
                         </div>
                     </div>
@@ -129,7 +129,7 @@
 
                 @if (applications().length === 0) {
                     <div class="text-center py-12">
-                        <svg class="w-10 h-10 mx-auto text-slate-700 mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg class="w-10 h-10 mx-auto text-slate-600 mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
                         </svg>
                         <p class="text-slate-500 text-[13px]">No leave applications found</p>
@@ -147,15 +147,15 @@
                     <button (click)="goToAppPage(appPage() - 1)" [disabled]="appPage() === 0"
                             class="px-3.5 py-2 rounded-lg text-[13px] font-medium border transition-all"
                             [class]="appPage() === 0
-                                ? 'text-slate-600 border-white/[0.04] cursor-not-allowed'
-                                : 'text-slate-300 border-white/[0.08] hover:bg-white/[0.04] cursor-pointer'">
+                                ? 'text-slate-500 border-slate-200/80 cursor-not-allowed'
+                                : 'text-slate-500 border-slate-200 hover:bg-slate-50 cursor-pointer'">
                         ← Previous
                     </button>
                     <button (click)="goToAppPage(appPage() + 1)" [disabled]="appPage() >= appTotalPages() - 1"
                             class="px-3.5 py-2 rounded-lg text-[13px] font-medium border transition-all"
                             [class]="appPage() >= appTotalPages() - 1
-                                ? 'text-slate-600 border-white/[0.04] cursor-not-allowed'
-                                : 'text-slate-300 border-white/[0.08] hover:bg-white/[0.04] cursor-pointer'">
+                                ? 'text-slate-500 border-slate-200/80 cursor-not-allowed'
+                                : 'text-slate-500 border-slate-200 hover:bg-slate-50 cursor-pointer'">
                         Next →
                     </button>
                 </div>
@@ -177,68 +177,68 @@
             </button>
         </div>
 
-        <div class="bg-white/[0.02] border border-white/[0.06] rounded-2xl overflow-hidden">
-            <div class="grid grid-cols-12 gap-4 px-6 py-3.5 border-b border-white/[0.06] bg-white/[0.02]">
-                <div class="col-span-3 text-[11px] font-semibold uppercase tracking-widest text-slate-500">Name</div>
-                <div class="col-span-2 text-[11px] font-semibold uppercase tracking-widest text-slate-500 text-center">Days</div>
-                <div class="col-span-2 text-[11px] font-semibold uppercase tracking-widest text-slate-500 text-center">Paid</div>
-                <div class="col-span-2 text-[11px] font-semibold uppercase tracking-widest text-slate-500 text-center">Carry Forward</div>
-                <div class="col-span-1 text-[11px] font-semibold uppercase tracking-widest text-slate-500 text-center">LOP</div>
-                <div class="col-span-2 text-[11px] font-semibold uppercase tracking-widest text-slate-500 text-right">Actions</div>
+        <div class="bg-white border border-slate-200 rounded-2xl overflow-hidden">
+            <div class="grid grid-cols-12 gap-4 px-6 py-3.5 border-b border-slate-200 bg-white">
+                <div class="col-span-3 text-[11px] font-semibold uppercase tracking-widest text-slate-400">Name</div>
+                <div class="col-span-2 text-[11px] font-semibold uppercase tracking-widest text-slate-400 text-center">Days</div>
+                <div class="col-span-2 text-[11px] font-semibold uppercase tracking-widest text-slate-400 text-center">Paid</div>
+                <div class="col-span-2 text-[11px] font-semibold uppercase tracking-widest text-slate-400 text-center">Carry Forward</div>
+                <div class="col-span-1 text-[11px] font-semibold uppercase tracking-widest text-slate-400 text-center">LOP</div>
+                <div class="col-span-2 text-[11px] font-semibold uppercase tracking-widest text-slate-400 text-right">Actions</div>
             </div>
 
             @if (typesLoading()) {
                 @for (i of skeletonRows; track $index) {
-                    <div class="grid grid-cols-12 gap-4 px-6 py-4 border-b border-white/[0.04] animate-pulse">
-                        <div class="col-span-3"><div class="h-4 w-3/4 bg-slate-700/40 rounded"></div></div>
-                        <div class="col-span-2 flex justify-center"><div class="h-4 w-8 bg-slate-700/30 rounded"></div></div>
-                        <div class="col-span-2 flex justify-center"><div class="h-5 w-10 bg-slate-700/30 rounded-full"></div></div>
-                        <div class="col-span-2 flex justify-center"><div class="h-5 w-10 bg-slate-700/30 rounded-full"></div></div>
-                        <div class="col-span-1 flex justify-center"><div class="h-5 w-10 bg-slate-700/30 rounded-full"></div></div>
-                        <div class="col-span-2 flex justify-end"><div class="h-8 w-8 bg-slate-700/30 rounded-lg"></div></div>
+                    <div class="grid grid-cols-12 gap-4 px-6 py-4 border-b border-slate-200/80 animate-pulse">
+                        <div class="col-span-3"><div class="h-4 w-3/4 bg-slate-700 rounded"></div></div>
+                        <div class="col-span-2 flex justify-center"><div class="h-4 w-8 bg-slate-800 rounded"></div></div>
+                        <div class="col-span-2 flex justify-center"><div class="h-5 w-10 bg-slate-800 rounded-full"></div></div>
+                        <div class="col-span-2 flex justify-center"><div class="h-5 w-10 bg-slate-800 rounded-full"></div></div>
+                        <div class="col-span-1 flex justify-center"><div class="h-5 w-10 bg-slate-800 rounded-full"></div></div>
+                        <div class="col-span-2 flex justify-end"><div class="h-8 w-8 bg-slate-800 rounded-lg"></div></div>
                     </div>
                 }
             }
 
             @if (!typesLoading()) {
                 @for (lt of leaveTypes(); track lt.leaveTypeId) {
-                    <div class="grid grid-cols-12 gap-4 px-6 py-4 border-b border-white/[0.04] hover:bg-white/[0.02] transition-colors duration-150 group">
+                    <div class="grid grid-cols-12 gap-4 px-6 py-4 border-b border-slate-200/80 hover:bg-white transition-colors duration-150 group">
                         <div class="col-span-3 flex items-center gap-3">
                             <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-emerald-500 to-teal-600 flex items-center justify-center text-white text-[13px] font-bold shrink-0 shadow-lg shadow-emerald-500/15">
                                 {{ lt.leaveTypeName.charAt(0) }}
                             </div>
                             <div class="min-w-0">
-                                <p class="text-white text-[14px] font-medium truncate group-hover:text-emerald-400 transition-colors">{{ lt.leaveTypeName }}</p>
+                                <p class="text-slate-800 text-[14px] font-medium truncate group-hover:text-emerald-600 transition-colors">{{ lt.leaveTypeName }}</p>
                                 @if (lt.description) {
-                                    <p class="text-slate-600 text-[11px] truncate">{{ lt.description }}</p>
+                                    <p class="text-slate-500 text-[11px] truncate">{{ lt.description }}</p>
                                 }
                             </div>
                         </div>
                         <div class="col-span-2 flex items-center justify-center">
-                            <span class="text-white text-[14px] font-semibold tabular-nums">{{ lt.defaultDays }}</span>
+                            <span class="text-slate-900 text-[14px] font-semibold tabular-nums">{{ lt.defaultDays }}</span>
                         </div>
                         <div class="col-span-2 flex items-center justify-center">
                             <span class="px-2 py-0.5 rounded-full text-[11px] font-semibold"
-                                  [class]="lt.isPaidLeave ? 'bg-emerald-500/10 text-emerald-400' : 'bg-slate-500/10 text-slate-500'">
+                                  [class]="lt.isPaidLeave ? 'bg-emerald-500/10 text-emerald-600' : 'bg-slate-500/10 text-slate-500'">
                                 {{ lt.isPaidLeave ? 'Yes' : 'No' }}
                             </span>
                         </div>
                         <div class="col-span-2 flex items-center justify-center">
                             @if (lt.isCarryForwardEnabled) {
-                                <span class="text-blue-400 text-[12px] font-medium">{{ lt.maxCarryForwardDays }}d max</span>
+                                <span class="text-blue-600 text-[12px] font-medium">{{ lt.maxCarryForwardDays }}d max</span>
                             } @else {
-                                <span class="text-slate-600 text-[12px]">—</span>
+                                <span class="text-slate-500 text-[12px]">—</span>
                             }
                         </div>
                         <div class="col-span-1 flex items-center justify-center">
                             <span class="px-2 py-0.5 rounded-full text-[11px] font-semibold"
-                                  [class]="lt.isLossOfPay ? 'bg-red-500/10 text-red-400' : 'bg-slate-500/10 text-slate-500'">
+                                  [class]="lt.isLossOfPay ? 'bg-red-500/10 text-red-500' : 'bg-slate-500/10 text-slate-500'">
                                 {{ lt.isLossOfPay ? 'Yes' : 'No' }}
                             </span>
                         </div>
                         <div class="col-span-2 flex items-center justify-end">
                             <button (click)="openEditType(lt)"
-                                    class="p-2 rounded-lg text-slate-500 hover:text-emerald-400 hover:bg-emerald-500/10 transition-all cursor-pointer"
+                                    class="p-2 rounded-lg text-slate-500 hover:text-emerald-600 hover:bg-emerald-500/10 transition-all cursor-pointer"
                                     title="Edit">
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -264,14 +264,14 @@
         <div class="flex items-center justify-between mb-4">
             <div class="flex items-center gap-3">
                 <button (click)="changeHolidayYear(-1)"
-                        class="p-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-white/[0.06] transition-colors cursor-pointer">
+                        class="p-1.5 rounded-lg text-slate-500 hover:text-slate-900 hover:bg-slate-50 transition-colors cursor-pointer">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
                     </svg>
                 </button>
-                <span class="text-white text-[15px] font-semibold tabular-nums">{{ holidayYear() }}</span>
+                <span class="text-slate-900 text-[15px] font-semibold tabular-nums">{{ holidayYear() }}</span>
                 <button (click)="changeHolidayYear(1)"
-                        class="p-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-white/[0.06] transition-colors cursor-pointer">
+                        class="p-1.5 rounded-lg text-slate-500 hover:text-slate-900 hover:bg-slate-50 transition-colors cursor-pointer">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
                     </svg>
@@ -287,23 +287,23 @@
             </button>
         </div>
 
-        <div class="bg-white/[0.02] border border-white/[0.06] rounded-2xl overflow-hidden">
-            <div class="grid grid-cols-12 gap-4 px-6 py-3.5 border-b border-white/[0.06] bg-white/[0.02]">
-                <div class="col-span-4 text-[11px] font-semibold uppercase tracking-widest text-slate-500">Holiday</div>
-                <div class="col-span-3 text-[11px] font-semibold uppercase tracking-widest text-slate-500">Date</div>
-                <div class="col-span-3 text-[11px] font-semibold uppercase tracking-widest text-slate-500">Description</div>
-                <div class="col-span-2 text-[11px] font-semibold uppercase tracking-widest text-slate-500 text-right">Actions</div>
+        <div class="bg-white border border-slate-200 rounded-2xl overflow-hidden">
+            <div class="grid grid-cols-12 gap-4 px-6 py-3.5 border-b border-slate-200 bg-white">
+                <div class="col-span-4 text-[11px] font-semibold uppercase tracking-widest text-slate-400">Holiday</div>
+                <div class="col-span-3 text-[11px] font-semibold uppercase tracking-widest text-slate-400">Date</div>
+                <div class="col-span-3 text-[11px] font-semibold uppercase tracking-widest text-slate-400">Description</div>
+                <div class="col-span-2 text-[11px] font-semibold uppercase tracking-widest text-slate-400 text-right">Actions</div>
             </div>
 
             @if (holidaysLoading()) {
                 @for (i of skeletonRows; track $index) {
-                    <div class="grid grid-cols-12 gap-4 px-6 py-4 border-b border-white/[0.04] animate-pulse">
-                        <div class="col-span-4"><div class="h-4 w-3/4 bg-slate-700/40 rounded"></div></div>
-                        <div class="col-span-3"><div class="h-4 w-2/3 bg-slate-700/30 rounded"></div></div>
-                        <div class="col-span-3"><div class="h-4 w-full bg-slate-700/30 rounded"></div></div>
+                    <div class="grid grid-cols-12 gap-4 px-6 py-4 border-b border-slate-200/80 animate-pulse">
+                        <div class="col-span-4"><div class="h-4 w-3/4 bg-slate-700 rounded"></div></div>
+                        <div class="col-span-3"><div class="h-4 w-2/3 bg-slate-800 rounded"></div></div>
+                        <div class="col-span-3"><div class="h-4 w-full bg-slate-800 rounded"></div></div>
                         <div class="col-span-2 flex justify-end gap-2">
-                            <div class="h-8 w-8 bg-slate-700/30 rounded-lg"></div>
-                            <div class="h-8 w-8 bg-slate-700/30 rounded-lg"></div>
+                            <div class="h-8 w-8 bg-slate-800 rounded-lg"></div>
+                            <div class="h-8 w-8 bg-slate-800 rounded-lg"></div>
                         </div>
                     </div>
                 }
@@ -311,22 +311,22 @@
 
             @if (!holidaysLoading()) {
                 @for (h of holidays(); track h.holidayId) {
-                    <div class="grid grid-cols-12 gap-4 px-6 py-4 border-b border-white/[0.04] hover:bg-white/[0.02] transition-colors duration-150 group">
+                    <div class="grid grid-cols-12 gap-4 px-6 py-4 border-b border-slate-200/80 hover:bg-white transition-colors duration-150 group">
                         <div class="col-span-4 flex items-center gap-3">
                             <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-amber-500 to-orange-600 flex items-center justify-center text-white text-[13px] font-bold shrink-0 shadow-lg shadow-amber-500/15">
                                 {{ h.holidayName.charAt(0) }}
                             </div>
-                            <span class="text-white text-[14px] font-medium group-hover:text-amber-400 transition-colors truncate">{{ h.holidayName }}</span>
+                            <span class="text-slate-800 text-[14px] font-medium group-hover:text-amber-500 transition-colors truncate">{{ h.holidayName }}</span>
                         </div>
                         <div class="col-span-3 flex items-center">
-                            <span class="text-slate-300 text-[13px]">{{ formatDate(h.holidayDate) }}</span>
+                            <span class="text-slate-500 text-[13px]">{{ formatDate(h.holidayDate) }}</span>
                         </div>
                         <div class="col-span-3 flex items-center">
-                            <span class="text-slate-400 text-[13px] truncate">{{ h.description || '—' }}</span>
+                            <span class="text-slate-500 text-[13px] truncate">{{ h.description || '—' }}</span>
                         </div>
                         <div class="col-span-2 flex items-center justify-end gap-2">
                             <button (click)="openEditHoliday(h)"
-                                    class="p-2 rounded-lg text-slate-500 hover:text-amber-400 hover:bg-amber-500/10 transition-all cursor-pointer"
+                                    class="p-2 rounded-lg text-slate-500 hover:text-amber-500 hover:bg-amber-500/10 transition-all cursor-pointer"
                                     title="Edit">
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -334,7 +334,7 @@
                                 </svg>
                             </button>
                             <button (click)="deleteHoliday(h)"
-                                    class="p-2 rounded-lg text-slate-500 hover:text-red-400 hover:bg-red-500/10 transition-all cursor-pointer"
+                                    class="p-2 rounded-lg text-slate-500 hover:text-red-500 hover:bg-red-500/10 transition-all cursor-pointer"
                                     title="Delete">
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -356,15 +356,15 @@
 }
 
 @if (showTypeModal()) {
-    <div class="fixed inset-0 bg-black/60 backdrop-blur-sm z-40 flex items-center justify-center p-4" (click)="closeTypeModal()">
-        <div class="modal-enter w-full max-w-lg bg-slate-950 border border-white/[0.08] rounded-2xl shadow-2xl shadow-black/50"
+    <div class="fixed inset-0 bg-slate-900/20 backdrop-blur-sm z-40 flex items-center justify-center p-4" (click)="closeTypeModal()">
+        <div class="modal-enter w-full max-w-lg bg-white border border-slate-200 rounded-2xl shadow-2xl shadow-slate-300/50"
              (click)="$event.stopPropagation()">
-            <div class="flex items-center justify-between px-6 py-4 border-b border-white/[0.06]">
-                <h2 class="text-white font-semibold text-[16px]">
+            <div class="flex items-center justify-between px-6 py-4 border-b border-slate-200">
+                <h2 class="text-slate-900 font-semibold text-[16px]">
                     {{ editingType() ? 'Edit Leave Type' : 'Create Leave Type' }}
                 </h2>
                 <button (click)="closeTypeModal()"
-                        class="p-2 rounded-lg text-slate-400 hover:text-white hover:bg-white/[0.06] transition-colors cursor-pointer">
+                        class="p-2 rounded-lg text-slate-500 hover:text-slate-900 hover:bg-slate-50 transition-colors cursor-pointer">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
                     </svg>
@@ -373,67 +373,67 @@
 
             <form [formGroup]="typeForm" (ngSubmit)="onSubmitType()" class="px-6 py-5 space-y-4">
                 <div>
-                    <label class="block text-[12px] font-semibold text-slate-400 uppercase tracking-wider mb-2">
-                        Leave Type Name <span class="text-red-400">*</span>
+                    <label class="block text-[12px] font-semibold text-slate-500 uppercase tracking-wider mb-2">
+                        Leave Type Name <span class="text-red-500">*</span>
                     </label>
                     <input formControlName="leaveTypeName" type="text" placeholder="e.g. Casual Leave"
-                           class="w-full bg-white/[0.04] border rounded-xl px-4 py-3 text-white text-[14px] placeholder-slate-600 focus:outline-none focus:ring-1 transition-all"
+                           class="w-full bg-slate-50 border rounded-xl px-4 py-3 text-slate-800 text-[14px] placeholder-slate-400 focus:outline-none focus:ring-1 transition-all"
                            [class]="hasError(typeForm, 'leaveTypeName')
                                ? 'border-red-500/40 focus:border-red-500/60 focus:ring-red-500/20'
-                               : 'border-white/[0.08] focus:border-emerald-500/40 focus:ring-emerald-500/20'" />
+                               : 'border-slate-200 focus:border-emerald-500/40 focus:ring-emerald-500/20'" />
                     @if (hasError(typeForm, 'leaveTypeName')) {
-                        <p class="mt-1.5 text-red-400 text-[12px]">{{ getError(typeForm, 'leaveTypeName') }}</p>
+                        <p class="mt-1.5 text-red-500 text-[12px]">{{ getError(typeForm, 'leaveTypeName') }}</p>
                     }
                 </div>
 
                 <div>
-                    <label class="block text-[12px] font-semibold text-slate-400 uppercase tracking-wider mb-2">Description</label>
+                    <label class="block text-[12px] font-semibold text-slate-500 uppercase tracking-wider mb-2">Description</label>
                     <input formControlName="description" type="text" placeholder="Optional description"
-                           class="w-full bg-white/[0.04] border border-white/[0.08] rounded-xl px-4 py-3 text-white text-[14px] placeholder-slate-600 focus:outline-none focus:border-emerald-500/40 focus:ring-1 focus:ring-emerald-500/20 transition-all" />
+                           class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-slate-800 text-[14px] placeholder-slate-400 focus:outline-none focus:border-emerald-500/40 focus:ring-1 focus:ring-emerald-500/20 transition-all" />
                 </div>
 
                 <div class="grid grid-cols-2 gap-4">
                     <div>
-                        <label class="block text-[12px] font-semibold text-slate-400 uppercase tracking-wider mb-2">
-                            Default Days <span class="text-red-400">*</span>
+                        <label class="block text-[12px] font-semibold text-slate-500 uppercase tracking-wider mb-2">
+                            Default Days <span class="text-red-500">*</span>
                         </label>
                         <input formControlName="defaultDays" type="number" min="0"
-                               class="w-full bg-white/[0.04] border border-white/[0.08] rounded-xl px-4 py-3 text-white text-[14px] focus:outline-none focus:border-emerald-500/40 focus:ring-1 focus:ring-emerald-500/20 transition-all" />
+                               class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-slate-900 text-[14px] focus:outline-none focus:border-emerald-500/40 focus:ring-1 focus:ring-emerald-500/20 transition-all" />
                     </div>
                     <div>
-                        <label class="block text-[12px] font-semibold text-slate-400 uppercase tracking-wider mb-2">
+                        <label class="block text-[12px] font-semibold text-slate-500 uppercase tracking-wider mb-2">
                             Max Carry Forward Days
                         </label>
                         <input formControlName="maxCarryForwardDays" type="number" min="0"
-                               class="w-full bg-white/[0.04] border border-white/[0.08] rounded-xl px-4 py-3 text-white text-[14px] focus:outline-none focus:border-emerald-500/40 focus:ring-1 focus:ring-emerald-500/20 transition-all" />
+                               class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-slate-900 text-[14px] focus:outline-none focus:border-emerald-500/40 focus:ring-1 focus:ring-emerald-500/20 transition-all" />
                     </div>
                 </div>
 
                 <div class="flex flex-wrap gap-6 py-2">
                     <label class="flex items-center gap-2.5 cursor-pointer">
                         <input formControlName="isPaidLeave" type="checkbox"
-                               class="w-4 h-4 rounded border-white/20 bg-white/[0.04] text-emerald-500 focus:ring-emerald-500/20 cursor-pointer" />
-                        <span class="text-slate-300 text-[13px]">Paid Leave</span>
+                               class="w-4 h-4 rounded border-white/20 bg-slate-50 text-emerald-500 focus:ring-emerald-500/20 cursor-pointer" />
+                        <span class="text-slate-500 text-[13px]">Paid Leave</span>
                     </label>
                     <label class="flex items-center gap-2.5 cursor-pointer">
                         <input formControlName="isCarryForwardEnabled" type="checkbox"
-                               class="w-4 h-4 rounded border-white/20 bg-white/[0.04] text-emerald-500 focus:ring-emerald-500/20 cursor-pointer" />
-                        <span class="text-slate-300 text-[13px]">Carry Forward</span>
+                               class="w-4 h-4 rounded border-white/20 bg-slate-50 text-emerald-500 focus:ring-emerald-500/20 cursor-pointer" />
+                        <span class="text-slate-500 text-[13px]">Carry Forward</span>
                     </label>
                     <label class="flex items-center gap-2.5 cursor-pointer">
                         <input formControlName="isLossOfPay" type="checkbox"
-                               class="w-4 h-4 rounded border-white/20 bg-white/[0.04] text-emerald-500 focus:ring-emerald-500/20 cursor-pointer" />
-                        <span class="text-slate-300 text-[13px]">Loss of Pay</span>
+                               class="w-4 h-4 rounded border-white/20 bg-slate-50 text-emerald-500 focus:ring-emerald-500/20 cursor-pointer" />
+                        <span class="text-slate-500 text-[13px]">Loss of Pay</span>
                     </label>
                 </div>
 
                 <div class="flex items-center justify-end gap-3 pt-2">
                     <button type="button" (click)="closeTypeModal()"
-                            class="px-5 py-2.5 rounded-xl text-[13px] font-medium text-slate-400 hover:text-white border border-white/[0.08] hover:bg-white/[0.04] transition-all cursor-pointer">
+                            class="px-5 py-2.5 rounded-xl text-[13px] font-medium text-slate-500 hover:text-slate-900 border border-slate-200 hover:bg-slate-50 transition-all cursor-pointer">
                         Cancel
                     </button>
                     <button type="submit" [disabled]="savingType()"
-                            class="px-6 py-2.5 rounded-xl text-[13px] font-semibold text-white bg-emerald-600 hover:bg-emerald-500 transition-all shadow-lg shadow-emerald-600/20 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer">
+                            class="px-6 py-2.5 rounded-xl text-[13px] font-semibold text-slate-900 bg-emerald-600 hover:bg-emerald-500 transition-all shadow-lg shadow-emerald-600/20 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer">
                         @if (savingType()) {
                             <span class="inline-flex items-center gap-2">
                                 <svg class="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24">
@@ -453,13 +453,13 @@
 }
 
 @if (showActionModal()) {
-    <div class="fixed inset-0 bg-black/60 backdrop-blur-sm z-40 flex items-center justify-center p-4" (click)="closeActionModal()">
-        <div class="modal-enter w-full max-w-2xl bg-slate-950 border border-white/[0.08] rounded-2xl shadow-2xl shadow-black/50 max-h-[90vh] flex flex-col"
+    <div class="fixed inset-0 bg-slate-900/20 backdrop-blur-sm z-40 flex items-center justify-center p-4" (click)="closeActionModal()">
+        <div class="modal-enter w-full max-w-2xl bg-white border border-slate-200 rounded-2xl shadow-2xl shadow-slate-300/50 max-h-[90vh] flex flex-col"
              (click)="$event.stopPropagation()">
-            <div class="flex items-center justify-between px-6 py-4 border-b border-white/[0.06] shrink-0">
-                <h2 class="text-white font-semibold text-[16px]">Review Leave Request</h2>
+            <div class="flex items-center justify-between px-6 py-4 border-b border-slate-200 shrink-0">
+                <h2 class="text-slate-900 font-semibold text-[16px]">Review Leave Request</h2>
                 <button (click)="closeActionModal()"
-                        class="p-2 rounded-lg text-slate-400 hover:text-white hover:bg-white/[0.06] transition-colors cursor-pointer">
+                        class="p-2 rounded-lg text-slate-500 hover:text-slate-900 hover:bg-slate-50 transition-colors cursor-pointer">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
                     </svg>
@@ -471,31 +471,31 @@
                     <!-- Leave Details -->
                     <div class="space-y-3">
                         <div class="flex items-center gap-3">
-                            <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center text-white text-[12px] font-bold shrink-0">
+                            <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-indigo-500 to-violet-600 flex items-center justify-center text-white text-[12px] font-bold shrink-0">
                                 {{ getInitials(leave.employee.firstName, leave.employee.lastName) }}
                             </div>
                             <div>
-                                <p class="text-white text-[14px] font-medium">{{ leave.employee.firstName }} {{ leave.employee.lastName }}</p>
+                                <p class="text-slate-800 text-[14px] font-medium">{{ leave.employee.firstName }} {{ leave.employee.lastName }}</p>
                                 <p class="text-slate-500 text-[12px] font-mono">{{ leave.employee.employeeCode }}</p>
                             </div>
                         </div>
                         <div class="grid grid-cols-2 gap-3">
-                            <div class="bg-white/[0.03] rounded-xl px-3.5 py-2.5">
+                            <div class="bg-white rounded-xl px-3.5 py-2.5">
                                 <p class="text-slate-500 text-[11px] uppercase tracking-wider font-semibold mb-1">Type</p>
-                                <p class="text-slate-300 text-[13px]">{{ leave.leaveType.leaveTypeName }}</p>
+                                <p class="text-slate-700 text-[13px]">{{ leave.leaveType.leaveTypeName }}</p>
                             </div>
-                            <div class="bg-white/[0.03] rounded-xl px-3.5 py-2.5">
+                            <div class="bg-white rounded-xl px-3.5 py-2.5">
                                 <p class="text-slate-500 text-[11px] uppercase tracking-wider font-semibold mb-1">Days</p>
-                                <p class="text-white text-[13px] font-semibold">{{ leave.totalDays }}</p>
+                                <p class="text-slate-900 text-[13px] font-semibold">{{ leave.totalDays }}</p>
                             </div>
-                            <div class="col-span-2 bg-white/[0.03] rounded-xl px-3.5 py-2.5">
+                            <div class="col-span-2 bg-white rounded-xl px-3.5 py-2.5">
                                 <p class="text-slate-500 text-[11px] uppercase tracking-wider font-semibold mb-1">Period</p>
-                                <p class="text-slate-300 text-[13px]">{{ formatDate(leave.startDate) }} – {{ formatDate(leave.endDate) }}</p>
+                                <p class="text-slate-700 text-[13px]">{{ formatDate(leave.startDate) }} – {{ formatDate(leave.endDate) }}</p>
                             </div>
                             @if (leave.reason) {
-                                <div class="col-span-2 bg-white/[0.03] rounded-xl px-3.5 py-2.5">
+                                <div class="col-span-2 bg-white rounded-xl px-3.5 py-2.5">
                                     <p class="text-slate-500 text-[11px] uppercase tracking-wider font-semibold mb-1">Reason</p>
-                                    <p class="text-slate-300 text-[13px]">{{ leave.reason }}</p>
+                                    <p class="text-slate-700 text-[13px]">{{ leave.reason }}</p>
                                 </div>
                             }
                         </div>
@@ -504,7 +504,7 @@
                     <!-- ── AI Analysis Section ──────────────────────── -->
                     @if (!showAnalysis() && !analyzing()) {
                         <button (click)="runAnalysis()" [disabled]="analyzing()"
-                                class="w-full py-3 rounded-xl bg-gradient-to-r from-violet-600/20 to-purple-600/20 border border-violet-500/30 text-violet-300 text-[13px] font-semibold hover:from-violet-600/30 hover:to-purple-600/30 transition-all flex items-center justify-center gap-2 cursor-pointer">
+                                class="w-full py-3 rounded-xl bg-gradient-to-r from-violet-50 to-purple-50 border border-violet-200 text-violet-700 text-[13px] font-semibold hover:from-violet-100 hover:to-purple-100 transition-all flex items-center justify-center gap-2 cursor-pointer">
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.455 2.456L21.75 6l-1.036.259a3.375 3.375 0 00-2.455 2.456z"/>
                             </svg>
@@ -513,15 +513,15 @@
                     }
 
                     @if (analyzing()) {
-                        <div class="p-6 bg-violet-500/[0.05] border border-violet-500/20 rounded-xl text-center space-y-3">
-                            <div class="w-10 h-10 mx-auto border-2 border-violet-500/30 border-t-violet-400 rounded-full animate-spin"></div>
-                            <p class="text-violet-300 text-[13px] font-medium">AI is analyzing leave history and patterns...</p>
-                            <p class="text-slate-500 text-[11px]">This may take a few seconds</p>
+                        <div class="p-6 bg-violet-50 border border-violet-200 rounded-xl text-center space-y-3">
+                            <div class="w-10 h-10 mx-auto border-2 border-violet-200 border-t-violet-500 rounded-full animate-spin"></div>
+                            <p class="text-violet-700 text-[13px] font-medium">AI is analyzing leave history and patterns...</p>
+                            <p class="text-slate-500 text-[11px]">This may take up to 30 seconds depending on AI model response</p>
                         </div>
                     }
 
                     @if (analysisError()) {
-                        <div class="bg-red-500/10 border border-red-500/20 rounded-xl p-3 text-red-400 text-[12px]">{{ analysisError() }}</div>
+                        <div class="bg-red-500/10 border border-red-500/20 rounded-xl p-3 text-red-500 text-[12px]">{{ analysisError() }}</div>
                     }
 
                     @if (showAnalysis() && analysisResult(); as ai) {
@@ -529,18 +529,18 @@
                             <!-- AI Recommendation -->
                             <div class="p-4 rounded-xl border {{ ai.aiRecommendation === 'APPROVE' ? 'bg-emerald-500/[0.07] border-emerald-500/25' : 'bg-amber-500/[0.07] border-amber-500/25' }}">
                                 <div class="flex items-center gap-2 mb-2">
-                                    <svg class="w-5 h-5 {{ ai.aiRecommendation === 'APPROVE' ? 'text-emerald-400' : 'text-amber-400' }}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <svg class="w-5 h-5 {{ ai.aiRecommendation === 'APPROVE' ? 'text-emerald-600' : 'text-amber-500' }}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09z"/>
                                     </svg>
-                                    <span class="text-[13px] font-bold {{ ai.aiRecommendation === 'APPROVE' ? 'text-emerald-400' : 'text-amber-400' }}">
+                                    <span class="text-[13px] font-bold {{ ai.aiRecommendation === 'APPROVE' ? 'text-emerald-600' : 'text-amber-500' }}">
                                         AI Recommends: {{ ai.aiRecommendation === 'APPROVE' ? 'Approve' : 'Review Further' }}
                                     </span>
                                 </div>
-                                <p class="text-slate-300 text-[13px] leading-relaxed">{{ ai.aiSummary }}</p>
+                                <p class="text-slate-500 text-[13px] leading-relaxed">{{ ai.aiSummary }}</p>
                                 @if (ai.aiReasons?.length) {
                                     <div class="mt-3 flex flex-wrap gap-1.5">
                                         @for (reason of ai.aiReasons; track reason) {
-                                            <span class="px-2.5 py-1 rounded-lg bg-white/[0.06] text-slate-300 text-[11px]">{{ reason }}</span>
+                                            <span class="px-2.5 py-1 rounded-lg bg-[#f0f4fa] text-slate-500 text-[11px]">{{ reason }}</span>
                                         }
                                     </div>
                                 }
@@ -548,41 +548,41 @@
 
                             <!-- Stats -->
                             <div class="grid grid-cols-3 gap-2">
-                                <div class="bg-white/[0.03] border border-white/[0.06] rounded-xl p-3 text-center">
-                                    <p class="text-white text-[18px] font-bold tabular-nums">{{ ai.totalLeavesTakenThisYear }}</p>
+                                <div class="bg-white border border-slate-200 rounded-xl p-3 text-center">
+                                    <p class="text-slate-900 text-[18px] font-bold tabular-nums">{{ ai.totalLeavesTakenThisYear }}</p>
                                     <p class="text-slate-500 text-[10px] uppercase tracking-wider mt-0.5">This Year</p>
                                 </div>
-                                <div class="bg-white/[0.03] border border-white/[0.06] rounded-xl p-3 text-center">
-                                    <p class="text-white text-[18px] font-bold tabular-nums">{{ ai.totalLeavesTakenLastYear }}</p>
+                                <div class="bg-white border border-slate-200 rounded-xl p-3 text-center">
+                                    <p class="text-slate-900 text-[18px] font-bold tabular-nums">{{ ai.totalLeavesTakenLastYear }}</p>
                                     <p class="text-slate-500 text-[10px] uppercase tracking-wider mt-0.5">Last Year</p>
                                 </div>
-                                <div class="bg-white/[0.03] border border-white/[0.06] rounded-xl p-3 text-center">
-                                    <p class="text-[18px] font-bold tabular-nums {{ ai.balanceAfterApproval >= 0 ? 'text-emerald-400' : 'text-red-400' }}">{{ ai.balanceAfterApproval }}</p>
+                                <div class="bg-white border border-slate-200 rounded-xl p-3 text-center">
+                                    <p class="text-[18px] font-bold tabular-nums {{ ai.balanceAfterApproval >= 0 ? 'text-emerald-600' : 'text-red-500' }}">{{ ai.balanceAfterApproval }}</p>
                                     <p class="text-slate-500 text-[10px] uppercase tracking-wider mt-0.5">Balance After</p>
                                 </div>
-                                <div class="bg-white/[0.03] border border-white/[0.06] rounded-xl p-3 text-center">
-                                    <p class="text-white text-[18px] font-bold tabular-nums">{{ ai.teamMembersOnLeaveToday }}</p>
+                                <div class="bg-white border border-slate-200 rounded-xl p-3 text-center">
+                                    <p class="text-slate-900 text-[18px] font-bold tabular-nums">{{ ai.teamMembersOnLeaveToday }}</p>
                                     <p class="text-slate-500 text-[10px] uppercase tracking-wider mt-0.5">Team on Leave</p>
                                 </div>
-                                <div class="bg-white/[0.03] border border-white/[0.06] rounded-xl p-3 text-center">
-                                    <p class="text-white text-[18px] font-bold tabular-nums">{{ ai.pendingLeaveRequests }}</p>
+                                <div class="bg-white border border-slate-200 rounded-xl p-3 text-center">
+                                    <p class="text-slate-900 text-[18px] font-bold tabular-nums">{{ ai.pendingLeaveRequests }}</p>
                                     <p class="text-slate-500 text-[10px] uppercase tracking-wider mt-0.5">Pending</p>
                                 </div>
-                                <div class="bg-white/[0.03] border border-white/[0.06] rounded-xl p-3 text-center">
-                                    <p class="text-white text-[14px] font-bold">{{ ai.frequencyTrend }}</p>
+                                <div class="bg-white border border-slate-200 rounded-xl p-3 text-center">
+                                    <p class="text-slate-900 text-[14px] font-bold">{{ ai.frequencyTrend }}</p>
                                     <p class="text-slate-500 text-[10px] uppercase tracking-wider mt-0.5">Trend</p>
                                 </div>
                             </div>
 
                             <!-- Patterns -->
                             @if (ai.patterns?.length) {
-                                <div class="bg-white/[0.02] border border-white/[0.06] rounded-xl p-3">
-                                    <p class="text-slate-400 text-[11px] font-semibold uppercase tracking-wider mb-2">Detected Patterns</p>
+                                <div class="bg-white border border-slate-200 rounded-xl p-3">
+                                    <p class="text-slate-500 text-[11px] font-semibold uppercase tracking-wider mb-2">Detected Patterns</p>
                                     <div class="space-y-1.5">
                                         @for (pattern of ai.patterns; track pattern) {
                                             <div class="flex items-start gap-2">
                                                 <span class="w-1.5 h-1.5 rounded-full bg-violet-400 mt-1.5 shrink-0"></span>
-                                                <span class="text-slate-300 text-[12px]">{{ pattern }}</span>
+                                                <span class="text-slate-500 text-[12px]">{{ pattern }}</span>
                                             </div>
                                         }
                                     </div>
@@ -591,13 +591,13 @@
 
                             <!-- Balances -->
                             @if (ai.currentBalances) {
-                                <div class="bg-white/[0.02] border border-white/[0.06] rounded-xl p-3">
-                                    <p class="text-slate-400 text-[11px] font-semibold uppercase tracking-wider mb-2">Current Leave Balances</p>
+                                <div class="bg-white border border-slate-200 rounded-xl p-3">
+                                    <p class="text-slate-500 text-[11px] font-semibold uppercase tracking-wider mb-2">Current Leave Balances</p>
                                     <div class="grid grid-cols-2 gap-2">
                                         @for (entry of ai.currentBalances | keyvalue; track entry.key) {
-                                            <div class="flex items-center justify-between bg-white/[0.03] rounded-lg px-3 py-2">
-                                                <span class="text-slate-400 text-[12px]">{{ entry.key }}</span>
-                                                <span class="text-white text-[13px] font-semibold tabular-nums">{{ entry.value }}d</span>
+                                            <div class="flex items-center justify-between bg-white rounded-lg px-3 py-2">
+                                                <span class="text-slate-500 text-[12px]">{{ entry.key }}</span>
+                                                <span class="text-slate-900 text-[13px] font-semibold tabular-nums">{{ entry.value }}d</span>
                                             </div>
                                         }
                                     </div>
@@ -608,27 +608,27 @@
                 }
 
                 <!-- Action Form -->
-                <form [formGroup]="actionForm" (ngSubmit)="submitAction()" class="space-y-4 pt-3 border-t border-white/[0.06]">
+                <form [formGroup]="actionForm" (ngSubmit)="submitAction()" class="space-y-4 pt-3 border-t border-slate-200">
                     @if (error()) {
-                        <div class="px-3.5 py-2.5 bg-red-500/10 border border-red-500/20 rounded-xl text-red-400 text-[12px]">{{ error() }}</div>
+                        <div class="px-3.5 py-2.5 bg-red-500/10 border border-red-500/20 rounded-xl text-red-500 text-[12px]">{{ error() }}</div>
                     }
 
                     <div>
-                        <label class="block text-[12px] font-semibold text-slate-400 uppercase tracking-wider mb-2">Decision <span class="text-red-400">*</span></label>
+                        <label class="block text-[12px] font-semibold text-slate-500 uppercase tracking-wider mb-2">Decision <span class="text-red-500">*</span></label>
                         <div class="flex items-center gap-3">
                             <label class="flex-1 relative cursor-pointer">
                                 <input formControlName="action" type="radio" value="APPROVED" class="peer sr-only" />
                                 <div class="w-full py-2.5 rounded-xl border text-center text-[13px] font-semibold transition-all
-                                            peer-checked:bg-emerald-500/15 peer-checked:border-emerald-500/30 peer-checked:text-emerald-400
-                                            border-white/[0.08] text-slate-500 hover:border-white/[0.15]">
+                                            peer-checked:bg-emerald-500/15 peer-checked:border-emerald-500/30 peer-checked:text-emerald-600
+                                            border-slate-200 text-slate-500 hover:border-slate-300">
                                     Approve
                                 </div>
                             </label>
                             <label class="flex-1 relative cursor-pointer">
                                 <input formControlName="action" type="radio" value="REJECTED" class="peer sr-only" />
                                 <div class="w-full py-2.5 rounded-xl border text-center text-[13px] font-semibold transition-all
-                                            peer-checked:bg-red-500/15 peer-checked:border-red-500/30 peer-checked:text-red-400
-                                            border-white/[0.08] text-slate-500 hover:border-white/[0.15]">
+                                            peer-checked:bg-red-500/15 peer-checked:border-red-500/30 peer-checked:text-red-500
+                                            border-slate-200 text-slate-500 hover:border-slate-300">
                                     Reject
                                 </div>
                             </label>
@@ -636,21 +636,21 @@
                     </div>
 
                     <div>
-                        <label class="block text-[12px] font-semibold text-slate-400 uppercase tracking-wider mb-2">
+                        <label class="block text-[12px] font-semibold text-slate-500 uppercase tracking-wider mb-2">
                             Comments
-                            @if (actionForm.get('action')?.value === 'REJECTED') { <span class="text-red-400">*</span> }
+                            @if (actionForm.get('action')?.value === 'REJECTED') { <span class="text-red-500">*</span> }
                         </label>
                         <textarea formControlName="comments" rows="3" placeholder="Add comments (required for rejection)"
-                                  class="w-full bg-white/[0.04] border border-white/[0.08] rounded-xl px-4 py-3 text-white text-[13px] placeholder-slate-600 focus:outline-none focus:border-blue-500/40 focus:ring-1 focus:ring-blue-500/20 transition-all resize-none"></textarea>
+                                  class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-slate-800 text-[13px] placeholder-slate-400 focus:outline-none focus:border-indigo-500/40 focus:ring-1 focus:ring-indigo-500/20 transition-all resize-none"></textarea>
                     </div>
 
                     <div class="flex items-center justify-end gap-3 pt-2">
                         <button type="button" (click)="closeActionModal()"
-                                class="px-5 py-2.5 rounded-xl text-[13px] font-medium text-slate-400 hover:text-white border border-white/[0.08] hover:bg-white/[0.04] transition-all cursor-pointer">
+                                class="px-5 py-2.5 rounded-xl text-[13px] font-medium text-slate-500 hover:text-slate-900 border border-slate-200 hover:bg-slate-50 transition-all cursor-pointer">
                             Cancel
                         </button>
                         <button type="submit" [disabled]="acting()"
-                                class="px-6 py-2.5 rounded-xl text-[13px] font-semibold text-white transition-all shadow-lg disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
+                                class="px-6 py-2.5 rounded-xl text-[13px] font-semibold text-slate-900 transition-all shadow-lg disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
                                 [class]="actionForm.get('action')?.value === 'REJECTED'
                                     ? 'bg-red-600 hover:bg-red-500 shadow-red-600/20'
                                     : 'bg-emerald-600 hover:bg-emerald-500 shadow-emerald-600/20'">
@@ -673,15 +673,15 @@
     </div>
 }
 @if (showHolidayModal()) {
-    <div class="fixed inset-0 bg-black/60 backdrop-blur-sm z-40 flex items-center justify-center p-4" (click)="closeHolidayModal()">
-        <div class="modal-enter w-full max-w-lg bg-slate-950 border border-white/[0.08] rounded-2xl shadow-2xl shadow-black/50"
+    <div class="fixed inset-0 bg-slate-900/20 backdrop-blur-sm z-40 flex items-center justify-center p-4" (click)="closeHolidayModal()">
+        <div class="modal-enter w-full max-w-lg bg-white border border-slate-200 rounded-2xl shadow-2xl shadow-slate-300/50"
              (click)="$event.stopPropagation()">
-            <div class="flex items-center justify-between px-6 py-4 border-b border-white/[0.06]">
-                <h2 class="text-white font-semibold text-[16px]">
+            <div class="flex items-center justify-between px-6 py-4 border-b border-slate-200">
+                <h2 class="text-slate-900 font-semibold text-[16px]">
                     {{ editingHoliday() ? 'Edit Holiday' : 'Create Holiday' }}
                 </h2>
                 <button (click)="closeHolidayModal()"
-                        class="p-2 rounded-lg text-slate-400 hover:text-white hover:bg-white/[0.06] transition-colors cursor-pointer">
+                        class="p-2 rounded-lg text-slate-500 hover:text-slate-900 hover:bg-slate-50 transition-colors cursor-pointer">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
                     </svg>
@@ -690,46 +690,46 @@
 
             <form [formGroup]="holidayForm" (ngSubmit)="onSubmitHoliday()" class="px-6 py-5 space-y-5">
                 <div>
-                    <label class="block text-[12px] font-semibold text-slate-400 uppercase tracking-wider mb-2">
-                        Holiday Name <span class="text-red-400">*</span>
+                    <label class="block text-[12px] font-semibold text-slate-500 uppercase tracking-wider mb-2">
+                        Holiday Name <span class="text-red-500">*</span>
                     </label>
                     <input formControlName="holidayName" type="text" placeholder="e.g. Republic Day"
-                           class="w-full bg-white/[0.04] border rounded-xl px-4 py-3 text-white text-[14px] placeholder-slate-600 focus:outline-none focus:ring-1 transition-all"
+                           class="w-full bg-slate-50 border rounded-xl px-4 py-3 text-slate-800 text-[14px] placeholder-slate-400 focus:outline-none focus:ring-1 transition-all"
                            [class]="hasError(holidayForm, 'holidayName')
                                ? 'border-red-500/40 focus:border-red-500/60 focus:ring-red-500/20'
-                               : 'border-white/[0.08] focus:border-amber-500/40 focus:ring-amber-500/20'" />
+                               : 'border-slate-200 focus:border-amber-500/40 focus:ring-amber-500/20'" />
                     @if (hasError(holidayForm, 'holidayName')) {
-                        <p class="mt-1.5 text-red-400 text-[12px]">{{ getError(holidayForm, 'holidayName') }}</p>
+                        <p class="mt-1.5 text-red-500 text-[12px]">{{ getError(holidayForm, 'holidayName') }}</p>
                     }
                 </div>
 
                 <div>
-                    <label class="block text-[12px] font-semibold text-slate-400 uppercase tracking-wider mb-2">
-                        Date <span class="text-red-400">*</span>
+                    <label class="block text-[12px] font-semibold text-slate-500 uppercase tracking-wider mb-2">
+                        Date <span class="text-red-500">*</span>
                     </label>
                     <input formControlName="holidayDate" type="date"
-                           class="w-full bg-white/[0.04] border rounded-xl px-4 py-3 text-white text-[14px] focus:outline-none focus:ring-1 transition-all date-input"
+                           class="w-full bg-slate-50 border rounded-xl px-4 py-3 text-slate-900 text-[14px] focus:outline-none focus:ring-1 transition-all date-input"
                            [class]="hasError(holidayForm, 'holidayDate')
                                ? 'border-red-500/40 focus:border-red-500/60 focus:ring-red-500/20'
-                               : 'border-white/[0.08] focus:border-amber-500/40 focus:ring-amber-500/20'" />
+                               : 'border-slate-200 focus:border-amber-500/40 focus:ring-amber-500/20'" />
                     @if (hasError(holidayForm, 'holidayDate')) {
-                        <p class="mt-1.5 text-red-400 text-[12px]">{{ getError(holidayForm, 'holidayDate') }}</p>
+                        <p class="mt-1.5 text-red-500 text-[12px]">{{ getError(holidayForm, 'holidayDate') }}</p>
                     }
                 </div>
 
                 <div>
-                    <label class="block text-[12px] font-semibold text-slate-400 uppercase tracking-wider mb-2">Description</label>
+                    <label class="block text-[12px] font-semibold text-slate-500 uppercase tracking-wider mb-2">Description</label>
                     <input formControlName="description" type="text" placeholder="Optional description"
-                           class="w-full bg-white/[0.04] border border-white/[0.08] rounded-xl px-4 py-3 text-white text-[14px] placeholder-slate-600 focus:outline-none focus:border-amber-500/40 focus:ring-1 focus:ring-amber-500/20 transition-all" />
+                           class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-slate-800 text-[14px] placeholder-slate-400 focus:outline-none focus:border-amber-500/40 focus:ring-1 focus:ring-amber-500/20 transition-all" />
                 </div>
 
                 <div class="flex items-center justify-end gap-3 pt-2">
                     <button type="button" (click)="closeHolidayModal()"
-                            class="px-5 py-2.5 rounded-xl text-[13px] font-medium text-slate-400 hover:text-white border border-white/[0.08] hover:bg-white/[0.04] transition-all cursor-pointer">
+                            class="px-5 py-2.5 rounded-xl text-[13px] font-medium text-slate-500 hover:text-slate-900 border border-slate-200 hover:bg-slate-50 transition-all cursor-pointer">
                         Cancel
                     </button>
                     <button type="submit" [disabled]="savingHoliday()"
-                            class="px-6 py-2.5 rounded-xl text-[13px] font-semibold text-white bg-amber-600 hover:bg-amber-500 transition-all shadow-lg shadow-amber-600/20 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer">
+                            class="px-6 py-2.5 rounded-xl text-[13px] font-semibold text-slate-900 bg-amber-600 hover:bg-amber-500 transition-all shadow-lg shadow-amber-600/20 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer">
                         @if (savingHoliday()) {
                             <span class="inline-flex items-center gap-2">
                                 <svg class="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24">

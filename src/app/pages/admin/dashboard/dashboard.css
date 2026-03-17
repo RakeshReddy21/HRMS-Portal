@@ -1,83 +1,25 @@
-.animate-fadeIn {
-    animation: fadeIn 0.45s cubic-bezier(0.22, 1, 0.36, 1) both;
-}
-
+/* ── Admin Dashboard — Premium Light ──────────────── */
+.animate-fadeIn { animation: fadeIn 0.65s cubic-bezier(0.16,1,0.3,1) both; }
 @keyframes fadeIn {
-    from {
-        opacity: 0;
-        transform: translateY(8px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+    from { opacity: 0; transform: translateY(16px); }
+    to   { opacity: 1; transform: translateY(0); }
 }
 .skeleton {
-    background: linear-gradient(
-        90deg,
-        rgba(255, 255, 255, 0.03) 25%,
-        rgba(255, 255, 255, 0.06) 50%,
-        rgba(255, 255, 255, 0.03) 75%
-    );
+    background: linear-gradient(90deg, #e2e8f0 25%, #f1f5f9 50%, #e2e8f0 75%);
     background-size: 200% 100%;
     animation: shimmer 1.8s ease-in-out infinite;
     border-radius: 6px;
 }
-
-@keyframes shimmer {
-    0%   { background-position: 200% 0; }
-    100% { background-position: -200% 0; }
-}
-
-.donut-rotate {
-    transform: rotate(-90deg);
-}
-
+@keyframes shimmer { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
+.donut-rotate { transform: rotate(-90deg); }
 .donut-segment {
     opacity: 0;
-    animation: donutReveal 0.7s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    animation: donutReveal 0.8s cubic-bezier(0.16,1,0.3,1) forwards;
 }
-
-@keyframes donutReveal {
-    from {
-        opacity: 0;
-        stroke-width: 0;
-    }
-    to {
-        opacity: 1;
-        stroke-width: 24;
-    }
-}
-.dashboard-scroll::-webkit-scrollbar {
-    width: 4px;
-}
-
-.dashboard-scroll::-webkit-scrollbar-track {
-    background: transparent;
-}
-
-.dashboard-scroll::-webkit-scrollbar-thumb {
-    background: rgba(255, 255, 255, 0.06);
-    border-radius: 999px;
-}
-
-.dashboard-scroll::-webkit-scrollbar-thumb:hover {
-    background: rgba(255, 255, 255, 0.12);
-}
-
-.dashboard-scroll {
-    scrollbar-width: thin;
-    scrollbar-color: rgba(255, 255, 255, 0.06) transparent;
-}
-
-.line-clamp-2 {
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-}
-
-.tabular-nums {
-    font-variant-numeric: tabular-nums;
-}
-
+@keyframes donutReveal { from { opacity: 0; stroke-width: 0; } to { opacity: 1; stroke-width: 14; } }
+.dashboard-scroll::-webkit-scrollbar { width: 3px; }
+.dashboard-scroll::-webkit-scrollbar-track { background: transparent; }
+.dashboard-scroll::-webkit-scrollbar-thumb { background: #e2e8f0; border-radius: 999px; }
+.dashboard-scroll { scrollbar-width: thin; scrollbar-color: #e2e8f0 transparent; }
+.line-clamp-2 { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.tabular-nums { font-variant-numeric: tabular-nums; }

@@ -2,6 +2,7 @@ import { Injectable, signal, OnDestroy } from '@angular/core';
 import { Client, IMessage, StompSubscription } from '@stomp/stompjs';
 import { AuthService } from './auth.service';
 import { Subject } from 'rxjs';
+import { environment } from '../../environments/environment';
 
 export interface PresenceEvent {
     email: string;
@@ -21,12 +22,19 @@ export class WebSocketService implements OnDestroy {
     readonly chatUnread$ = new Subject<number>();
     readonly presence$ = new Subject<PresenceEvent>();
     constructor(private authService: AuthService) {}
+    private resolveBrokerUrl(): string {
+        if (environment.wsUrl.startsWith('ws://') || environment.wsUrl.startsWith('wss://')) {
+            return environment.wsUrl;
+        }
+        const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
+        return `${protocol}//${window.location.host}${environment.wsUrl}`;
+    }
     connect(): void {
         if (this.client?.active) return;
         const token = this.authService.getAccessToken();
         if (!token) return;
         this.client = new Client({
-            brokerURL: 'ws://localhost:8080/ws',
+            brokerURL: this.resolveBrokerUrl(),
             connectHeaders: {
                 Authorization: `Bearer ${token}`
             },
@@ -95,13 +103,15 @@ export class WebSocketService implements OnDestroy {
             })
         );
     }
-    sendChatMessage(payload: any): void {
-        if (this.client?.connected) {
-            this.client.publish({
-                destination: '/app/chat.send',
-                body: JSON.stringify(payload)
-            });
+    sendChatMessage(payload: any): boolean {
+        if (!this.client?.connected) {
+            return false;
         }
+        this.client.publish({
+            destination: '/app/chat.send',
+            body: JSON.stringify(payload)
+        });
+        return true;
     }
     sendTypingIndicator(conversationId: number, typing: boolean): void {
         if (this.client?.connected) {

@@ -1,94 +1,94 @@
-<div class="min-h-screen bg-slate-950 p-6 lg:p-8 space-y-6">
+<div class="p-6 lg:p-8 space-y-6">
     @if (success()) {
-        <div class="fixed top-6 right-6 z-50 animate-fadeIn flex items-center gap-2 px-5 py-3 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-[13px] font-medium shadow-2xl">
+        <div class="fixed top-6 right-6 z-50 animate-toast flex items-center gap-2.5 px-5 py-3.5 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-600 text-[13px] font-medium shadow-2xl">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
             {{ success() }}
         </div>
     }
     <div class="animate-fadeIn flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4">
         <div>
-            <h1 class="text-2xl font-bold text-white tracking-tight">Settings</h1>
+            <h1 class="text-2xl font-bold text-slate-900 tracking-tight tracking-tight">Settings</h1>
             <p class="text-slate-500 text-[13px] mt-1">Manage your profile and account settings</p>
         </div>
     </div>
-    <div class="flex gap-1 p-1 bg-white/[0.02] border border-white/[0.06] rounded-xl w-fit">
+    <div class="flex gap-1 p-1 bg-white border border-slate-200 rounded-xl w-fit">
         <button (click)="switchTab('profile')"
             class="px-5 py-2 rounded-lg text-[13px] font-medium transition-all"
             [class]="activeTab() === 'profile'
-                ? 'bg-white/[0.08] text-white shadow-sm'
-                : 'text-slate-500 hover:text-white hover:bg-white/[0.04]'">
+                ? 'bg-indigo-50 text-indigo-700 shadow-sm'
+                : 'text-slate-500 hover:text-slate-900 hover:bg-slate-50'">
             Profile
         </button>
         <button (click)="switchTab('password')"
             class="px-5 py-2 rounded-lg text-[13px] font-medium transition-all"
             [class]="activeTab() === 'password'
-                ? 'bg-white/[0.08] text-white shadow-sm'
-                : 'text-slate-500 hover:text-white hover:bg-white/[0.04]'">
+                ? 'bg-indigo-50 text-indigo-700 shadow-sm'
+                : 'text-slate-500 hover:text-slate-900 hover:bg-slate-50'">
             Change Password
         </button>
     </div>
     @if (error()) {
-        <div class="bg-red-500/10 border border-red-500/20 rounded-xl p-4 text-red-400 text-[13px]">
+        <div class="bg-red-500/10 border border-red-500/20 rounded-xl p-4 text-red-500 text-[13px]">
             {{ error() }}
         </div>
     }
     @if (loading()) {
-        <div class="bg-white/[0.02] border border-white/[0.06] rounded-2xl p-12 text-center">
+        <div class="bg-white border border-slate-200 rounded-2xl p-12 text-center">
             <div class="skeleton h-6 w-48 mx-auto mb-4 rounded"></div>
             <div class="skeleton h-4 w-32 mx-auto rounded"></div>
         </div>
     }
     @if (!loading() && activeTab() === 'profile') {
-        <div class="bg-white/[0.02] border border-white/[0.06] rounded-2xl p-6 animate-fadeIn">
-            <h2 class="text-lg font-bold text-white mb-6">Profile Information</h2>
+        <div class="bg-white border border-slate-200 rounded-2xl p-6 animate-fadeIn">
+            <h2 class="text-lg font-bold text-slate-900 tracking-tight mb-6">Profile Information</h2>
             <form [formGroup]="profileForm" (ngSubmit)="saveProfile()" class="space-y-6">
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
                     <div>
-                        <label class="block text-slate-300 text-[13px] font-medium mb-2">First Name <span class="text-red-400">*</span></label>
-                        <input type="text" formControlName="firstName" class="w-full bg-white/[0.04] border border-white/[0.08] rounded-xl px-4 py-2.5 text-[13px] text-white placeholder-slate-500 focus:outline-none focus:border-blue-500/40 transition-all">
+                        <label class="block text-slate-500 text-[13px] font-medium mb-2">First Name <span class="text-red-500">*</span></label>
+                        <input type="text" formControlName="firstName" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5 text-[13px] text-slate-900 placeholder-slate-400 focus:outline-none focus:border-indigo-500/40 transition-all">
                         @if (hasError(profileForm, 'firstName')) {
-                            <p class="text-red-400 text-[12px] mt-1">{{ getError(profileForm, 'firstName') }}</p>
+                            <p class="text-red-500 text-[12px] mt-1">{{ getError(profileForm, 'firstName') }}</p>
                         }
                     </div>
                     <div>
-                        <label class="block text-slate-300 text-[13px] font-medium mb-2">Last Name <span class="text-red-400">*</span></label>
-                        <input type="text" formControlName="lastName" class="w-full bg-white/[0.04] border border-white/[0.08] rounded-xl px-4 py-2.5 text-[13px] text-white placeholder-slate-500 focus:outline-none focus:border-blue-500/40 transition-all">
+                        <label class="block text-slate-500 text-[13px] font-medium mb-2">Last Name <span class="text-red-500">*</span></label>
+                        <input type="text" formControlName="lastName" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5 text-[13px] text-slate-900 placeholder-slate-400 focus:outline-none focus:border-indigo-500/40 transition-all">
                         @if (hasError(profileForm, 'lastName')) {
-                            <p class="text-red-400 text-[12px] mt-1">{{ getError(profileForm, 'lastName') }}</p>
+                            <p class="text-red-500 text-[12px] mt-1">{{ getError(profileForm, 'lastName') }}</p>
                         }
                     </div>
                     <div>
-                        <label class="block text-slate-300 text-[13px] font-medium mb-2">Phone</label>
-                        <input type="tel" formControlName="phone" class="w-full bg-white/[0.04] border border-white/[0.08] rounded-xl px-4 py-2.5 text-[13px] text-white placeholder-slate-500 focus:outline-none focus:border-blue-500/40 transition-all">
+                        <label class="block text-slate-500 text-[13px] font-medium mb-2">Phone</label>
+                        <input type="tel" formControlName="phone" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5 text-[13px] text-slate-900 placeholder-slate-400 focus:outline-none focus:border-indigo-500/40 transition-all">
                     </div>
                     <div>
-                        <label class="block text-slate-300 text-[13px] font-medium mb-2">Date of Birth</label>
-                        <input type="date" formControlName="dateOfBirth" class="w-full bg-white/[0.04] border border-white/[0.08] rounded-xl px-4 py-2.5 text-[13px] text-white focus:outline-none focus:border-blue-500/40 transition-all">
+                        <label class="block text-slate-500 text-[13px] font-medium mb-2">Date of Birth</label>
+                        <input type="date" formControlName="dateOfBirth" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5 text-[13px] text-slate-900 focus:outline-none focus:border-indigo-500/40 transition-all">
                     </div>
                     <div>
-                        <label class="block text-slate-300 text-[13px] font-medium mb-2">Gender</label>
-                        <select formControlName="gender" class="w-full bg-white/[0.04] border border-white/[0.08] rounded-xl px-4 py-2.5 text-[13px] text-slate-300 focus:outline-none focus:border-blue-500/40 transition-all">
-                            <option value="" class="bg-slate-900">Select</option>
-                            <option value="MALE" class="bg-slate-900">Male</option>
-                            <option value="FEMALE" class="bg-slate-900">Female</option>
-                            <option value="OTHER" class="bg-slate-900">Other</option>
+                        <label class="block text-slate-500 text-[13px] font-medium mb-2">Gender</label>
+                        <select formControlName="gender" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5 text-[13px] text-slate-500 focus:outline-none focus:border-indigo-500/40 transition-all">
+                            <option value="" class="bg-white">Select</option>
+                            <option value="MALE" class="bg-white">Male</option>
+                            <option value="FEMALE" class="bg-white">Female</option>
+                            <option value="OTHER" class="bg-white">Other</option>
                         </select>
                     </div>
                     <div>
-                        <label class="block text-slate-300 text-[13px] font-medium mb-2">Emergency Contact Name</label>
-                        <input type="text" formControlName="emergencyContactName" class="w-full bg-white/[0.04] border border-white/[0.08] rounded-xl px-4 py-2.5 text-[13px] text-white placeholder-slate-500 focus:outline-none focus:border-blue-500/40 transition-all">
+                        <label class="block text-slate-500 text-[13px] font-medium mb-2">Emergency Contact Name</label>
+                        <input type="text" formControlName="emergencyContactName" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5 text-[13px] text-slate-900 placeholder-slate-400 focus:outline-none focus:border-indigo-500/40 transition-all">
                     </div>
                     <div>
-                        <label class="block text-slate-300 text-[13px] font-medium mb-2">Emergency Contact Phone</label>
-                        <input type="tel" formControlName="emergencyContactPhone" class="w-full bg-white/[0.04] border border-white/[0.08] rounded-xl px-4 py-2.5 text-[13px] text-white placeholder-slate-500 focus:outline-none focus:border-blue-500/40 transition-all">
+                        <label class="block text-slate-500 text-[13px] font-medium mb-2">Emergency Contact Phone</label>
+                        <input type="tel" formControlName="emergencyContactPhone" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5 text-[13px] text-slate-900 placeholder-slate-400 focus:outline-none focus:border-indigo-500/40 transition-all">
                     </div>
                 </div>
                 <div>
-                    <label class="block text-slate-300 text-[13px] font-medium mb-2">Address</label>
-                    <textarea formControlName="address" rows="3" class="w-full bg-white/[0.04] border border-white/[0.08] rounded-xl px-4 py-2.5 text-[13px] text-white placeholder-slate-500 focus:outline-none focus:border-blue-500/40 transition-all resize-none"></textarea>
+                    <label class="block text-slate-500 text-[13px] font-medium mb-2">Address</label>
+                    <textarea formControlName="address" rows="3" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5 text-[13px] text-slate-900 placeholder-slate-400 focus:outline-none focus:border-indigo-500/40 transition-all resize-none"></textarea>
                 </div>
                 <div class="flex items-center gap-3 pt-4">
-                    <button type="submit" [disabled]="saving()" class="px-6 py-2.5 rounded-xl bg-blue-500/10 border border-blue-500/20 text-blue-400 text-[13px] font-medium hover:bg-blue-500/20 transition-colors disabled:opacity-50 disabled:cursor-not-allowed">
+                    <button type="submit" [disabled]="saving()" class="px-6 py-2.5 rounded-xl bg-blue-500/10 border border-blue-500/20 text-blue-600 text-[13px] font-medium hover:bg-indigo-500/20 transition-colors disabled:opacity-50 disabled:cursor-not-allowed">
                         @if (saving()) {
                             <span class="flex items-center gap-2">
                                 <svg class="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24">
@@ -106,35 +106,35 @@
         </div>
     }
     @if (!loading() && activeTab() === 'password') {
-        <div class="bg-white/[0.02] border border-white/[0.06] rounded-2xl p-6 animate-fadeIn">
-            <h2 class="text-lg font-bold text-white mb-6">Change Password</h2>
+        <div class="bg-white border border-slate-200 rounded-2xl p-6 animate-fadeIn">
+            <h2 class="text-lg font-bold text-slate-900 tracking-tight mb-6">Change Password</h2>
             <form [formGroup]="passwordForm" (ngSubmit)="changePassword()" class="space-y-6 max-w-md">
                 <div>
-                    <label class="block text-slate-300 text-[13px] font-medium mb-2">Current Password <span class="text-red-400">*</span></label>
-                    <input type="password" formControlName="currentPassword" class="w-full bg-white/[0.04] border border-white/[0.08] rounded-xl px-4 py-2.5 text-[13px] text-white placeholder-slate-500 focus:outline-none focus:border-blue-500/40 transition-all">
+                    <label class="block text-slate-500 text-[13px] font-medium mb-2">Current Password <span class="text-red-500">*</span></label>
+                    <input type="password" formControlName="currentPassword" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5 text-[13px] text-slate-900 placeholder-slate-400 focus:outline-none focus:border-indigo-500/40 transition-all">
                     @if (hasError(passwordForm, 'currentPassword')) {
-                        <p class="text-red-400 text-[12px] mt-1">{{ getError(passwordForm, 'currentPassword') }}</p>
+                        <p class="text-red-500 text-[12px] mt-1">{{ getError(passwordForm, 'currentPassword') }}</p>
                     }
                 </div>
                 <div>
-                    <label class="block text-slate-300 text-[13px] font-medium mb-2">New Password <span class="text-red-400">*</span></label>
-                    <input type="password" formControlName="newPassword" class="w-full bg-white/[0.04] border border-white/[0.08] rounded-xl px-4 py-2.5 text-[13px] text-white placeholder-slate-500 focus:outline-none focus:border-blue-500/40 transition-all">
+                    <label class="block text-slate-500 text-[13px] font-medium mb-2">New Password <span class="text-red-500">*</span></label>
+                    <input type="password" formControlName="newPassword" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5 text-[13px] text-slate-900 placeholder-slate-400 focus:outline-none focus:border-indigo-500/40 transition-all">
                     @if (hasError(passwordForm, 'newPassword')) {
-                        <p class="text-red-400 text-[12px] mt-1">{{ getError(passwordForm, 'newPassword') }}</p>
+                        <p class="text-red-500 text-[12px] mt-1">{{ getError(passwordForm, 'newPassword') }}</p>
                     }
                 </div>
                 <div>
-                    <label class="block text-slate-300 text-[13px] font-medium mb-2">Confirm Password <span class="text-red-400">*</span></label>
-                    <input type="password" formControlName="confirmPassword" class="w-full bg-white/[0.04] border border-white/[0.08] rounded-xl px-4 py-2.5 text-[13px] text-white placeholder-slate-500 focus:outline-none focus:border-blue-500/40 transition-all">
+                    <label class="block text-slate-500 text-[13px] font-medium mb-2">Confirm Password <span class="text-red-500">*</span></label>
+                    <input type="password" formControlName="confirmPassword" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5 text-[13px] text-slate-900 placeholder-slate-400 focus:outline-none focus:border-indigo-500/40 transition-all">
                     @if (hasError(passwordForm, 'confirmPassword')) {
-                        <p class="text-red-400 text-[12px] mt-1">{{ getError(passwordForm, 'confirmPassword') }}</p>
+                        <p class="text-red-500 text-[12px] mt-1">{{ getError(passwordForm, 'confirmPassword') }}</p>
                     }
                     @if (passwordForm.errors?.['passwordMismatch'] && passwordForm.get('confirmPassword')?.touched) {
-                        <p class="text-red-400 text-[12px] mt-1">Passwords do not match</p>
+                        <p class="text-red-500 text-[12px] mt-1">Passwords do not match</p>
                     }
                 </div>
                 <div class="flex items-center gap-3 pt-4">
-                    <button type="submit" [disabled]="saving()" class="px-6 py-2.5 rounded-xl bg-blue-500/10 border border-blue-500/20 text-blue-400 text-[13px] font-medium hover:bg-blue-500/20 transition-colors disabled:opacity-50 disabled:cursor-not-allowed">
+                    <button type="submit" [disabled]="saving()" class="px-6 py-2.5 rounded-xl bg-blue-500/10 border border-blue-500/20 text-blue-600 text-[13px] font-medium hover:bg-indigo-500/20 transition-colors disabled:opacity-50 disabled:cursor-not-allowed">
                         @if (saving()) {
                             <span class="flex items-center gap-2">
                                 <svg class="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24">

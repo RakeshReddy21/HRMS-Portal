@@ -18,7 +18,7 @@ export interface Notification {
 
 @Injectable({ providedIn: 'root' })
 export class NotificationService {
-    private readonly baseUrl = `${environment.apiUrl}/employees/notifications`;
+    private readonly baseUrl = `${environment.apiUrl}/notifications`;
 
     constructor(private http: HttpClient) {}
 

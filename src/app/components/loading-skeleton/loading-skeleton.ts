@@ -6,7 +6,7 @@ import { CommonModule } from '@angular/common';
     standalone: true,
     imports: [CommonModule],
     template: `
-        <div class="bg-white/[0.02] border border-white/[0.06] rounded-2xl p-6">
+        <div class="bg-white border border-slate-200 rounded-2xl p-6">
             @if (type() === 'card') {
                 <div class="space-y-4">
                     <div class="skeleton h-6 w-3/4 rounded"></div>
@@ -42,9 +42,9 @@ import { CommonModule } from '@angular/common';
     `,
     styles: [`
         .skeleton {
-            background: linear-gradient(90deg, rgba(255,255,255,0.05) 25%, rgba(255,255,255,0.1) 50%, rgba(255,255,255,0.05) 75%);
-            background-size: 200% 100%;
-            animation: loading 1.5s ease-in-out infinite;
+            background: linear-gradient(90deg, #e2e8f0 0%, #f1f5f9 25%, #f8fafc 50%, #f1f5f9 75%, #e2e8f0 100%);
+            background-size: 300% 100%;
+            animation: loading 2s ease-in-out infinite;
         }
         @keyframes loading {
             0% { background-position: 200% 0; }
@@ -60,4 +60,3 @@ export class LoadingSkeletonComponent {
         return new Array(this.rows()).fill(0);
     }
 }
-

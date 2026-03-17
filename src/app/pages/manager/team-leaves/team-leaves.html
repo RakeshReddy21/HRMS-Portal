@@ -1,7 +1,7 @@
-<div class="min-h-screen bg-slate-950 p-6 lg:p-8 space-y-6">
+<div class="min-h-screen p-6 lg:p-8 space-y-6">
     <!-- ── Toast Messages ────────────────────────────── -->
     @if (success()) {
-        <div class="fixed top-6 right-6 z-50 animate-fadeIn flex items-center gap-2 px-5 py-3 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-[13px] font-medium shadow-2xl">
+        <div class="fixed top-6 right-6 z-50 animate-toast flex items-center gap-2.5 px-5 py-3.5 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-600 text-[13px] font-medium shadow-2xl">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
             {{ success() }}
         </div>
@@ -10,7 +10,7 @@
     <!-- ── Header ────────────────────────────────────── -->
     <div class="animate-fadeIn flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4">
         <div>
-            <h1 class="text-2xl font-bold text-white tracking-tight">Team Leaves</h1>
+            <h1 class="text-2xl font-bold text-slate-900 tracking-tight tracking-tight">Team Leaves</h1>
             <p class="text-slate-500 text-[13px] mt-1">Review and manage team leave applications</p>
         </div>
     </div>
@@ -18,12 +18,12 @@
     <!-- ── Filter ────────────────────────────────────── -->
     <div class="flex items-center gap-3">
         <select (change)="onStatusFilterChange($event)"
-                class="filter-select bg-white/[0.04] border border-white/[0.08] rounded-xl px-4 py-2.5 text-[13px] text-slate-300 focus:outline-none focus:border-blue-500/40 transition-all appearance-none cursor-pointer min-w-[160px]">
-            <option value="" class="bg-slate-900">All Status</option>
-            <option value="PENDING" class="bg-slate-900">Pending</option>
-            <option value="APPROVED" class="bg-slate-900">Approved</option>
-            <option value="REJECTED" class="bg-slate-900">Rejected</option>
-            <option value="CANCELLED" class="bg-slate-900">Cancelled</option>
+                class="filter-select bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5 text-[13px] text-slate-500 focus:outline-none focus:border-indigo-500/40 transition-all appearance-none cursor-pointer min-w-[160px]">
+            <option value="" class="bg-white">All Status</option>
+            <option value="PENDING" class="bg-white">Pending</option>
+            <option value="APPROVED" class="bg-white">Approved</option>
+            <option value="REJECTED" class="bg-white">Rejected</option>
+            <option value="CANCELLED" class="bg-white">Cancelled</option>
         </select>
         @if (totalElements() > 0) {
             <span class="text-slate-500 text-[13px]">{{ totalElements() }} leave{{ totalElements() !== 1 ? 's' : '' }}</span>
@@ -32,14 +32,14 @@
 
     <!-- ── Error Message ────────────────────────────── -->
     @if (error()) {
-        <div class="bg-red-500/10 border border-red-500/20 rounded-xl p-4 text-red-400 text-[13px]">
+        <div class="bg-red-500/10 border border-red-500/20 rounded-xl p-4 text-red-500 text-[13px]">
             {{ error() }}
         </div>
     }
 
     <!-- ── Loading State ────────────────────────────── -->
     @if (loading()) {
-        <div class="bg-white/[0.02] border border-white/[0.06] rounded-2xl overflow-hidden">
+        <div class="bg-white border border-slate-200 rounded-2xl overflow-hidden">
             <div class="p-6 space-y-4">
                 @for (i of skeletonRows; track i) {
                     <div class="flex items-center gap-4">
@@ -56,30 +56,30 @@
 
     <!-- ── Leaves List ──────────────────────────────── -->
     @if (!loading() && leaves().length > 0) {
-        <div class="bg-white/[0.02] border border-white/[0.06] rounded-2xl overflow-hidden">
+        <div class="bg-white border border-slate-200 rounded-2xl overflow-hidden">
             <div class="overflow-x-auto">
                 <table class="w-full">
-                    <thead class="bg-white/[0.02] border-b border-white/[0.06]">
+                    <thead class="bg-white border-b border-slate-200">
                         <tr>
-                            <th class="px-6 py-4 text-left text-slate-400 text-[12px] font-semibold uppercase tracking-wider">Employee</th>
-                            <th class="px-6 py-4 text-left text-slate-400 text-[12px] font-semibold uppercase tracking-wider">Leave Type</th>
-                            <th class="px-6 py-4 text-left text-slate-400 text-[12px] font-semibold uppercase tracking-wider">Dates</th>
-                            <th class="px-6 py-4 text-center text-slate-400 text-[12px] font-semibold uppercase tracking-wider">Days</th>
-                            <th class="px-6 py-4 text-center text-slate-400 text-[12px] font-semibold uppercase tracking-wider">Status</th>
-                            <th class="px-6 py-4 text-left text-slate-400 text-[12px] font-semibold uppercase tracking-wider">Applied</th>
-                            <th class="px-6 py-4 text-center text-slate-400 text-[12px] font-semibold uppercase tracking-wider">Action</th>
+                            <th class="px-6 py-4 text-left text-slate-500 text-[12px] font-semibold uppercase tracking-wider">Employee</th>
+                            <th class="px-6 py-4 text-left text-slate-500 text-[12px] font-semibold uppercase tracking-wider">Leave Type</th>
+                            <th class="px-6 py-4 text-left text-slate-500 text-[12px] font-semibold uppercase tracking-wider">Dates</th>
+                            <th class="px-6 py-4 text-center text-slate-500 text-[12px] font-semibold uppercase tracking-wider">Days</th>
+                            <th class="px-6 py-4 text-center text-slate-500 text-[12px] font-semibold uppercase tracking-wider">Status</th>
+                            <th class="px-6 py-4 text-left text-slate-500 text-[12px] font-semibold uppercase tracking-wider">Applied</th>
+                            <th class="px-6 py-4 text-center text-slate-500 text-[12px] font-semibold uppercase tracking-wider">Action</th>
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-white/[0.06]">
                         @for (leave of leaves(); track leave.leaveId) {
-                            <tr class="hover:bg-white/[0.02] transition-colors">
+                            <tr class="hover:bg-white transition-colors">
                                 <td class="px-6 py-4">
                                     <div class="flex items-center gap-3">
-                                        <div class="w-10 h-10 rounded-lg bg-blue-500/10 flex items-center justify-center text-blue-400 font-bold text-[13px]">
+                                        <div class="w-10 h-10 rounded-lg bg-blue-500/10 flex items-center justify-center text-blue-600 font-bold text-[13px]">
                                             {{ getInitials(leave.employee.firstName, leave.employee.lastName) }}
                                         </div>
                                         <div>
-                                            <p class="text-white text-[13px] font-semibold">
+                                            <p class="text-slate-900 text-[13px] font-semibold">
                                                 {{ leave.employee.firstName }} {{ leave.employee.lastName }}
                                             </p>
                                             <p class="text-slate-500 text-[12px] mt-0.5">{{ leave.employee.employeeCode }}</p>
@@ -87,15 +87,15 @@
                                     </div>
                                 </td>
                                 <td class="px-6 py-4">
-                                    <span class="text-slate-300 text-[13px]">{{ leave.leaveType.leaveTypeName }}</span>
+                                    <span class="text-slate-500 text-[13px]">{{ leave.leaveType.leaveTypeName }}</span>
                                 </td>
                                 <td class="px-6 py-4">
-                                    <span class="text-slate-300 text-[13px]">
+                                    <span class="text-slate-500 text-[13px]">
                                         {{ formatDate(leave.startDate) }} - {{ formatDate(leave.endDate) }}
                                     </span>
                                 </td>
                                 <td class="px-6 py-4 text-center">
-                                    <span class="text-white text-[13px] font-semibold">{{ leave.totalDays }}</span>
+                                    <span class="text-slate-900 text-[13px] font-semibold">{{ leave.totalDays }}</span>
                                 </td>
                                 <td class="px-6 py-4 text-center">
                                     <span [class]="'px-2.5 py-1 rounded-lg text-[11px] font-medium ' + getStatusClass(leave.status)">
@@ -108,11 +108,11 @@
                                 <td class="px-6 py-4 text-center">
                                     @if (leave.status === 'PENDING') {
                                         <button (click)="openActionModal(leave)"
-                                                class="px-3 py-1.5 rounded-lg bg-blue-500/10 border border-blue-500/20 text-blue-400 text-[12px] font-medium hover:bg-blue-500/20 transition-colors">
+                                                class="px-3 py-1.5 rounded-lg bg-blue-500/10 border border-blue-500/20 text-blue-600 text-[12px] font-medium hover:bg-indigo-500/20 transition-colors">
                                             Review
                                         </button>
                                     } @else {
-                                        <span class="text-slate-600 text-[12px]">—</span>
+                                        <span class="text-slate-500 text-[12px]">—</span>
                                     }
                                 </td>
                             </tr>
@@ -125,21 +125,21 @@
 
     <!-- ── Empty State ───────────────────────────────── -->
     @if (!loading() && leaves().length === 0) {
-        <div class="bg-white/[0.02] border border-white/[0.06] rounded-2xl p-12 text-center">
-            <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-slate-800 flex items-center justify-center">
-                <svg class="w-8 h-8 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <div class="bg-white border border-slate-200 rounded-2xl p-12 text-center">
+            <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-slate-700 flex items-center justify-center">
+                <svg class="w-8 h-8 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                           d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
                 </svg>
             </div>
-            <h3 class="text-white text-lg font-semibold mb-2">No Leave Applications</h3>
+            <h3 class="text-slate-900 text-lg font-semibold mb-2">No Leave Applications</h3>
             <p class="text-slate-500 text-[13px]">No leave applications found for your team.</p>
         </div>
     }
 
     <!-- ── Pagination ─────────────────────────────────── -->
     @if (!loading() && totalPages() > 1) {
-        <div class="flex flex-col sm:flex-row items-center justify-between gap-4 pt-6 border-t border-white/[0.06]">
+        <div class="flex flex-col sm:flex-row items-center justify-between gap-4 pt-6 border-t border-slate-200">
             <p class="text-slate-500 text-[13px]">
                 Showing {{ (page() * pageSize) + 1 }}–{{ ((page() + 1) * pageSize) > totalElements() ? totalElements() : ((page() + 1) * pageSize) }} of {{ totalElements() }} leaves
             </p>
@@ -148,19 +148,19 @@
                         [disabled]="page() === 0"
                         class="px-3.5 py-2 rounded-lg text-[13px] font-medium border transition-all duration-200"
                         [class]="page() === 0
-                            ? 'text-slate-600 border-white/[0.04] cursor-not-allowed'
-                            : 'text-slate-300 border-white/[0.08] hover:bg-white/[0.04] hover:text-white cursor-pointer'">
+                            ? 'text-slate-500 border-slate-200/80 cursor-not-allowed'
+                            : 'text-slate-500 border-slate-200 hover:bg-slate-50 hover:text-slate-900 cursor-pointer'">
                     ← Previous
                 </button>
-                <span class="text-slate-400 text-[13px] px-3">
+                <span class="text-slate-500 text-[13px] px-3">
                     Page {{ page() + 1 }} of {{ totalPages() }}
                 </span>
                 <button (click)="goToPage(page() + 1)"
                         [disabled]="page() >= totalPages() - 1"
                         class="px-3.5 py-2 rounded-lg text-[13px] font-medium border transition-all duration-200"
                         [class]="page() >= totalPages() - 1
-                            ? 'text-slate-600 border-white/[0.04] cursor-not-allowed'
-                            : 'text-slate-300 border-white/[0.08] hover:bg-white/[0.04] hover:text-white cursor-pointer'">
+                            ? 'text-slate-500 border-slate-200/80 cursor-not-allowed'
+                            : 'text-slate-500 border-slate-200 hover:bg-slate-50 hover:text-slate-900 cursor-pointer'">
                     Next →
                 </button>
             </div>
@@ -169,12 +169,12 @@
 
     <!-- ── Action Modal ───────────────────────────────── -->
     @if (showActionModal() && selectedLeave(); as leave) {
-        <div class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-fadeIn">
-            <div class="bg-slate-900 border border-white/[0.08] rounded-2xl w-full max-w-2xl max-h-[90vh] flex flex-col animate-scaleIn">
-                <div class="flex items-center justify-between px-6 py-4 border-b border-white/[0.06] shrink-0">
-                    <h3 class="text-lg font-bold text-white">Review Leave Application</h3>
+        <div class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/20 backdrop-blur-sm animate-fadeIn">
+            <div class="bg-white border border-slate-200 rounded-2xl w-full max-w-2xl max-h-[90vh] flex flex-col animate-scaleIn">
+                <div class="flex items-center justify-between px-6 py-4 border-b border-slate-200 shrink-0">
+                    <h3 class="text-lg font-bold text-slate-900 tracking-tight">Review Leave Application</h3>
                     <button (click)="closeActionModal()"
-                            class="p-2 rounded-lg text-slate-400 hover:text-white hover:bg-white/[0.04] transition-colors cursor-pointer">
+                            class="p-2 rounded-lg text-slate-500 hover:text-slate-900 hover:bg-slate-50 transition-colors cursor-pointer">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
                         </svg>
@@ -183,32 +183,32 @@
 
                 <div class="overflow-y-auto flex-1 px-6 py-5 space-y-5">
                     <!-- Leave Details -->
-                    <div class="p-4 bg-white/[0.02] border border-white/[0.06] rounded-xl space-y-3">
+                    <div class="p-4 bg-white border border-slate-200 rounded-xl space-y-3">
                         <div class="flex items-center gap-3">
-                            <div class="w-10 h-10 rounded-lg bg-blue-500/10 flex items-center justify-center text-blue-400 font-bold text-[13px]">
+                            <div class="w-10 h-10 rounded-lg bg-blue-500/10 flex items-center justify-center text-blue-600 font-bold text-[13px]">
                                 {{ getInitials(leave.employee.firstName, leave.employee.lastName) }}
                             </div>
                             <div>
-                                <p class="text-white text-[13px] font-semibold">{{ leave.employee.firstName }} {{ leave.employee.lastName }}</p>
+                                <p class="text-slate-900 text-[13px] font-semibold">{{ leave.employee.firstName }} {{ leave.employee.lastName }}</p>
                                 <p class="text-slate-500 text-[12px]">{{ leave.employee.employeeCode }}</p>
                             </div>
                         </div>
-                        <div class="grid grid-cols-2 gap-3 pt-3 border-t border-white/[0.06]">
+                        <div class="grid grid-cols-2 gap-3 pt-3 border-t border-slate-200">
                             <div>
                                 <p class="text-slate-500 text-[11px] uppercase tracking-wider mb-1">Leave Type</p>
-                                <p class="text-white text-[13px]">{{ leave.leaveType.leaveTypeName }}</p>
+                                <p class="text-slate-900 text-[13px]">{{ leave.leaveType.leaveTypeName }}</p>
                             </div>
                             <div>
                                 <p class="text-slate-500 text-[11px] uppercase tracking-wider mb-1">Days</p>
-                                <p class="text-white text-[13px]">{{ leave.totalDays }} day{{ leave.totalDays !== 1 ? 's' : '' }}</p>
+                                <p class="text-slate-900 text-[13px]">{{ leave.totalDays }} day{{ leave.totalDays !== 1 ? 's' : '' }}</p>
                             </div>
                             <div class="col-span-2">
                                 <p class="text-slate-500 text-[11px] uppercase tracking-wider mb-1">Dates</p>
-                                <p class="text-white text-[13px]">{{ formatDate(leave.startDate) }} - {{ formatDate(leave.endDate) }}</p>
+                                <p class="text-slate-900 text-[13px]">{{ formatDate(leave.startDate) }} - {{ formatDate(leave.endDate) }}</p>
                             </div>
                             <div class="col-span-2">
                                 <p class="text-slate-500 text-[11px] uppercase tracking-wider mb-1">Reason</p>
-                                <p class="text-white text-[13px]">{{ leave.reason }}</p>
+                                <p class="text-slate-900 text-[13px]">{{ leave.reason }}</p>
                             </div>
                         </div>
                     </div>
@@ -216,7 +216,7 @@
                     <!-- ── AI Analysis Section ──────────────────────── -->
                     @if (!showAnalysis() && !analyzing()) {
                         <button (click)="runAnalysis()" [disabled]="analyzing()"
-                                class="w-full py-3 rounded-xl bg-gradient-to-r from-violet-600/20 to-purple-600/20 border border-violet-500/30 text-violet-300 text-[13px] font-semibold hover:from-violet-600/30 hover:to-purple-600/30 transition-all flex items-center justify-center gap-2 cursor-pointer">
+                                class="w-full py-3 rounded-xl bg-gradient-to-r from-violet-50 to-purple-50 border border-violet-200 text-violet-700 text-[13px] font-semibold hover:from-violet-100 hover:to-purple-100 transition-all flex items-center justify-center gap-2 cursor-pointer">
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.455 2.456L21.75 6l-1.036.259a3.375 3.375 0 00-2.455 2.456z"/>
                             </svg>
@@ -225,15 +225,15 @@
                     }
 
                     @if (analyzing()) {
-                        <div class="p-6 bg-violet-500/[0.05] border border-violet-500/20 rounded-xl text-center space-y-3">
-                            <div class="w-10 h-10 mx-auto border-2 border-violet-500/30 border-t-violet-400 rounded-full animate-spin"></div>
-                            <p class="text-violet-300 text-[13px] font-medium">AI is analyzing leave history and patterns...</p>
-                            <p class="text-slate-500 text-[11px]">This may take a few seconds</p>
+                        <div class="p-6 bg-violet-50 border border-violet-200 rounded-xl text-center space-y-3">
+                            <div class="w-10 h-10 mx-auto border-2 border-violet-200 border-t-violet-500 rounded-full animate-spin"></div>
+                            <p class="text-violet-700 text-[13px] font-medium">AI is analyzing leave history and patterns...</p>
+                            <p class="text-slate-500 text-[11px]">This may take up to 30 seconds depending on AI model response</p>
                         </div>
                     }
 
                     @if (analysisError()) {
-                        <div class="bg-red-500/10 border border-red-500/20 rounded-xl p-3 text-red-400 text-[12px]">{{ analysisError() }}</div>
+                        <div class="bg-red-500/10 border border-red-500/20 rounded-xl p-3 text-red-500 text-[12px]">{{ analysisError() }}</div>
                     }
 
                     @if (showAnalysis() && analysisResult(); as ai) {
@@ -241,18 +241,18 @@
                             <!-- AI Recommendation Badge -->
                             <div class="p-4 rounded-xl border {{ ai.aiRecommendation === 'APPROVE' ? 'bg-emerald-500/[0.07] border-emerald-500/25' : 'bg-amber-500/[0.07] border-amber-500/25' }}">
                                 <div class="flex items-center gap-2 mb-2">
-                                    <svg class="w-5 h-5 {{ ai.aiRecommendation === 'APPROVE' ? 'text-emerald-400' : 'text-amber-400' }}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <svg class="w-5 h-5 {{ ai.aiRecommendation === 'APPROVE' ? 'text-emerald-600' : 'text-amber-500' }}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09z"/>
                                     </svg>
-                                    <span class="text-[13px] font-bold {{ ai.aiRecommendation === 'APPROVE' ? 'text-emerald-400' : 'text-amber-400' }}">
+                                    <span class="text-[13px] font-bold {{ ai.aiRecommendation === 'APPROVE' ? 'text-emerald-600' : 'text-amber-500' }}">
                                         AI Recommends: {{ ai.aiRecommendation === 'APPROVE' ? 'Approve' : 'Review Further' }}
                                     </span>
                                 </div>
-                                <p class="text-slate-300 text-[13px] leading-relaxed">{{ ai.aiSummary }}</p>
+                                <p class="text-slate-500 text-[13px] leading-relaxed">{{ ai.aiSummary }}</p>
                                 @if (ai.aiReasons?.length) {
                                     <div class="mt-3 flex flex-wrap gap-1.5">
                                         @for (reason of ai.aiReasons; track reason) {
-                                            <span class="px-2.5 py-1 rounded-lg bg-white/[0.06] text-slate-300 text-[11px]">{{ reason }}</span>
+                                            <span class="px-2.5 py-1 rounded-lg bg-[#f0f4fa] text-slate-500 text-[11px]">{{ reason }}</span>
                                         }
                                     </div>
                                 }
@@ -260,41 +260,41 @@
 
                             <!-- Stats Grid -->
                             <div class="grid grid-cols-3 gap-2">
-                                <div class="bg-white/[0.03] border border-white/[0.06] rounded-xl p-3 text-center">
-                                    <p class="text-white text-[18px] font-bold tabular-nums">{{ ai.totalLeavesTakenThisYear }}</p>
+                                <div class="bg-white border border-slate-200 rounded-xl p-3 text-center">
+                                    <p class="text-slate-900 text-[18px] font-bold tabular-nums">{{ ai.totalLeavesTakenThisYear }}</p>
                                     <p class="text-slate-500 text-[10px] uppercase tracking-wider mt-0.5">This Year</p>
                                 </div>
-                                <div class="bg-white/[0.03] border border-white/[0.06] rounded-xl p-3 text-center">
-                                    <p class="text-white text-[18px] font-bold tabular-nums">{{ ai.totalLeavesTakenLastYear }}</p>
+                                <div class="bg-white border border-slate-200 rounded-xl p-3 text-center">
+                                    <p class="text-slate-900 text-[18px] font-bold tabular-nums">{{ ai.totalLeavesTakenLastYear }}</p>
                                     <p class="text-slate-500 text-[10px] uppercase tracking-wider mt-0.5">Last Year</p>
                                 </div>
-                                <div class="bg-white/[0.03] border border-white/[0.06] rounded-xl p-3 text-center">
-                                    <p class="text-[18px] font-bold tabular-nums {{ ai.balanceAfterApproval >= 0 ? 'text-emerald-400' : 'text-red-400' }}">{{ ai.balanceAfterApproval }}</p>
+                                <div class="bg-white border border-slate-200 rounded-xl p-3 text-center">
+                                    <p class="text-[18px] font-bold tabular-nums {{ ai.balanceAfterApproval >= 0 ? 'text-emerald-600' : 'text-red-500' }}">{{ ai.balanceAfterApproval }}</p>
                                     <p class="text-slate-500 text-[10px] uppercase tracking-wider mt-0.5">Balance After</p>
                                 </div>
-                                <div class="bg-white/[0.03] border border-white/[0.06] rounded-xl p-3 text-center">
-                                    <p class="text-white text-[18px] font-bold tabular-nums">{{ ai.teamMembersOnLeaveToday }}</p>
+                                <div class="bg-white border border-slate-200 rounded-xl p-3 text-center">
+                                    <p class="text-slate-900 text-[18px] font-bold tabular-nums">{{ ai.teamMembersOnLeaveToday }}</p>
                                     <p class="text-slate-500 text-[10px] uppercase tracking-wider mt-0.5">Team on Leave</p>
                                 </div>
-                                <div class="bg-white/[0.03] border border-white/[0.06] rounded-xl p-3 text-center">
-                                    <p class="text-white text-[18px] font-bold tabular-nums">{{ ai.pendingLeaveRequests }}</p>
+                                <div class="bg-white border border-slate-200 rounded-xl p-3 text-center">
+                                    <p class="text-slate-900 text-[18px] font-bold tabular-nums">{{ ai.pendingLeaveRequests }}</p>
                                     <p class="text-slate-500 text-[10px] uppercase tracking-wider mt-0.5">Pending</p>
                                 </div>
-                                <div class="bg-white/[0.03] border border-white/[0.06] rounded-xl p-3 text-center">
-                                    <p class="text-white text-[14px] font-bold">{{ ai.frequencyTrend }}</p>
+                                <div class="bg-white border border-slate-200 rounded-xl p-3 text-center">
+                                    <p class="text-slate-900 text-[14px] font-bold">{{ ai.frequencyTrend }}</p>
                                     <p class="text-slate-500 text-[10px] uppercase tracking-wider mt-0.5">Trend</p>
                                 </div>
                             </div>
 
                             <!-- Patterns -->
                             @if (ai.patterns?.length) {
-                                <div class="bg-white/[0.02] border border-white/[0.06] rounded-xl p-3">
-                                    <p class="text-slate-400 text-[11px] font-semibold uppercase tracking-wider mb-2">Detected Patterns</p>
+                                <div class="bg-white border border-slate-200 rounded-xl p-3">
+                                    <p class="text-slate-500 text-[11px] font-semibold uppercase tracking-wider mb-2">Detected Patterns</p>
                                     <div class="space-y-1.5">
                                         @for (pattern of ai.patterns; track pattern) {
                                             <div class="flex items-start gap-2">
                                                 <span class="w-1.5 h-1.5 rounded-full bg-violet-400 mt-1.5 shrink-0"></span>
-                                                <span class="text-slate-300 text-[12px]">{{ pattern }}</span>
+                                                <span class="text-slate-500 text-[12px]">{{ pattern }}</span>
                                             </div>
                                         }
                                     </div>
@@ -303,13 +303,13 @@
 
                             <!-- Balances -->
                             @if (ai.currentBalances) {
-                                <div class="bg-white/[0.02] border border-white/[0.06] rounded-xl p-3">
-                                    <p class="text-slate-400 text-[11px] font-semibold uppercase tracking-wider mb-2">Current Leave Balances</p>
+                                <div class="bg-white border border-slate-200 rounded-xl p-3">
+                                    <p class="text-slate-500 text-[11px] font-semibold uppercase tracking-wider mb-2">Current Leave Balances</p>
                                     <div class="grid grid-cols-2 gap-2">
                                         @for (entry of ai.currentBalances | keyvalue; track entry.key) {
-                                            <div class="flex items-center justify-between bg-white/[0.03] rounded-lg px-3 py-2">
-                                                <span class="text-slate-400 text-[12px]">{{ entry.key }}</span>
-                                                <span class="text-white text-[13px] font-semibold tabular-nums">{{ entry.value }}d</span>
+                                            <div class="flex items-center justify-between bg-white rounded-lg px-3 py-2">
+                                                <span class="text-slate-500 text-[12px]">{{ entry.key }}</span>
+                                                <span class="text-slate-900 text-[13px] font-semibold tabular-nums">{{ entry.value }}d</span>
                                             </div>
                                         }
                                     </div>
@@ -319,23 +319,23 @@
                     }
 
                     <!-- Action Form -->
-                    <form [formGroup]="actionForm" (ngSubmit)="submitAction()" class="space-y-4 pt-3 border-t border-white/[0.06]">
+                    <form [formGroup]="actionForm" (ngSubmit)="submitAction()" class="space-y-4 pt-3 border-t border-slate-200">
                         <div>
-                            <label class="block text-[12px] font-semibold text-slate-400 uppercase tracking-wider mb-2">Decision <span class="text-red-400">*</span></label>
+                            <label class="block text-[12px] font-semibold text-slate-500 uppercase tracking-wider mb-2">Decision <span class="text-red-500">*</span></label>
                             <div class="flex items-center gap-3">
                                 <label class="flex-1 relative cursor-pointer">
                                     <input formControlName="action" type="radio" value="APPROVED" class="peer sr-only"/>
                                     <div class="w-full py-2.5 rounded-xl border text-center text-[13px] font-semibold transition-all
-                                                peer-checked:bg-emerald-500/15 peer-checked:border-emerald-500/30 peer-checked:text-emerald-400
-                                                border-white/[0.08] text-slate-500 hover:border-white/[0.15]">
+                                                peer-checked:bg-emerald-500/15 peer-checked:border-emerald-500/30 peer-checked:text-emerald-600
+                                                border-slate-200 text-slate-500 hover:border-slate-300">
                                         Approve
                                     </div>
                                 </label>
                                 <label class="flex-1 relative cursor-pointer">
                                     <input formControlName="action" type="radio" value="REJECTED" class="peer sr-only"/>
                                     <div class="w-full py-2.5 rounded-xl border text-center text-[13px] font-semibold transition-all
-                                                peer-checked:bg-red-500/15 peer-checked:border-red-500/30 peer-checked:text-red-400
-                                                border-white/[0.08] text-slate-500 hover:border-white/[0.15]">
+                                                peer-checked:bg-red-500/15 peer-checked:border-red-500/30 peer-checked:text-red-500
+                                                border-slate-200 text-slate-500 hover:border-slate-300">
                                         Reject
                                     </div>
                                 </label>
@@ -343,28 +343,28 @@
                         </div>
 
                         <div>
-                            <label class="block text-[12px] font-semibold text-slate-400 uppercase tracking-wider mb-2">
+                            <label class="block text-[12px] font-semibold text-slate-500 uppercase tracking-wider mb-2">
                                 Comments
-                                @if (actionForm.get('action')?.value === 'REJECTED') { <span class="text-red-400">*</span> }
+                                @if (actionForm.get('action')?.value === 'REJECTED') { <span class="text-red-500">*</span> }
                             </label>
                             <textarea formControlName="comments" rows="3" placeholder="Add comments (required for rejection)..."
-                                      class="w-full bg-white/[0.04] border border-white/[0.08] rounded-xl px-4 py-2.5 text-[13px] text-white placeholder-slate-500 focus:outline-none focus:border-blue-500/40 transition-all resize-none"></textarea>
+                                      class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5 text-[13px] text-slate-900 placeholder-slate-400 focus:outline-none focus:border-indigo-500/40 transition-all resize-none"></textarea>
                             @if (hasError('comments')) {
-                                <p class="text-red-400 text-[12px] mt-1">{{ getError('comments') }}</p>
+                                <p class="text-red-500 text-[12px] mt-1">{{ getError('comments') }}</p>
                             }
                         </div>
 
                         @if (error()) {
-                            <div class="bg-red-500/10 border border-red-500/20 rounded-xl p-3 text-red-400 text-[12px]">{{ error() }}</div>
+                            <div class="bg-red-500/10 border border-red-500/20 rounded-xl p-3 text-red-500 text-[12px]">{{ error() }}</div>
                         }
 
                         <div class="flex items-center gap-3">
                             <button type="button" (click)="closeActionModal()" [disabled]="acting()"
-                                    class="flex-1 px-4 py-2.5 rounded-xl bg-white/[0.04] border border-white/[0.08] text-slate-300 text-[13px] font-medium hover:bg-white/[0.08] transition-colors cursor-pointer">
+                                    class="flex-1 px-4 py-2.5 rounded-xl bg-slate-50 border border-slate-200 text-slate-500 text-[13px] font-medium hover:bg-indigo-500/15 transition-colors cursor-pointer">
                                 Cancel
                             </button>
                             <button type="submit" [disabled]="acting()"
-                                    class="flex-1 px-4 py-2.5 rounded-xl text-[13px] font-semibold text-white transition-all shadow-lg disabled:opacity-50 cursor-pointer"
+                                    class="flex-1 px-4 py-2.5 rounded-xl text-[13px] font-semibold text-slate-900 transition-all shadow-lg disabled:opacity-50 cursor-pointer"
                                     [class]="actionForm.get('action')?.value === 'REJECTED'
                                         ? 'bg-red-600 hover:bg-red-500 shadow-red-600/20'
                                         : 'bg-emerald-600 hover:bg-emerald-500 shadow-emerald-600/20'">

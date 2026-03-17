@@ -1,14 +1,14 @@
-<div class="min-h-screen bg-slate-950 p-6 lg:p-8 space-y-6">
+<div class="p-6 lg:p-8 space-y-6">
 
     <!-- ── Header ──────────────────────────────────────────── -->
     <div class="animate-fade-in flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4">
         <div>
-            <h1 class="text-2xl font-bold text-white tracking-tight">{{ greeting }}, {{ userName }}</h1>
+            <h1 class="text-2xl font-bold text-slate-900 tracking-tight tracking-tight">{{ greeting }}, {{ userName }}</h1>
             <p class="text-slate-500 text-[13px] mt-1">{{ currentDate }}</p>
         </div>
         <div class="flex items-center gap-3">
             <div class="text-right">
-                <p class="text-white text-lg font-mono tracking-wider">{{ liveTime() }}</p>
+                <p class="text-slate-900 text-lg font-mono tracking-wider">{{ liveTime() }}</p>
             </div>
         </div>
     </div>
@@ -32,22 +32,22 @@
         <!-- Quick Stats Row -->
         <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-5">
             <!-- Today's Status Card -->
-            <div class="animate-fade-in stagger-1 bg-white/[0.02] border border-white/[0.06] rounded-2xl p-5 card-hover">
+            <div class="animate-fade-in stagger-1 bg-white border border-slate-200 rounded-2xl p-5 card-hover">
                 <div class="flex items-center justify-between mb-3">
                     <span class="text-slate-500 text-[11px] uppercase tracking-wider font-medium">Today's Status</span>
                     @if (isCheckedIn) {
-                        <span class="flex items-center gap-1.5 text-[11px] font-semibold text-emerald-400">
+                        <span class="flex items-center gap-1.5 text-[11px] font-semibold text-emerald-600">
                             <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 pulse-indicator"></span>
                             Active
                         </span>
                     } @else if (isCompleted) {
-                        <span class="text-[11px] font-semibold text-blue-400">Completed</span>
+                        <span class="text-[11px] font-semibold text-blue-600">Completed</span>
                     } @else {
-                        <span class="text-[11px] font-semibold text-slate-600">Not Checked In</span>
+                        <span class="text-[11px] font-semibold text-slate-500">Not Checked In</span>
                     }
                 </div>
                 <div class="flex items-end gap-2">
-                    <span class="text-2xl font-bold text-white">{{ checkInTimeStr }}</span>
+                    <span class="text-2xl font-bold text-slate-900 tracking-tight">{{ checkInTimeStr }}</span>
                     @if (isCheckedIn || isCompleted) {
                         <span class="text-slate-500 text-[13px] pb-0.5">→ {{ checkOutTimeStr }}</span>
                     }
@@ -58,54 +58,54 @@
             </div>
 
             <!-- Department & Role Card -->
-            <div class="animate-fade-in stagger-2 bg-white/[0.02] border border-white/[0.06] rounded-2xl p-5 card-hover">
+            <div class="animate-fade-in stagger-2 bg-white border border-slate-200 rounded-2xl p-5 card-hover">
                 <span class="text-slate-500 text-[11px] uppercase tracking-wider font-medium">My Position</span>
-                <p class="text-white text-lg font-bold mt-3 truncate">{{ dashboard()?.designationTitle || '—' }}</p>
+                <p class="text-slate-900 text-lg font-bold mt-3 truncate">{{ dashboard()?.designationTitle || '—' }}</p>
                 <p class="text-slate-500 text-[13px] mt-1 truncate">{{ dashboard()?.departmentName || '—' }}</p>
             </div>
 
             <!-- Pending Leaves Card -->
-            <div class="animate-fade-in stagger-3 bg-white/[0.02] border border-white/[0.06] rounded-2xl p-5 card-hover">
+            <div class="animate-fade-in stagger-3 bg-white border border-slate-200 rounded-2xl p-5 card-hover">
                 <div class="flex items-center justify-between mb-3">
                     <span class="text-slate-500 text-[11px] uppercase tracking-wider font-medium">My Leaves</span>
                     @if (pendingLeaves() > 0) {
-                        <span class="flex items-center gap-1 px-2 py-0.5 rounded-full bg-amber-500/10 text-amber-400 text-[11px] font-semibold">
+                        <span class="flex items-center gap-1 px-2 py-0.5 rounded-full bg-amber-500/10 text-amber-500 text-[11px] font-semibold">
                             {{ pendingLeaves() }} pending
                         </span>
                     }
                 </div>
                 <div class="flex items-end gap-3">
                     <div>
-                        <span class="text-2xl font-bold text-white">{{ approvedLeaves() }}</span>
+                        <span class="text-2xl font-bold text-slate-900 tracking-tight">{{ approvedLeaves() }}</span>
                         <span class="text-slate-500 text-[13px] ml-1">approved</span>
                     </div>
                 </div>
             </div>
 
             <!-- Quick Actions Card -->
-            <div class="animate-fade-in stagger-4 bg-white/[0.02] border border-white/[0.06] rounded-2xl p-5">
+            <div class="animate-fade-in stagger-4 bg-white border border-slate-200 rounded-2xl p-5">
                 <span class="text-slate-500 text-[11px] uppercase tracking-wider font-medium">Quick Actions</span>
                 <div class="mt-3 space-y-2">
                     @if (!isCheckedIn && !isCompleted) {
                         <button (click)="doCheckIn()" [disabled]="checkingIn()"
-                            class="w-full flex items-center justify-center gap-2 px-4 py-2.5 bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 rounded-xl text-[13px] font-semibold hover:bg-emerald-500/20 transition-all disabled:opacity-50">
+                            class="w-full flex items-center justify-center gap-2 px-4 py-2.5 bg-emerald-500/10 border border-emerald-500/20 text-emerald-600 rounded-xl text-[13px] font-semibold hover:bg-emerald-500/20 transition-all disabled:opacity-50">
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"/></svg>
                             {{ checkingIn() ? 'Checking In...' : 'Check In' }}
                         </button>
                     } @else if (isCheckedIn) {
                         <button (click)="doCheckOut()" [disabled]="checkingOut()"
-                            class="w-full flex items-center justify-center gap-2 px-4 py-2.5 bg-rose-500/10 border border-rose-500/20 text-rose-400 rounded-xl text-[13px] font-semibold hover:bg-rose-500/20 transition-all disabled:opacity-50">
+                            class="w-full flex items-center justify-center gap-2 px-4 py-2.5 bg-rose-500/10 border border-rose-500/20 text-rose-500 rounded-xl text-[13px] font-semibold hover:bg-rose-500/20 transition-all disabled:opacity-50">
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/></svg>
                             {{ checkingOut() ? 'Checking Out...' : 'Check Out' }}
                         </button>
                     } @else {
                         <div class="flex items-center gap-2 px-4 py-2.5 bg-blue-500/10 border border-blue-500/20 rounded-xl">
-                            <svg class="w-4 h-4 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
-                            <span class="text-blue-400 text-[13px] font-semibold">Day Completed · {{ totalHoursStr }}</span>
+                            <svg class="w-4 h-4 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+                            <span class="text-blue-600 text-[13px] font-semibold">Day Completed · {{ totalHoursStr }}</span>
                         </div>
                     }
                     <a routerLink="/employee/my-leaves"
-                        class="w-full flex items-center justify-center gap-2 px-4 py-2 bg-white/[0.03] border border-white/[0.06] text-slate-400 rounded-xl text-[13px] font-medium hover:bg-white/[0.06] transition-all">
+                        class="w-full flex items-center justify-center gap-2 px-4 py-2 bg-white border border-slate-200 text-slate-500 rounded-xl text-[13px] font-medium hover:bg-slate-50 transition-all">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
                         Apply Leave
                     </a>
@@ -116,14 +116,14 @@
         <!-- Main Grid -->
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-5">
             <!-- Leave Balances (2-col) -->
-            <div class="animate-fade-in stagger-5 lg:col-span-2 bg-white/[0.02] border border-white/[0.06] rounded-2xl p-6">
+            <div class="animate-fade-in stagger-5 lg:col-span-2 bg-white border border-slate-200 rounded-2xl p-6">
                 <div class="flex items-center justify-between mb-5">
-                    <h2 class="text-white text-[15px] font-semibold">Leave Balances</h2>
-                    <a routerLink="/employee/my-leaves" class="text-blue-400 text-[12px] font-medium hover:text-blue-300 transition-colors">View All →</a>
+                    <h2 class="text-slate-900 text-[15px] font-semibold">Leave Balances</h2>
+                    <a routerLink="/employee/my-leaves" class="text-blue-600 text-[12px] font-medium hover:text-blue-600 transition-colors">View All →</a>
                 </div>
 
                 @if (leaveBalances().length === 0) {
-                    <div class="flex flex-col items-center justify-center py-10 text-slate-600">
+                    <div class="flex flex-col items-center justify-center py-10 text-slate-500">
                         <svg class="w-10 h-10 mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
                         <p class="text-[13px]">No leave balances available</p>
                     </div>
@@ -132,10 +132,10 @@
                         @for (b of leaveBalances(); track b.leaveTypeName) {
                             <div>
                                 <div class="flex items-center justify-between mb-1.5">
-                                    <span class="text-slate-300 text-[13px] font-medium">{{ b.leaveTypeName }}</span>
+                                    <span class="text-slate-500 text-[13px] font-medium">{{ b.leaveTypeName }}</span>
                                     <span class="text-slate-500 text-[12px]">{{ b.usedLeaves }} / {{ b.totalLeaves }} used</span>
                                 </div>
-                                <div class="w-full h-2 bg-slate-800 rounded-full overflow-hidden">
+                                <div class="w-full h-2 bg-slate-700 rounded-full overflow-hidden">
                                     <div class="balance-bar h-full rounded-full"
                                         [style.width.%]="getBalancePercent(b)"
                                         [style.background]="getBalanceColor(b)">
@@ -153,24 +153,24 @@
             </div>
 
             <!-- Upcoming Holidays -->
-            <div class="animate-fade-in stagger-6 bg-white/[0.02] border border-white/[0.06] rounded-2xl p-6">
-                <h2 class="text-white text-[15px] font-semibold mb-5">Upcoming Holidays</h2>
+            <div class="animate-fade-in stagger-6 bg-white border border-slate-200 rounded-2xl p-6">
+                <h2 class="text-slate-900 text-[15px] font-semibold mb-5">Upcoming Holidays</h2>
 
                 @if (upcomingHolidays().length === 0) {
-                    <div class="flex flex-col items-center justify-center py-10 text-slate-600">
+                    <div class="flex flex-col items-center justify-center py-10 text-slate-500">
                         <svg class="w-10 h-10 mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"/></svg>
                         <p class="text-[13px]">No upcoming holidays</p>
                     </div>
                 } @else {
                     <div class="space-y-3">
                         @for (h of upcomingHolidays(); track h.holidayName) {
-                            <div class="flex items-center gap-3 p-3 bg-white/[0.02] rounded-xl border border-white/[0.04] hover:bg-white/[0.04] transition-colors">
+                            <div class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200/80 hover:bg-slate-50 transition-colors">
                                 <div class="shrink-0 w-10 h-10 rounded-lg flex items-center justify-center text-[11px] font-bold"
-                                    [class]="getDaysUntil(h.holidayDate) <= 7 ? 'bg-amber-500/10 text-amber-400' : 'bg-blue-500/10 text-blue-400'">
+                                    [class]="getDaysUntil(h.holidayDate) <= 7 ? 'bg-amber-500/10 text-amber-500' : 'bg-blue-500/10 text-blue-600'">
                                     {{ getDaysUntil(h.holidayDate) }}d
                                 </div>
                                 <div class="min-w-0">
-                                    <p class="text-white text-[13px] font-medium truncate">{{ h.holidayName }}</p>
+                                    <p class="text-slate-700 text-[13px] font-medium truncate">{{ h.holidayName }}</p>
                                     <p class="text-slate-500 text-[11px]">{{ formatHolidayDate(h.holidayDate) }}</p>
                                 </div>
                             </div>
@@ -183,35 +183,35 @@
         <!-- Bottom Row: Quick Links -->
         <div class="animate-fade-in stagger-6 grid grid-cols-2 sm:grid-cols-4 gap-4">
             <a routerLink="/employee/my-attendance"
-                class="flex flex-col items-center gap-3 p-5 bg-white/[0.02] border border-white/[0.06] rounded-2xl hover:bg-white/[0.04] hover:border-white/[0.1] transition-all group">
-                <div class="w-10 h-10 rounded-xl bg-blue-500/10 flex items-center justify-center group-hover:bg-blue-500/20 transition-colors">
-                    <svg class="w-5 h-5 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                class="flex flex-col items-center gap-3 p-5 bg-white border border-slate-200 rounded-2xl hover:bg-slate-50 hover:border-slate-300 transition-all group">
+                <div class="w-10 h-10 rounded-xl bg-blue-500/10 flex items-center justify-center group-hover:bg-indigo-500/20 transition-colors">
+                    <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
                 </div>
-                <span class="text-slate-400 text-[13px] font-medium group-hover:text-white transition-colors">My Attendance</span>
+                <span class="text-slate-500 text-[13px] font-medium group-hover:text-slate-900 transition-colors">My Attendance</span>
             </a>
 
             <a routerLink="/employee/my-leaves"
-                class="flex flex-col items-center gap-3 p-5 bg-white/[0.02] border border-white/[0.06] rounded-2xl hover:bg-white/[0.04] hover:border-white/[0.1] transition-all group">
+                class="flex flex-col items-center gap-3 p-5 bg-white border border-slate-200 rounded-2xl hover:bg-slate-50 hover:border-slate-300 transition-all group">
                 <div class="w-10 h-10 rounded-xl bg-emerald-500/10 flex items-center justify-center group-hover:bg-emerald-500/20 transition-colors">
-                    <svg class="w-5 h-5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+                    <svg class="w-5 h-5 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
                 </div>
-                <span class="text-slate-400 text-[13px] font-medium group-hover:text-white transition-colors">My Leaves</span>
+                <span class="text-slate-500 text-[13px] font-medium group-hover:text-slate-900 transition-colors">My Leaves</span>
             </a>
 
             <a routerLink="/employee/directory"
-                class="flex flex-col items-center gap-3 p-5 bg-white/[0.02] border border-white/[0.06] rounded-2xl hover:bg-white/[0.04] hover:border-white/[0.1] transition-all group">
+                class="flex flex-col items-center gap-3 p-5 bg-white border border-slate-200 rounded-2xl hover:bg-slate-50 hover:border-slate-300 transition-all group">
                 <div class="w-10 h-10 rounded-xl bg-violet-500/10 flex items-center justify-center group-hover:bg-violet-500/20 transition-colors">
-                    <svg class="w-5 h-5 text-violet-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+                    <svg class="w-5 h-5 text-violet-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
                 </div>
-                <span class="text-slate-400 text-[13px] font-medium group-hover:text-white transition-colors">Directory</span>
+                <span class="text-slate-500 text-[13px] font-medium group-hover:text-slate-900 transition-colors">Directory</span>
             </a>
 
             <a routerLink="/employee/announcements"
-                class="flex flex-col items-center gap-3 p-5 bg-white/[0.02] border border-white/[0.06] rounded-2xl hover:bg-white/[0.04] hover:border-white/[0.1] transition-all group">
+                class="flex flex-col items-center gap-3 p-5 bg-white border border-slate-200 rounded-2xl hover:bg-slate-50 hover:border-slate-300 transition-all group">
                 <div class="w-10 h-10 rounded-xl bg-amber-500/10 flex items-center justify-center group-hover:bg-amber-500/20 transition-colors">
-                    <svg class="w-5 h-5 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.683A4.001 4.001 0 017 6h1.832c4.1 0 7.625-1.234 9.168-3v14c-1.543-1.766-5.067-3-9.168-3H7a3.988 3.988 0 01-1.564-.317z"/></svg>
+                    <svg class="w-5 h-5 text-amber-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.683A4.001 4.001 0 017 6h1.832c4.1 0 7.625-1.234 9.168-3v14c-1.543-1.766-5.067-3-9.168-3H7a3.988 3.988 0 01-1.564-.317z"/></svg>
                 </div>
-                <span class="text-slate-400 text-[13px] font-medium group-hover:text-white transition-colors">Announcements</span>
+                <span class="text-slate-500 text-[13px] font-medium group-hover:text-slate-900 transition-colors">Announcements</span>
             </a>
         </div>
 

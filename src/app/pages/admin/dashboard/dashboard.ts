@@ -273,15 +273,15 @@ export class Dashboard implements OnInit, OnDestroy {
     getCalendarDayClass(day: CalendarDay): string {
         let classes = 'relative text-center py-3 text-[13px] transition-colors duration-150 cursor-default group ';
         if (!day.isCurrentMonth) {
-            classes += 'bg-slate-950/50 text-slate-700 ';
+            classes += 'bg-slate-50/50 text-slate-300 ';
         } else if (day.isToday) {
-            classes += 'bg-slate-900/80 text-white font-bold ';
+            classes += 'bg-indigo-50 text-indigo-700 font-bold ';
         } else if (day.isHoliday) {
-            classes += 'bg-red-500/15 text-red-300 font-semibold hover:bg-red-500/25 ';
+            classes += 'bg-rose-50 text-rose-600 font-semibold hover:bg-rose-100/60 ';
         } else if (day.isWeekend) {
-            classes += 'bg-slate-900/80 text-slate-600 hover:bg-white/[0.04] ';
+            classes += 'bg-white text-slate-400 hover:bg-slate-50 ';
         } else {
-            classes += 'bg-slate-900/80 text-slate-400 hover:bg-white/[0.04] ';
+            classes += 'bg-white text-slate-600 hover:bg-slate-50 ';
         }
         return classes;
     }

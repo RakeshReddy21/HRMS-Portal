@@ -1,22 +1,22 @@
-<div class="min-h-screen bg-slate-950 p-6 lg:p-8 space-y-6">
+<div class="min-h-screen p-6 lg:p-8 space-y-6">
     <!-- ── Header ────────────────────────────────────────── -->
     <div class="animate-fadeIn flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4">
         <div>
-            <h1 class="text-2xl font-bold text-white tracking-tight">Team Members</h1>
+            <h1 class="text-2xl font-bold text-slate-900 tracking-tight tracking-tight">Team Members</h1>
             <p class="text-slate-500 text-[13px] mt-1">View and manage your team members</p>
         </div>
     </div>
 
     <!-- ── Error Message ─────────────────────────────────── -->
     @if (error()) {
-        <div class="bg-red-500/10 border border-red-500/20 rounded-xl p-4 text-red-400 text-[13px]">
+        <div class="bg-red-500/10 border border-red-500/20 rounded-xl p-4 text-red-500 text-[13px]">
             {{ error() }}
         </div>
     }
 
     <!-- ── Loading State ──────────────────────────────────── -->
     @if (loading()) {
-        <div class="bg-white/[0.02] border border-white/[0.06] rounded-2xl overflow-hidden">
+        <div class="bg-white border border-slate-200 rounded-2xl overflow-hidden">
             <div class="p-6 space-y-4">
                 @for (i of skeletonRows; track i) {
                     <div class="flex items-center gap-4">
@@ -33,14 +33,14 @@
 
     <!-- ── Team Members List ─────────────────────────────── -->
     @if (!loading() && members().length > 0) {
-        <div class="bg-white/[0.02] border border-white/[0.06] rounded-2xl overflow-hidden">
+        <div class="bg-white border border-slate-200 rounded-2xl overflow-hidden">
             <div class="overflow-x-auto">
                 <table class="w-full">
-                    <thead class="bg-white/[0.02] border-b border-white/[0.06]">
+                    <thead class="bg-white border-b border-slate-200">
                         <tr>
                             <th class="px-6 py-4 text-left">
                                 <button (click)="onSortChange('firstName')"
-                                        class="flex items-center gap-2 text-slate-400 text-[12px] font-semibold uppercase tracking-wider hover:text-white transition-colors">
+                                        class="flex items-center gap-2 text-slate-500 text-[12px] font-semibold uppercase tracking-wider hover:text-slate-900 transition-colors">
                                     Employee
                                     @if (sortBy === 'firstName') {
                                         <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -50,15 +50,15 @@
                                     }
                                 </button>
                             </th>
-                            <th class="px-6 py-4 text-left text-slate-400 text-[12px] font-semibold uppercase tracking-wider">
+                            <th class="px-6 py-4 text-left text-slate-500 text-[12px] font-semibold uppercase tracking-wider">
                                 Department
                             </th>
-                            <th class="px-6 py-4 text-left text-slate-400 text-[12px] font-semibold uppercase tracking-wider">
+                            <th class="px-6 py-4 text-left text-slate-500 text-[12px] font-semibold uppercase tracking-wider">
                                 Designation
                             </th>
                             <th class="px-6 py-4 text-left">
                                 <button (click)="onSortChange('role')"
-                                        class="flex items-center gap-2 text-slate-400 text-[12px] font-semibold uppercase tracking-wider hover:text-white transition-colors">
+                                        class="flex items-center gap-2 text-slate-500 text-[12px] font-semibold uppercase tracking-wider hover:text-slate-900 transition-colors">
                                     Role
                                     @if (sortBy === 'role') {
                                         <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -68,21 +68,21 @@
                                     }
                                 </button>
                             </th>
-                            <th class="px-6 py-4 text-left text-slate-400 text-[12px] font-semibold uppercase tracking-wider">
+                            <th class="px-6 py-4 text-left text-slate-500 text-[12px] font-semibold uppercase tracking-wider">
                                 Status
                             </th>
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-white/[0.06]">
                         @for (member of members(); track member.employeeCode) {
-                            <tr class="hover:bg-white/[0.02] transition-colors">
+                            <tr class="hover:bg-white transition-colors">
                                 <td class="px-6 py-4">
                                     <div class="flex items-center gap-3">
-                                        <div class="w-10 h-10 rounded-lg bg-blue-500/10 flex items-center justify-center text-blue-400 font-bold text-[13px]">
+                                        <div class="w-10 h-10 rounded-lg bg-blue-500/10 flex items-center justify-center text-blue-600 font-bold text-[13px]">
                                             {{ getInitials(member.firstName, member.lastName) }}
                                         </div>
                                         <div>
-                                            <p class="text-white text-[13px] font-semibold">
+                                            <p class="text-slate-900 text-[13px] font-semibold">
                                                 {{ member.firstName }} {{ member.lastName }}
                                             </p>
                                             <p class="text-slate-500 text-[12px] mt-0.5">{{ member.email }}</p>
@@ -90,10 +90,10 @@
                                     </div>
                                 </td>
                                 <td class="px-6 py-4">
-                                    <span class="text-slate-300 text-[13px]">{{ member.departmentName || '—' }}</span>
+                                    <span class="text-slate-500 text-[13px]">{{ member.departmentName || '—' }}</span>
                                 </td>
                                 <td class="px-6 py-4">
-                                    <span class="text-slate-300 text-[13px]">{{ member.designationTitle || '—' }}</span>
+                                    <span class="text-slate-500 text-[13px]">{{ member.designationTitle || '—' }}</span>
                                 </td>
                                 <td class="px-6 py-4">
                                     <span [class]="'px-2.5 py-1 rounded-lg text-[11px] font-medium ' + getRoleClass(member.role)">
@@ -102,11 +102,11 @@
                                 </td>
                                 <td class="px-6 py-4">
                                     @if (member.isActive) {
-                                        <span class="px-2.5 py-1 rounded-lg bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 text-[11px] font-medium">
+                                        <span class="px-2.5 py-1 rounded-lg bg-emerald-500/10 text-emerald-600 border border-emerald-500/20 text-[11px] font-medium">
                                             Active
                                         </span>
                                     } @else {
-                                        <span class="px-2.5 py-1 rounded-lg bg-red-500/10 text-red-400 border border-red-500/20 text-[11px] font-medium">
+                                        <span class="px-2.5 py-1 rounded-lg bg-red-500/10 text-red-500 border border-red-500/20 text-[11px] font-medium">
                                             Inactive
                                         </span>
                                     }
@@ -121,21 +121,21 @@
 
     <!-- ── Empty State ───────────────────────────────────── -->
     @if (!loading() && members().length === 0) {
-        <div class="bg-white/[0.02] border border-white/[0.06] rounded-2xl p-12 text-center">
-            <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-slate-800 flex items-center justify-center">
-                <svg class="w-8 h-8 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <div class="bg-white border border-slate-200 rounded-2xl p-12 text-center">
+            <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-slate-700 flex items-center justify-center">
+                <svg class="w-8 h-8 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                           d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/>
                 </svg>
             </div>
-            <h3 class="text-white text-lg font-semibold mb-2">No Team Members</h3>
+            <h3 class="text-slate-900 text-lg font-semibold mb-2">No Team Members</h3>
             <p class="text-slate-500 text-[13px]">You don't have any team members assigned yet.</p>
         </div>
     }
 
     <!-- ── Pagination ────────────────────────────────────── -->
     @if (!loading() && totalPages() > 1) {
-        <div class="flex flex-col sm:flex-row items-center justify-between gap-4 pt-6 border-t border-white/[0.06]">
+        <div class="flex flex-col sm:flex-row items-center justify-between gap-4 pt-6 border-t border-slate-200">
             <p class="text-slate-500 text-[13px]">
                 Showing {{ startItem() }}–{{ endItem() }} of {{ totalElements() }} members
             </p>
@@ -144,19 +144,19 @@
                         [disabled]="page() === 0"
                         class="px-3.5 py-2 rounded-lg text-[13px] font-medium border transition-all duration-200"
                         [class]="page() === 0
-                            ? 'text-slate-600 border-white/[0.04] cursor-not-allowed'
-                            : 'text-slate-300 border-white/[0.08] hover:bg-white/[0.04] hover:text-white cursor-pointer'">
+                            ? 'text-slate-500 border-slate-200/80 cursor-not-allowed'
+                            : 'text-slate-500 border-slate-200 hover:bg-slate-50 hover:text-slate-900 cursor-pointer'">
                     ← Previous
                 </button>
-                <span class="text-slate-400 text-[13px] px-3">
+                <span class="text-slate-500 text-[13px] px-3">
                     Page {{ page() + 1 }} of {{ totalPages() }}
                 </span>
                 <button (click)="goToPage(page() + 1)"
                         [disabled]="page() >= totalPages() - 1"
                         class="px-3.5 py-2 rounded-lg text-[13px] font-medium border transition-all duration-200"
                         [class]="page() >= totalPages() - 1
-                            ? 'text-slate-600 border-white/[0.04] cursor-not-allowed'
-                            : 'text-slate-300 border-white/[0.08] hover:bg-white/[0.04] hover:text-white cursor-pointer'">
+                            ? 'text-slate-500 border-slate-200/80 cursor-not-allowed'
+                            : 'text-slate-500 border-slate-200 hover:bg-slate-50 hover:text-slate-900 cursor-pointer'">
                     Next →
                 </button>
             </div>

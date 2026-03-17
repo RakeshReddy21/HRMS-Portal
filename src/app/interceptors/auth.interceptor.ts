@@ -23,6 +23,11 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
             if (error.status === 401 && !isRefreshing && !isAuthEndpoint && authService.getRefreshToken()) {
                 isRefreshing = true;
                 return authService.refreshToken().pipe(
+                    catchError((refreshError) => {
+                        isRefreshing = false;
+                        authService.logout();
+                        return throwError(() => refreshError);
+                    }),
                     switchMap(() => {
                         isRefreshing = false;
                         const newToken = authService.getAccessToken();
@@ -30,11 +35,6 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
                             setHeaders: { Authorization: `Bearer ${newToken}` }
                         });
                         return next(retryReq);
-                    }),
-                    catchError((refreshError) => {
-                        isRefreshing = false;
-                        authService.logout();
-                        return throwError(() => refreshError);
                     })
                 );
             }
